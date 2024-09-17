@@ -22,4 +22,15 @@ public abstract class Mechanism extends GameObject
         super(xPos, yPos, myColor); //call parent constructor
         
     }
+    
+    //methods for Mechanisms
+    /* 
+    setIsActive()
+    getIsActive()
+    getProperty()
+    getStartX()
+    getStartY()
+    getEndX()
+    getEndY()
+    */
 }

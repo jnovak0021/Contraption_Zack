@@ -11,14 +11,26 @@ import java.util.Set;
 import java.util.List;
 import java.util.ArrayList;
 
-//Tiles are the basic elements that compose the map.
+//Tiles are the basic elementsthat compose the map.
 //Tile is still an abstract class because only children classes (i.e. floors, walls, etc) can be insantiated
 
 public abstract class Tile extends GameObject
 {
+    private boolean traverseable;
     public Tile(int xPos, int yPos, Color myColor)
     {
         super(xPos, yPos, myColor); //call parent constructor
         
+    }
+    
+    //abstract methods for Tile
+    //public abstract void draw();
+    
+    public boolean isTraversable(){
+        return traverseable;
+    }
+    
+    public void setTraversable(boolean newValue){
+        traverseable = newValue;
     }
 }
