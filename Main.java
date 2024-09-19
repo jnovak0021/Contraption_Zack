@@ -142,5 +142,12 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
+        LoadLevel ll = new LoadLevel();
+        
+        Tile[][] tiles = ll.getRoomTile(0);
+        
+  
+        
+        
     }
 }

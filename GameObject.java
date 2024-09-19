@@ -10,6 +10,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.List;
 import java.util.ArrayList;
+import javafx.scene.paint.Color;
+
+/*jacob Novak - 9/18
+*changed properties to be more broad to fit the role as parent for all three child classes
+*/
 
 //Abstract game object type from which ALL game elements will inherit (can't be instantiated on its own)
 public abstract class GameObject
@@ -17,17 +22,26 @@ public abstract class GameObject
     //Member data
     private int xPos, yPos; //coordinates on the game board 
     private Color myColor; //Color of the tile/room theme
-    
-    private ArrayList<GameObject> linkedObjectsList;
+    private char property;
     
     //parent constructor
+    //Dorians -- made to accept color 
     public GameObject(int xPos, int yPos, Color myColor)
     {
        this.xPos = xPos;
        this.yPos = yPos;
        this.myColor = myColor;
     }
+
+    //only take in property as it is the only common value that is shared
+    public GameObject(char property)
+    {
+        this.property = property;
+    }
     
+    //public abstract void draw();
+
+
     //Absract methods to implement:
     /*
     draw()
@@ -50,6 +64,11 @@ public abstract class GameObject
     {
         return myColor;
     }
+    public char getProperty()
+    {
+        return property;
+    }
+    /* We wont ever need to increment x or y
     public void incrementX(int dX)
     {
         xPos += dX;
@@ -58,6 +77,7 @@ public abstract class GameObject
     {
         yPos += dY;
     }
+    */
     public void setX(int newX)
     {
         xPos = newX;

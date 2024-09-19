@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.List;
 import java.util.ArrayList;
+import javafx.scene.paint.Color;
 
 //Tiles are the basic elementsthat compose the map.
 //Tile is still an abstract class because only children classes (i.e. floors, walls, etc) can be insantiated

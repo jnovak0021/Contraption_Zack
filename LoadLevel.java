@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.ArrayList;
+import javafx.scene.paint.Color;
 
 
 /*
@@ -23,7 +24,14 @@ as well as an arraylist that contains the GameBbjects that are stored in each le
 */
 public class LoadLevel
 {
-   //list of RoomObject 
+
+   //constructur that calls readFile to load in the game objects
+   public LoadLevel()
+   {
+      //call readFile method to load the data into the level
+      readFile();
+   }
+   //list of RoomObject that is read in using privateReadFile
    ArrayList<RoomObject> rooms = new ArrayList<RoomObject>();
    
    //method to read in each room level
@@ -51,41 +59,59 @@ public class LoadLevel
    {
       //RoomObject to return to list
       RoomObject tempRoomObject = new RoomObject();
-         
+      
+      //color object to store the color of the tiles in the level
+      Color c;
+
+      //num rows and columns in the tile array
       int rows, columns;
       
       //temp 2d array of ints to hold values
-      int[][] temp2d;
+      Tile [][] temp2d;
       
       //temp ArrayList of GameObjects
       ArrayList <GameObject> tempGameObjectArray = new ArrayList<GameObject>();
          
-      try
+      
+      try   //FileNotFoundException
       {
-        
          //read in file
          Scanner scanner = new Scanner(new File(roomFileName));
          
+         //load in the first three integer values to get the color
+         c = Color.rgb(scanner.nextInt(), scanner.nextInt(), scanner.nextInt(),1);
+         
+         //System.out.println("color: " + c);   //for checking color read in
          rows = scanner.nextInt();
       
          columns = scanner.nextInt();
 
-         temp2d = new int[rows][columns];
+         temp2d = new Tile[rows][columns];
  
-
-         System.out.println(rows + " " + columns); 
+         
+         //System.out.println(rows + " " + columns); 
          for(int i = 0; i < rows; i++)
          {
             for(int j = 0; j < columns; j++)
             {
-               temp2d[i][j] = scanner.nextInt();
+               int currentIndex = scanner.nextInt();
+
+               //ADD CASES HERE FOR CREATING TILE OBJECTS
+               //decision tree to determine which type of object to create based off int value read in.
+               if( currentIndex == 1)
+               {
+                  temp2d[i][j] = new Floor(i,j,c);
+               }
+               //edge case: if no matching values, make it abyss
+               else 
+               {
+                  temp2d[i][j] = (new Abyss(i,j,Color.BLACK));
+               }
             }
- 
          }
          
          /*
-         CODE FOR GETTING THE PRINT FORMAT OF EACH FILE READ IN
-        
+         //CODE FOR GETTING THE PRINT FORMAT OF EACH FILE READ IN
          System.out.println("X: " + temp2d.length);
          System.out.println("Y: " + temp2d[1].length);
          for(int i = 0; i < temp2d.length; i++)
@@ -98,7 +124,7 @@ public class LoadLevel
             //string to store the line of the file
          }
          */
-         
+   
          //read in the GameObject array at the end
          while(scanner.hasNext())
          {
@@ -109,7 +135,7 @@ public class LoadLevel
             //<object><property><activated>:<startx>:<starty>:<endx>:<endy>
             //GameObject g = new GameObject(gameStr.charAt(0), gameStr.charAt(1), gameStr.charAt(2), gameStr.charAt(3), gameStr.charAt(4), gameStr.charAt(5), gameStr.charAt(6));
             //tempGameObjectArray.append(g);
-            tempGameObjectArray.add(new GameObject());
+            tempGameObjectArray.add(new Spike(0,0,Color.GREEN));
             //System.out.println(gameStr.charAt(0) + " " + gameStr.charAt(1) + " " + gameStr.charAt(2) + " " +  gameStr.charAt(3) + " " + gameStr.charAt(4) + " " + gameStr.charAt(5) + " " + gameStr.charAt(6));
          }
          
@@ -131,27 +157,27 @@ public class LoadLevel
       
       
    }
-   
+
+
+   //method to take in a level at index i and to 
+   public Tile[][] getRoomTile(int i)
+   {
+      return rooms.get(i).getGameBoard2d();
+   }
+
+
+   //print out the whole game board
    public void printGame()
    {
       //call all RoomObjects print method
       for(int i = 0; i < rooms.size(); i++)
       {
+         System.out.println("\n");
          System.out.println(rooms.get(i).toString());
       }
    }
 
 
-}
-
-//Objects that make up the game: place on top of the tiles
-//Place Holder Object
-class GameObject
-{
-   public String toString()
-   {
-      return "GameObject";
-   }
 }
 
 
@@ -166,7 +192,7 @@ class GameObject
 class RoomObject
 {
    //2d array list of the game tiles
-   private int [][] gameBoard2d;
+   private Tile [][] gameBoard2d;
    //arraylist of GameObjects that represnt things such as buttons...
    private ArrayList<GameObject> gameObjectArray;
 
@@ -177,11 +203,11 @@ class RoomObject
 //    }
 
    //accessors and mutator for gameBoard2dArray variables
-   public int[][] getGameBoard2d()
+   public Tile[][] getGameBoard2d()
    {
       return gameBoard2d;
    }
-   public void setGameBoard2d(int[][] gameBoard2d)
+   public void setGameBoard2d(Tile[][] gameBoard2d)
    {
       this.gameBoard2d = gameBoard2d;
    }
@@ -222,36 +248,3 @@ class RoomObject
       return temp;
    }
 }
-
-
-
-//Driver which is representative of the main driver file
-/*
-class MainClass
-{
-   public static void main(String[]args)
-   {
-      //LoadLevel obj
-      LoadLevel ll = new LoadLevel();
-      
-
-      //call readFile()
-      ll.readFile();
-      
-      ll.printGame();
-   }
-}
-*/
-
-
-
-
-//What I need from dorian Quimby 
-// talk about structure of Abstract GameObject Class
-//    Should have internal structure to refelect code:
-//                   //loop over the gameString and call the constructor reading in each 
-                     //<object><property><activated>:<startx>:<starty>:<endx>:<endy>
-//                   GameObject g = new GameObject(gameStr.charAt(0), gameStr.charAt(1), gameStr.charAt(2), gameStr.charAt(3), gameStr.charAt(4), gameStr.charAt(5), gameStr.charAt(6));
-//                   tempGameObjectArray.append(g);
-//                   System.out.println(gameStr.charAt(0) + " " + gameStr.charAt(1) + " " + gameStr.charAt(2) + " " +  gameStr.charAt(3) + " " + gameStr.charAt(4) + " " + gameStr.charAt(5) + " " + gameStr.charAt(6));
-// 

@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.List;
 import java.util.ArrayList;
+import javafx.scene.paint.Color;
 
 //Floors are tiles that Zack can walk on.
 //Their color depending on what the theme of the room is
@@ -21,4 +22,10 @@ public class Floor extends Tile
         super(xPos, yPos, myColor); //call parent constructor
         
     }
+    
+    public String toString()
+    {
+      return "Floor";
+    }
+    
 }
