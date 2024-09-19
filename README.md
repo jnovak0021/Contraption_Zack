@@ -113,11 +113,36 @@ Item
 
 
 **********************************************************************************************************************************
-Game Object Legend
+GameObject Legend
 **********************************************************************************************************************************
+Tiles:
+0 Void
+1 Floor
+2 Wall
+3 Door(arrow)
+4 Stanchion
+5 River
 
+Mechanisms:
+Spikes
+Button(sqaure)
+Spring Trap
+Button (circle)
+Broken Pipe
+Lift
+Tesla Gate
+Switch (wall)
+Screw (wall)
+Treadmill
+Pulleys (wall)
 
-
+Items:
+Screwdriver
+Pipe Wrench
+Spring
+Wrench
+Tape Measure
+Pipe
 
 **********************************************************************************************************************************
 LoadLevel API
