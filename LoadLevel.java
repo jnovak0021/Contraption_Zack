@@ -25,6 +25,10 @@ as well as an arraylist that contains the GameBbjects that are stored in each le
 public class LoadLevel
 {
 
+
+   //store the current level
+   private int currentRoomNumber = 0;
+   
    //constructur that calls readFile to load in the game objects
    public LoadLevel()
    {
@@ -160,9 +164,21 @@ public class LoadLevel
 
 
    //method to take in a level at index i and to 
-   public Tile[][] getRoomTile(int i)
+   public Tile[][] getRoomTiles(int i)
    {
       return rooms.get(i).getGameBoard2d();
+   }
+   
+   
+   //accessor and mutator for currentRoomNumber
+   public int getCurrentRoomNumber()
+   {
+      return currentRoomNumber;
+   }
+   
+   public void setCurrentRoomNumber(int currentRoomNumber)
+   {
+      this.currentRoomNumber = currentRoomNumber;
    }
 
 
@@ -191,6 +207,9 @@ public class LoadLevel
 */
 class RoomObject
 {
+
+   //store what room this object is
+   private int roomNumber;
    //2d array list of the game tiles
    private Tile [][] gameBoard2d;
    //arraylist of GameObjects that represnt things such as buttons...
@@ -223,6 +242,8 @@ class RoomObject
    {
       this.gameObjectArray = gameObjectArray;
    }
+   
+
    
    //to string
    public String toString()
