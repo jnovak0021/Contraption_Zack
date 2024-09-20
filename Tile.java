@@ -92,6 +92,6 @@ public abstract class Tile extends GameObject
       super.setColor(myColor);
    }
    
-   public abstract void drawMe(GraphicsContext gc);
+   public void drawMe(GraphicsContext gc){}
 
 }

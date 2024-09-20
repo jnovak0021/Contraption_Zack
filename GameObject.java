@@ -25,6 +25,7 @@ public abstract class GameObject
     private char property;
     
     //new constructor for Tiles
+    //MAIN constructor
     public GameObject(int x, int y, int endX, int endY, Color myColor)
     {
         this.x = x;

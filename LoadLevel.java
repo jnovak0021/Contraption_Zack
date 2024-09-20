@@ -89,8 +89,7 @@ public class LoadLevel
          //read in file
          Scanner scanner = new Scanner(new File(roomFileName));
          
-         //load in the first three integer values to get the color
-         c = Color.rgb(scanner.nextInt(), scanner.nextInt(), scanner.nextInt(),1);
+         c = Color.GREEN;
          
          //System.out.println("color: " + c);   //for checking color read in
          rows = scanner.nextInt();

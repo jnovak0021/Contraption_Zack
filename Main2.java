@@ -28,8 +28,7 @@ public class Main2 extends Application
     @Override
     public void start(Stage primaryStage) 
     {
-    
-        canvas = new Canvas(720,720);
+        canvas = new Canvas(720, 720);
         gc = canvas.getGraphicsContext2D();
 
         ll = new LoadLevel();
@@ -44,12 +43,11 @@ public class Main2 extends Application
             System.out.println("No tiles were returned.");
         }
 
-        zack = new Zack(100, 100, Color.BLUE); // Initial position and color
+        zack = new Zack(400, 400, Color.BLUE); // Initial position and color
 
         Pane root = new Pane(canvas); // Use Pane to hold the Canvas
         Scene scene = new Scene(root, 720, 720);
-        
-        
+
         scene.setOnKeyPressed(event -> pressedKeys.add(event.getCode()));
         scene.setOnKeyReleased(event -> pressedKeys.remove(event.getCode()));
 
@@ -60,7 +58,7 @@ public class Main2 extends Application
             {
                 updateMovement();
                 draw(); // Redraw the scene on each frame
-                System.out.println(getCurrentTile(tiles,zack.getX(),zack.getY()).getColor());
+                //getCurrentTile(tiles, zack.getX(), zack.getY(), 80);
             }
         };
         animationTimer.start();
@@ -72,22 +70,15 @@ public class Main2 extends Application
 
     private void drawTiles() 
     {   
-
+        // Loop over tiles and call drawMe
         for (int i = 0; i < tiles.length; i++) 
         {
             for (int j = 0; j < tiles[i].length; j++) 
             {
-                Tile tile = tiles[i][j];
-     
-                    // Set color based on position
-                    gc.setFill(tile.getColor());
-                    gc.fillRect(j * 80, i * 80, 80, 80); // Draw the tile
-                    
-               
+               //call Tile or Abyss draw
+               tiles[i][j].drawMe(gc);   
             }
         }
-
-        //}
     }
 
     private void draw() 
@@ -99,9 +90,12 @@ public class Main2 extends Application
         drawTiles();
 
         // Draw Zack
-        gc.setFill(zack.getColor());
-        gc.fillRect(zack.getX(), zack.getY(), 40, 40); // Assuming Zack is represented as a rectangle
+        zack.drawMe(gc);
+        
+        //add method to draw mechanisms later
     }
+
+    
 
     private void updateMovement() 
     {
@@ -124,18 +118,46 @@ public class Main2 extends Application
         {
             deltaX = 1; // Move right
         }
-
-        // Update Zack's position
-        zack.incrementY(deltaY);
-        zack.incrementX(deltaX);
-    }
-
-    public Tile getCurrentTile(Tile[][] tiles, int x, int y) 
-    {
-        int tileX = x / 80; // Assuming tile size is 100x100
-        int tileY = y / 80;
         
-        //System.out.println("Current Tile: \t" + tileX + " " + tileY);
-        return tiles[tileX][tileY];
+        //call the getCurrentTile and see if it is traverable -- if it is not, then reverse previous move
+        if(!getCurrentTile(tiles, zack.getX(), zack.getY(), 40, 40, 80).isTraversable())
+        {
+           // Update Zack's position
+           zack.setX(zack.getX() - deltaX*2);
+           zack.setY(zack.getY() - deltaY*2);
+        }
+        else
+        {
+           // Update Zack's position
+           zack.setX(zack.getX() + deltaX);
+           zack.setY(zack.getY() + deltaY);
+        }
+
+       
     }
+   
+   public Tile getCurrentTile(Tile[][] tiles, int x, int y, int zackWidth, int zackHeight, int tileSize) 
+   {
+       // Calculate Zack's center position
+       int centerX = x + zackWidth / 2;  // Zack's center X position
+       int centerY = y + zackHeight / 2; // Zack's center Y position
+   
+       // Calculate the column and row Zack's center is in, based on the tile size
+       int tileColumn = centerX / tileSize;
+       int tileRow = centerY / tileSize;
+   
+       // Boundary check to ensure Zack's center is within the tile grid
+       if (tileRow >= 0 && tileRow < tiles.length && tileColumn >= 0 && tileColumn < tiles[tileRow].length) 
+       {
+           System.out.println("Zack's center is in tile: Row " + tileRow + ", Column " + tileColumn);
+           return tiles[tileRow][tileColumn];
+       } 
+       else 
+       {
+           System.out.println("Zack is out of bounds!");
+           return null; // If Zack is out of the tile grid
+       }
+   }
+
+
 }
