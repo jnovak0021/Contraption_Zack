@@ -10,7 +10,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.List;
 import java.util.ArrayList;
-import javafx.scene.paint.Color;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+
 
 public class Abyss extends Tile
 {
@@ -24,7 +26,32 @@ public class Abyss extends Tile
       return "Abyss";
    }
    
-   public void drawMe(Pane pane)
+   /*
+   public void drawMe(GraphicsContext gc) 
    {
+       // Print position information (uncomment if needed)
+       // System.out.print(" [x-" + getX() + " y-" + getY() + "]");
+   
+       // Set fill color for the tile
+       gc.setFill(Color.BLACK);
+       // Draw the main tile rectangle
+       gc.fillRect(getX(), getY(), 100, 100);
+   
+       // Set stroke color for the border
+       gc.setStroke(Color.BLACK);
+       gc.setLineWidth(2); // Optional: set the border thickness
+       // Draw the border rectangle
+       gc.strokeRect(getX(), getY(), 100, 100);
    }
+   */
+   
+   //draw me method that takes in gc and draws black box
+   public void drawMe(GraphicsContext gc)
+   {
+   //draw a black rectangle
+   gc.setFill(Color.BLACK);
+   gc.fillRect(getX(),getY(), 50, 50);
+
+   }
+   
 }

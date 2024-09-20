@@ -37,7 +37,11 @@ public class Main extends Application
             {
                 for (int j = 0; j < tiles[i].length; j++) 
                 {
+                    
                     Tile tile = tiles[i][j];
+                    System.out.print(tile);
+                    tile.setColor(Color.LIGHTGREY);
+                    
                     if (tile != null) 
                     {
                         if (isGrey) 
@@ -51,9 +55,11 @@ public class Main extends Application
                         // System.out.println("tile:\n\t" + tile.getX() + "\t" + tile.getY());
                         // Flip the color for the next tile
                         isGrey = !isGrey;
+                        
                         tile.drawMe(root); // Pass the root pane to draw the tile
                     }
                 }
+                System.out.println();
             }
         } 
         else 
@@ -119,7 +125,7 @@ public class Main extends Application
 
         if (zack.getX() % 100 == 0) 
         {
-            System.out.println("MASSIVE PENIS");
+            //System.out.println("MASSIVE PENIS");
         }
     }
 

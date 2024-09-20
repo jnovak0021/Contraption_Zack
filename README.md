@@ -32,7 +32,7 @@ ex: by0:0:0:3:3;4 sy1:12:0:15:0;4
 
 
 Example file format:
-
+255 255 255
 2 4
 0 0 0 0
 0 0 0 0
@@ -43,52 +43,8 @@ Example file format:
 **********************************************************************************************************************************
 GameObject parent class structure
 **********************************************************************************************************************************
-Public abstract class GameObject
-{
-    private ArrayList<GameObject> linkedObjectsList;
-    private boolean isActive;
-    private char property;
-    private int startX;
-    private int startY;
-    private int endX;
-    private int endY;
-
-    
-
-    Public abstract void doMe();
-    {
-
-    }
-
-    Public void doThing()
-    {
-	    doMe();
-	    for(int=0; i < linkedObjectsList.size(); i++)
-`	    {
-			linkedObjectsList.get(i).doThing();
-		}
-	}
-
-	Public void drawMe(GraphicsContext2D gc)
-	{
-
-	}
-}
 
 
-
-Methods
-draw()
-activate()	//set value of isActive
-setIsActive()
-getIsActive()
-getProperty()
-getStartX()
-getStartY()
-getEndX()
-getEndY()
-getLinkedObjectsList()	//returns linkedObjects Arraylist
-setLinkedObjectList(ArrayList linkedObjectIn	)	//on second loop, 
 
 GameObject
     abstract draw()
@@ -135,6 +91,8 @@ Game Object Legend
 **********************************************************************************************************************************
 LoadLevel API
 **********************************************************************************************************************************
+LoadLevel reads in the file, stores and creates the objects
+
 //To use in another class use
 LoadLevel ll = new LoadLevel();
 
@@ -146,3 +104,5 @@ ll.getRoomTiles(int roomNumber);
 
 //to get the mechanisms of a specific level
 ll.getRoomMechanisms(int roomNumber);
+
+

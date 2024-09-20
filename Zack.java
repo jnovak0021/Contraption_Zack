@@ -40,4 +40,9 @@ public class Zack extends GameObject {
         super.setY(newY); // Set y position in GameObject
         updatePosition(); // Update the shape's position
     }
+    public Color getColor()
+    {
+      return super.getColor();
+    }
+    
 }

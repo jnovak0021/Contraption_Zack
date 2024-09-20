@@ -23,12 +23,14 @@ public class Floor extends Tile
       super(x,y, endX, endY, myColor, traverseable);
    }
 
+   /*
    public Floor(int x, int y, Color myColor, boolean traverseable)
    {
       super(x, y, myColor, traverseable); //call parent constructor
 
         
-    }
+   }
+   */
     
     public String toString()
     {
@@ -37,21 +39,21 @@ public class Floor extends Tile
    }   
    public void drawMe(Pane pane) 
    {
-     // Print position information
-     // System.out.print(" [x-" + getX() + " y-" + getY() + "]");
-     System.out.println("tile:\n\t" + getX() + "\t" + getY());
-   
-     // Create the main tile rectangle
+      // Print position information
+      // System.out.print(" [x-" + getX() + " y-" + getY() + "]");
+      //System.out.println("tile:\n\t" + getX() + "\t" + getY());
+      
+      // Create the main tile rectangle
       Rectangle rectangle = new Rectangle((getX()), (getY()), 100, 100);
       rectangle.setFill(getMyColor());
-   
-    // Create the border rectangle
+      
+      // Create the border rectangle
       Rectangle borderRectangle = new Rectangle((getX()), (getY()), 100, 100);
       borderRectangle.setStroke(Color.DARKGRAY);
       borderRectangle.setFill(Color.TRANSPARENT); // Make the border transparent
       borderRectangle.setStrokeWidth(2); // Optional: set the border thickness
-   
-    // Add both rectangles to the pane
+      
+      // Add both rectangles to the pane
       pane.getChildren().addAll(rectangle, borderRectangle);
    }
 }

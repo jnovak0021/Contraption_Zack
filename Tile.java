@@ -1,16 +1,15 @@
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+
 import java.util.HashSet;
 import java.util.Set;
-import java.util.List;
-import java.util.ArrayList;
-import javafx.scene.paint.Color;
 
 //Tiles are the basic elementsthat compose the map.
 //Tile is still an abstract class because only children classes (i.e. floors, walls, etc) can be insantiated
@@ -26,13 +25,14 @@ public abstract class Tile extends GameObject
       super(x, y, endX, endY, myColor);
       this.traverseable = traverseable;
    }
-
+   
+   /*
    public Tile(int x, int y, Color myColor, boolean traverseable)
    {
       super(x, y, myColor); //call parent constructor
       this.traverseable = traverseable;
    }
-
+   */
     
     //abstract methods for Tile
     //public abstract void draw();
@@ -82,7 +82,16 @@ public abstract class Tile extends GameObject
       super.setEndY(endY);
    }
 
+   public Color getColor()
+   {
+      return super.getColor();
+   }
    
-   public abstract void drawMe(Pane pane);
+   public void setColor(Color myColor)
+   {
+      super.setColor(myColor);
+   }
+   
+   public abstract void drawMe(GraphicsContext gc);
 
 }
