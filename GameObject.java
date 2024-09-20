@@ -20,16 +20,27 @@ import javafx.scene.paint.Color;
 public abstract class GameObject
 {
     //Member data
-    private int xPos, yPos; //coordinates on the game board 
+    private int x = 0, y = 0; //coordinates on the game board 
+    private int endX = 0, endY = 0;
     private Color myColor; //Color of the tile/room theme
     private char property;
     
+    //new constructor for Tiles
+    public GameObject(int x, int y, int endX, int endY, Color myColor)
+    {
+        this.x = x;
+        this.y = y;
+        this.endX = endX;
+        this.endY = endY;
+        this.myColor = myColor;
+    }
+
     //parent constructor
     //Dorians -- made to accept color 
-    public GameObject(int xPos, int yPos, Color myColor)
+    public GameObject(int x, int y, Color myColor)
     {
-       this.xPos = xPos;
-       this.yPos = yPos;
+       this.x = x;
+       this.y = y;
        this.myColor = myColor;
     }
 
@@ -52,14 +63,7 @@ public abstract class GameObject
     /* add a method for drawing/graphics? */
     
     //Inherited acessors and mutators:
-    public int getX()
-    {
-        return xPos;
-    }
-    public int getY()
-    {
-        return yPos;
-    }
+
     public Color getMyColor()
     {
         return myColor;
@@ -68,24 +72,53 @@ public abstract class GameObject
     {
         return property;
     }
-    /* We wont ever need to increment x or y
+    // We wont ever need to increment x or y
     public void incrementX(int dX)
     {
-        xPos += dX;
+        x += dX;
     }
     public void incrementY(int dY)
     {
-        yPos += dY;
+        y += dY;
     }
-    */
+    
+    public int getX()
+    {
+        return x;
+    }
     public void setX(int newX)
     {
-        xPos = newX;
+        x = newX;
+    }
+
+    public int getY()
+    {
+        return y;
     }
     public void setY(int newY)
     {
-        yPos = newY;
+        y = newY;
     }
+
+
+    public int getEndX()
+    {
+        return endX;
+    }
+    public void setEndX(int endX)
+    {
+        this.endX = endX;
+    }
+
+    public int getEndY()
+    {
+        return endX;
+    }
+    public void setEndY(int endY)
+    {
+        this.endY = endY;
+    }
+
     public void setColor(Color newColor)
     {
         myColor = newColor;

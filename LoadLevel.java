@@ -42,7 +42,7 @@ public class LoadLevel
      
       //note -- this needs to be changed later when all levles exist
       //loop through each of the 10 rooms 
-      for( int i = 0; i < 2; i++ )
+      for( int i = 0; i < 1; i++ )
       {
          //set index of arrayIn to return value of privateReadFile
          System.out.println("reading in file " + i);
@@ -100,12 +100,14 @@ public class LoadLevel
                //decision tree to determine which type of object to create based off int value read in.
                if( currentIndex == 1)
                {
-                  temp2d[i][j] = new Floor(i,j,c);
+                  //temp2d[i][j] = new Floor(i,j,c, true);
+                  temp2d[i][j] = new Floor(i*100, j*100, i*100+100, j*100+100, c, true); 
                }
                //edge case: if no matching values, make it abyss
                else 
                {
-                  temp2d[i][j] = (new Abyss(i,j,Color.BLACK));
+                  //temp2d[i][j] = (new Abyss(i,j,Color.BLACK, false));
+                  temp2d[i][j] = new Floor(i*100, j*100, i*100+100, j*100+100, Color.BLACK, false); 
                }
             }
          }
