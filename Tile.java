@@ -17,14 +17,7 @@ import javafx.scene.paint.Color;
 
 public abstract class Tile extends GameObject
 {
-<<<<<<< Updated upstream
-    private boolean traverseable;
-    public Tile(int xPos, int yPos, Color myColor)
-    {
-        super(xPos, yPos, myColor); //call parent constructor
-        
-    }
-=======
+
    private boolean traverseable;
 
    //new constructor
@@ -39,7 +32,7 @@ public abstract class Tile extends GameObject
       super(x, y, myColor); //call parent constructor
       this.traverseable = traverseable;
    }
->>>>>>> Stashed changes
+
     
     //abstract methods for Tile
     //public abstract void draw();
@@ -48,11 +41,7 @@ public abstract class Tile extends GameObject
         return traverseable;
     }
     
-<<<<<<< Updated upstream
-    public void setTraversable(boolean newValue){
-        traverseable = newValue;
-    }
-=======
+
    public void setTraversable(boolean newValue){
       traverseable = newValue;
    }
@@ -96,5 +85,4 @@ public abstract class Tile extends GameObject
    
    public abstract void drawMe(Pane pane);
 
->>>>>>> Stashed changes
 }

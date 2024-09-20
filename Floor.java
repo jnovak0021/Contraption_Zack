@@ -17,11 +17,6 @@ import javafx.scene.paint.Color;
 
 public class Floor extends Tile
 {
-<<<<<<< Updated upstream
-    public Floor(int xPos, int yPos, Color myColor)
-    {
-        super(xPos, yPos, myColor); //call parent constructor
-=======
 
    public Floor(int x, int y, int endX, int endY, Color myColor, boolean traverseable)
    {
@@ -31,18 +26,14 @@ public class Floor extends Tile
    public Floor(int x, int y, Color myColor, boolean traverseable)
    {
       super(x, y, myColor, traverseable); //call parent constructor
->>>>>>> Stashed changes
+
         
     }
     
     public String toString()
     {
       return "Floor";
-<<<<<<< Updated upstream
-    }
-    
-}
-=======
+
    }   
    public void drawMe(Pane pane) 
    {
@@ -62,6 +53,6 @@ public class Floor extends Tile
    
     // Add both rectangles to the pane
       pane.getChildren().addAll(rectangle, borderRectangle);
-   }}
+   }
+}
 
->>>>>>> Stashed changes

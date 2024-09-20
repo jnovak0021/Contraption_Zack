@@ -162,7 +162,7 @@ public class LoadLevel
 
 
    //method to take in a level at index i and to 
-   public Tile[][] getRoomTile(int i)
+   public Tile[][] getRoomTiles(int i)
    {
       return rooms.get(i).getGameBoard2d();
    }
