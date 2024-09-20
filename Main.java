@@ -1,43 +1,101 @@
+import javafx.animation.AnimationTimer;
+import javafx.application.Application;
+import javafx.scene.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 
-// Zack is a special game object that the player controls
-public class Zack extends GameObject {
-    private Rectangle shape; // Shape representation
+import java.util.HashSet;
+import java.util.Set;
 
-    public Zack(int xPos, int yPos, Color myColor) {
-        super(xPos, yPos, myColor); // Parent constructor
-        shape = new Rectangle(xPos, yPos, 30, 30); // Example size for the visual representation
-        shape.setFill(myColor);
+public class Main extends Application {
+
+    private Set<KeyCode> pressedKeys = new HashSet<>();
+    private Zack zack;
+
+    public static void main(String[] args) {
+        launch(args);
     }
 
-    public Rectangle getShape() {
-        return shape;
+    @Override
+    public void start(Stage primaryStage) {
+        Pane root = new Pane();
+
+        LoadLevel ll = new LoadLevel();
+        Tile[][] tiles = ll.getRoomTiles(0);
+
+        if (tiles != null) {
+            boolean isGrey = true; // Start with grey
+            for (int i = 0; i < tiles.length; i++) {
+                for (int j = 0; j < tiles[i].length; j++) {
+                    Tile tile = tiles[i][j];
+                    if (tile != null) {
+                        if (isGrey) {
+                            tile.setColor(Color.LIGHTGREY);
+                        } else {
+                            tile.setColor(Color.BLACK);
+                        }
+                        // Flip the color for the next tile
+                        isGrey = !isGrey;
+                        tile.drawMe(root); // Pass the root pane to draw the tile
+                    }
+                }
+            }
+        } else {
+            System.out.println("No tiles were returned.");
+        }
+
+        zack = new Zack(100, 100, Color.BLUE); // Initial position and color
+        root.getChildren().add(zack.getShape()); // Add Zack to the root pane after tiles
+
+        Scene scene = new Scene(root, 800, 600);
+
+        scene.setOnKeyPressed(event -> pressedKeys.add(event.getCode()));
+        scene.setOnKeyReleased(event -> pressedKeys.remove(event.getCode()));
+
+        AnimationTimer animationTimer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                updateMovement();
+                zack.updatePosition(); // Update Zack's visual position
+            }
+        };
+        animationTimer.start();
+
+        primaryStage.setTitle("Tile Layout");
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
-    public void updatePosition() {
-        // Update the rectangle's position based on GameObject's coordinates
-        shape.setX(getX());
-        shape.setY(getY());
-    }
+    private void updateMovement() {
+        int deltaX = 0;
+        int deltaY = 0;
 
-    // Getters for x and y positions
-    public int getXPos() {
-        return super.getX(); // Get x position from GameObject
-    }
+        if (pressedKeys.contains(KeyCode.W)) {
+            deltaY = -5; // Move up
+        }
+        if (pressedKeys.contains(KeyCode.S)) {
+            deltaY = 5; // Move down
+        }
+        if (pressedKeys.contains(KeyCode.A)) {
+            deltaX = -5; // Move left
+        }
+        if (pressedKeys.contains(KeyCode.D)) {
+            deltaX = 5; // Move right
+        }
 
-    public int getYPos() {
-        return super.getY(); // Get y position from GameObject
-    }
+        // Update Zack's position
+        //zack.setXPos(zack.getXPos() + deltaX);
+        zack.incrementY(deltaY);
+        zack.incrementX(deltaX);
+        
+        System.out.println(zack.getXPos());
 
-    // Setters for x and y positions
-    public void setXPos(int newX) {
-        super.setX(newX); // Set x position in GameObject
-        updatePosition(); // Update the shape's position
-    }
-
-    public void setYPos(int newY) {
-        super.setY(newY); // Set y position in GameObject
-        updatePosition(); // Update the shape's position
+        if(zack.getXPos() % 100 == 0)
+        {
+        
+         System.out.println("MASSIVE PENIS");
+        }
     }
 }
