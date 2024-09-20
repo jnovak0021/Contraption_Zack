@@ -53,5 +53,22 @@ public class Floor extends Tile
        // Draw the border rectangle
        gc.strokeRect(getX(), getY(), 80, 80);
    }
+   public void drawMe(GraphicsContext gc, Color in) 
+   {
+       // Print position information (uncomment if needed)
+       // System.out.print(" [x-" + getX() + " y-" + getY() + "]");
+   
+       // Set fill color for the tile
+       gc.setFill(in);
+       // Draw the main tile rectangle
+       gc.fillRect(getX(), getY(), 80, 80);
+   
+       // Set stroke color for the border
+       gc.setStroke(Color.BLACK);
+       gc.setLineWidth(2); // Optional: set the border thickness
+       // Draw the border rectangle
+       gc.strokeRect(getX(), getY(), 80, 80);
+   }
+
 }
 
