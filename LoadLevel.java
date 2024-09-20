@@ -17,6 +17,7 @@ import javafx.scene.paint.Color;
 
 
 
+
 /*
 class to read in the contents of the 10 room levels stored in text files.
 The class stores each level in a gameRoom object which contains a 2d array with the tile locations 
@@ -24,10 +25,11 @@ as well as an arraylist that contains the GameBbjects that are stored in each le
 */
 public class LoadLevel
 {
-
-
-   //store the current level
+   //store the current room
    private int currentRoomNumber = 0;
+   
+   //store color of tiles in level
+   Color primaryColor, secondaryColor;
    
    //constructur that calls readFile to load in the game objects
    public LoadLevel()
@@ -46,14 +48,19 @@ public class LoadLevel
      
       //note -- this needs to be changed later when all levles exist
       //loop through each of the 10 rooms 
-      for( int i = 0; i < 2; i++ )
+      for( int i = 0; i < 1; i++ )
       {
          //set index of arrayIn to return value of privateReadFile
          System.out.println("reading in file " + i);
          
+         //get room color
+         setRoomColor();
          rooms.add(privateReadFile("room" + i + ".txt"));
+       
+         currentRoomNumber++; //increment currentRoomNUmber for specifics on color
       } 
-      
+      //reset currentRoomNumber
+      currentRoomNumber = 0;
 
    }
    
@@ -82,8 +89,7 @@ public class LoadLevel
          //read in file
          Scanner scanner = new Scanner(new File(roomFileName));
          
-         //load in the first three integer values to get the color
-         c = Color.rgb(scanner.nextInt(), scanner.nextInt(), scanner.nextInt(),1);
+         c = Color.GREEN;
          
          //System.out.println("color: " + c);   //for checking color read in
          rows = scanner.nextInt();
@@ -91,30 +97,65 @@ public class LoadLevel
          columns = scanner.nextInt();
 
          temp2d = new Tile[rows][columns];
- 
          
-         //System.out.println(rows + " " + columns); 
-         for(int i = 0; i < rows; i++)
+         //if the current room number is 0, alternate tile colors
+         if(currentRoomNumber == 0)
          {
-            for(int j = 0; j < columns; j++)
+            // System.out.println(rows + " " + columns); 
+            for (int i = 0; i < rows; i++) 
             {
-               int currentIndex = scanner.nextInt();
-
-               //ADD CASES HERE FOR CREATING TILE OBJECTS
-               //decision tree to determine which type of object to create based off int value read in.
-               if( currentIndex == 1)
+                for (int j = 0; j < columns; j++) 
+                {
+                    int currentIndex = scanner.nextInt();
+            
+                    // ADD CASES HERE FOR CREATING TILE OBJECTS
+                    // decision tree to determine which type of object to create based off int value read in.
+                    if (currentIndex == 1) 
+                    {
+                        // Alternate colors
+                        if ((i + j) % 2 == 0) // Corrected: Parentheses around (i + j)
+                        {
+                            temp2d[i][j] = new Floor(i * 80, j * 80, i * 80 + 80, j * 80 + 80, primaryColor, true);
+                        } 
+                        else 
+                        {
+                            temp2d[i][j] = new Floor(i * 80, j * 80, i * 80 + 80, j * 80 + 80, secondaryColor, true);
+                        }
+                    } 
+                    // Edge case: if no matching values, make it abyss
+                    else 
+                    {
+                        temp2d[i][j] = new Abyss(i * 80, j * 80, i * 80 + 80, j * 80 + 80, Color.BLACK, false);
+                    }
+                }
+            }
+         }
+         else
+         {
+            //System.out.println(rows + " " + columns); 
+            for(int i = 0; i < rows; i++)
+            {
+               for(int j = 0; j < columns; j++)
                {
-                  temp2d[i][j] = new Floor(i,j,c);
-               }
-               //edge case: if no matching values, make it abyss
-               else 
-               {
-                  temp2d[i][j] = (new Abyss(i,j,Color.BLACK));
+                  int currentIndex = scanner.nextInt();
+   
+                  //ADD CASES HERE FOR CREATING TILE OBJECTS
+                  //decision tree to determine which type of object to create based off int value read in.
+                  if( currentIndex == 1)
+                  {
+                     //temp2d[i][j] = new Floor(i,j,c, true);
+                     temp2d[i][j] = new Floor(i*50, j*50, i*50+50, j*50+50, c, true); 
+                  }
+                  //edge case: if no matching values, make it abyss
+                  else 
+                  {
+                     //temp2d[i][j] = (new Abyss(i,j,Color.BLACK, false));
+                     temp2d[i][j] = new Abyss(i*50, j*50, i*50+50, j*50+50, Color.BLACK, false); 
+                  }
                }
             }
          }
          
-         /*
          //CODE FOR GETTING THE PRINT FORMAT OF EACH FILE READ IN
          System.out.println("X: " + temp2d.length);
          System.out.println("Y: " + temp2d[1].length);
@@ -122,12 +163,12 @@ public class LoadLevel
          {
             for(int j = 0; j < temp2d[i].length; j++)
             {
-               System.out.print("[" + i + "][" + j + "]" + temp2d[i][j] + " ");
+               System.out.print("[" + i + "][" + j + "]" + temp2d[i][j].getColor() + " ");
             }
             System.out.println();
             //string to store the line of the file
          }
-         */
+         
    
          //read in the GameObject array at the end
          while(scanner.hasNext())
@@ -161,24 +202,22 @@ public class LoadLevel
       
       
    }
-
-
-   //method to take in a level at index i and to 
-   public Tile[][] getRoomTiles(int i)
-   {
-      return rooms.get(i).getGameBoard2d();
-   }
    
-   
-   //accessor and mutator for currentRoomNumber
+   //get current room number
    public int getCurrentRoomNumber()
    {
       return currentRoomNumber;
    }
-   
+
+   //set current room number
    public void setCurrentRoomNumber(int currentRoomNumber)
    {
       this.currentRoomNumber = currentRoomNumber;
+   }
+   //method to take in a level at index i and to 
+   public Tile[][] getRoomTiles(int i)
+   {
+      return rooms.get(i).getGameBoard2d();
    }
 
 
@@ -192,7 +231,31 @@ public class LoadLevel
          System.out.println(rooms.get(i).toString());
       }
    }
+   
+   
+   /*
+   colors
+   room 1
+      60 60 60
+      227 227 227
+   room 2
+      231 231 231
 
+   */
+   //select the color of the tiles based off roomNumber
+   public void setRoomColor()
+   {
+      if(currentRoomNumber == 0)
+      {
+         primaryColor = Color.rgb(227,227,227,1);
+         secondaryColor = Color.rgb(60,60,60,1);
+      }
+      if(currentRoomNumber == 1)
+      {
+         primaryColor = Color.rgb(232,231,231,1);
+         secondaryColor = Color.rgb(0,0,0,1);
+      }
+   }
 
 }
 
@@ -207,9 +270,6 @@ public class LoadLevel
 */
 class RoomObject
 {
-
-   //store what room this object is
-   private int roomNumber;
    //2d array list of the game tiles
    private Tile [][] gameBoard2d;
    //arraylist of GameObjects that represnt things such as buttons...
@@ -242,8 +302,6 @@ class RoomObject
    {
       this.gameObjectArray = gameObjectArray;
    }
-   
-
    
    //to string
    public String toString()

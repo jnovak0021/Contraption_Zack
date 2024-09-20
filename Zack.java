@@ -1,43 +1,56 @@
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-
-// Zack is a special game object that the player controls
+/*
+   Zack really no longer uses any gameobject functionalituy
+*/
 public class Zack extends GameObject {
-    private Rectangle shape; // Shape representation
+    private int x, y, endX, endY;
+    private Color color;
 
-    public Zack(int xPos, int yPos, Color myColor) {
-        super(xPos, yPos, myColor); // Parent constructor
-        shape = new Rectangle(xPos, yPos, 30, 30); // Example size for the visual representation
-        shape.setFill(myColor);
+    public Zack(int x, int y, Color myColor) {
+        super(x, y, myColor);
+        this.x = x;
+        this.y = y;
+        this.color = myColor;
+        this.endX = x + 40; // Adjust based on rectangle size
+        this.endY = y + 40;
     }
 
-    public Rectangle getShape() {
-        return shape;
+    public void setX(int newX) {
+        this.x = newX;
+        this.endY = endY;
+        this.endX = newX + 40; // Update endX accordingly
     }
 
-    public void updatePosition() {
-        // Update the rectangle's position based on GameObject's coordinates
-        shape.setX(getX());
-        shape.setY(getY());
+    public void setY(int newY) {
+        this.y = newY;
+        this.endY = y;
+        this.endY = newY + 40; // Update endY accordingly
     }
 
-    // Getters for x and y positions
-    public int getXPos() {
-        return super.getX(); // Get x position from GameObject
+    public int getX() {
+        return this.x;
     }
 
-    public int getYPos() {
-        return super.getY(); // Get y position from GameObject
+    public int getY() {
+        return this.y;
     }
 
-    // Setters for x and y positions
-    public void setXPos(int newX) {
-        super.setX(newX); // Set x position in GameObject
-        updatePosition(); // Update the shape's position
+    public int getEndX() {
+        return this.endX;
     }
 
-    public void setYPos(int newY) {
-        super.setY(newY); // Set y position in GameObject
-        updatePosition(); // Update the shape's position
+    public int getEndY() {
+        return this.endY;
+    }
+
+    public Color getColor() {
+        return this.color;
+    }
+
+    public void drawMe(GraphicsContext gc) {
+        gc.setFill(this.color);
+        gc.fillRect(x - 20, y - 20, 40, 40); // Center the rectangle on Zack's position
     }
 }
