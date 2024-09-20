@@ -18,24 +18,25 @@ public abstract class Tile extends GameObject
 {
 
    private boolean traverseable;
-
+   private int x, y, endX, endY;
+   
    //new constructor
    public Tile(int x, int y, int endX, int endY, Color myColor, boolean traverseable)
    {
       super(x, y, endX, endY, myColor);
+      this.x = x;
+      this.y = y;
+      this.endX = endY; // Adjust based on rectangle size
+      this.endY = endY;
       this.traverseable = traverseable;
    }
    
-   /*
-   public Tile(int x, int y, Color myColor, boolean traverseable)
+   //method to see if x,y coordinate is within Tile
+   public boolean collides(int xIn, int yIn)
    {
-      super(x, y, myColor); //call parent constructor
-      this.traverseable = traverseable;
+      return(xIn  >= x && xIn   <= endX) && (yIn  >= y && yIn <= endY);
+      
    }
-   */
-    
-    //abstract methods for Tile
-    //public abstract void draw();
     
     public boolean isTraversable(){
         return traverseable;
@@ -93,5 +94,8 @@ public abstract class Tile extends GameObject
    }
    
    public void drawMe(GraphicsContext gc){}
+   
+   //This is a temp method to help with collision
+   public void drawMe(GraphicsContext gc, Color in){}
 
 }
