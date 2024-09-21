@@ -11,157 +11,261 @@ import javafx.stage.Stage;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Main extends Application 
-{
-    private Set<KeyCode> pressedKeys = new HashSet<>();
-    private Zack zack;
-    private LoadLevel ll;
-    private Tile[][] tiles;
-    private Canvas canvas;
-    private GraphicsContext gc;
-  
+public class Main extends Application {
+   private Set<KeyCode> pressedKeys = new HashSet<>();
+   private Zack zack;
+   private LoadLevel ll;
+   private Tile[][] tiles;
+   private Canvas canvas;
+   private GraphicsContext gc;
+   private int selectedPauseOption = 0; // Track the selected pause menu option
 
 
-    public static void main(String[] args) 
-    {
-        launch(args);
-    }
+   private boolean inMenu = true; // Track if we're in the main menu
+   private boolean paused = false; // Track if the game is paused
+   private int selectedOption = 0; // Track the selected menu option
+   
+   
+   private static final int INITIAL_ZACK_X = 400; // Starting X position
+   private static final int INITIAL_ZACK_Y = 400; // Starting Y position
 
-    @Override
-    public void start(Stage primaryStage) 
-    {
-        canvas = new Canvas(720, 720);
-        gc = canvas.getGraphicsContext2D();
 
-        ll = new LoadLevel();
-        tiles = ll.getRoomTiles(0);
-        zack = new Zack(400, 400, Color.BLUE); // Initial position and color
+   public static void main(String[] args) {
+   
+      launch(args);
+   }
 
-        if (tiles != null) 
-        {
-            drawTiles(); // Draw tiles on the canvas
-        } 
-        else 
-        {
-            System.out.println("No tiles were returned.");
-        }
-
-        
-
-        Pane root = new Pane(canvas); // Use Pane to hold the Canvas
-        Scene scene = new Scene(root, 720, 720);
-
-        scene.setOnKeyPressed(event -> pressedKeys.add(event.getCode()));
-        scene.setOnKeyReleased(event -> pressedKeys.remove(event.getCode()));
-
-        AnimationTimer animationTimer = new AnimationTimer() 
-        {
+   @Override
+    public void start(Stage primaryStage) {
+      canvas = new Canvas(720, 720);
+      gc = canvas.getGraphicsContext2D();
+   
+      ll = new LoadLevel();
+      tiles = null; // Initially set to null until the game starts
+      zack = new Zack(400, 400, Color.BLUE); // Initial position and color
+   
+      Pane root = new Pane(canvas); // Use Pane to hold the Canvas
+      Scene scene = new Scene(root, 720, 720);
+   
+      scene.setOnKeyPressed(event -> pressedKeys.add(event.getCode()));
+      scene.setOnKeyReleased(event -> pressedKeys.remove(event.getCode()));
+   
+      AnimationTimer animationTimer = 
+         new AnimationTimer() {
             @Override
-            public void handle(long now) 
-            {
-                updateMovement();
-                draw(); // Redraw the scene on each frame
-
-            }
-        };
-        animationTimer.start();
-
-        primaryStage.setTitle("GraphicsContext Example");
-        primaryStage.setScene(scene);
-        primaryStage.show();
-    }
-
-    //method to call drawMe method of all tiles and print them to graphicsContext
-    private void drawTiles() 
-    {   
-        
-        // Loop over tiles and call drawMe
-        for (int i = 0; i < tiles.length; i++) 
-        {
-            for (int j = 0; j < tiles[i].length; j++) 
-            {
-               //call Tile or Abyss draw
-               tiles[i][j].drawMe(gc);   
-               
-               
-               //I am calling the collides method in here for efficiency since we are already looping
-               if(tiles[i][j].collides(zack.getX(),zack.getY()))
-               {
-                  tiles[i][j].drawMe(gc, Color.YELLOW);  
+            public void handle(long now) {
+               if (inMenu) {
+                  updateMenu();
+               } else if (paused) {
+                  updatePauseMenu();
+               } else {
+                  updateMovement();
                }
-                  
+               draw(); // Redraw the scene on each frame
+            
             }
-        }
-    }
+         };
+      animationTimer.start();
+   
+      primaryStage.setTitle("Contraption Zack");
+      primaryStage.setScene(scene);
+      primaryStage.show();
+   }
 
-    private void draw() 
-    {
+   private void drawTiles() {
+        // Loop over tiles and call drawMe
+      for (int i = 0; i < tiles.length; i++) {
+         for (int j = 0; j < tiles[i].length; j++) {
+                // Call Tile or Abyss draw
+            tiles[i][j].drawMe(gc);
+         
+                // Collision detection
+            if (tiles[i][j].collides(zack.getX(), zack.getY())) {
+               tiles[i][j].drawMe(gc, Color.YELLOW);
+            }
+         }
+      }
+   }
+
+   private void draw() {
         // Clear the canvas
-        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+      gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+   
+      if (inMenu) {
+         drawMenu();
+      } else if (paused) {
+         drawPauseMenu();
+      } else {
+            // Draw tiles and Zack
+         drawTiles();
+         zack.drawMe(gc);
+      }
+   }
 
-        // Redraw tiles
-        drawTiles();
+   private void drawMenu() {
+        // Draw background color
+      gc.setFill(Color.BLACK);
+      gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+   
+        // Draw title
+      gc.setFill(Color.WHITE);
+      gc.setFont(javafx.scene.text.Font.font(40)); // Title font size
+      String title = "Contraption Zack";
+      double titleWidth = gc.getFont().getSize() * title.length() * 0.5; // Approximate width calculation
+      gc.fillText(title, (canvas.getWidth() - titleWidth) / 2, 100); // Center title
+   
+        // Draw menu options
+      String[] menuOptions = {"Start Game", "Load Game", "Exit Game"};
+      for (int i = 0; i < menuOptions.length; i++) {
+         gc.setFill(i == selectedOption ? Color.YELLOW : Color.WHITE); // Highlight selected option
+         double optionWidth = gc.getFont().getSize() * menuOptions[i].length() * 0.5; // Approximate width calculation
+         gc.fillText(menuOptions[i], (canvas.getWidth() - optionWidth) / 2, 200 + (i * 40)); // Center options
+      }
+   }
 
-        // Draw Zack
-        zack.drawMe(gc);
-        
-        //add method to draw mechanisms later
+   private void drawPauseMenu() {
+      gc.setFill(Color.BLACK);
+      gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+   
+      String[] pauseOptions = {"Resume", "Restart Area", "Restart Level", "Save", "Load", "Exit Game"};
+      for (int i = 0; i < pauseOptions.length; i++) {
+         if (i == selectedPauseOption) {
+            gc.setFill(Color.YELLOW); // Highlight selected option
+         } else {
+            gc.setFill(Color.WHITE);
+         }
+         gc.fillText(pauseOptions[i], 350, 200 + i * 40); // Adjust y position
+      }
+   }
+
+
+   private void updateMenu() {
+      if (pressedKeys.contains(KeyCode.W)) {
+         if (selectedOption > 0) {
+            selectedOption--; // Move up the menu
+         }
+         pressedKeys.remove(KeyCode.W); // Prevent rapid movement
+      }
+      if (pressedKeys.contains(KeyCode.S)) {
+         if (selectedOption < 2) {
+            selectedOption++; // Move down the menu
+         }
+         pressedKeys.remove(KeyCode.S); // Prevent rapid movement
+      }
+   
+      if (pressedKeys.contains(KeyCode.ENTER)) {
+            // Only allow a single press to register
+         pressedKeys.remove(KeyCode.ENTER);
+      
+         switch (selectedOption) {
+            case 0: // Start Game
+               inMenu = false; // Start the game
+               tiles = ll.getRoomTiles(0); // Get the first room tiles
+               System.out.println("Starting the game, loading first room.");
+               break;
+            case 1: // Load Game
+                    // Functionality not implemented
+               System.out.println("Load Game option selected, but not functional.");
+               break;
+            case 2: // Exit Game
+               System.exit(0); // Exit the game
+               break;
+         }
+      }
+   }
+
+   private void updatePauseMenu() {
+    if (pressedKeys.contains(KeyCode.W)) {
+        if (selectedPauseOption > 0) {
+            selectedPauseOption--; // Move up the menu
+        }
+        pressedKeys.remove(KeyCode.W); // Prevent rapid movement
+    }
+    if (pressedKeys.contains(KeyCode.S)) {
+        if (selectedPauseOption < 5) { // Adjusted for 6 options
+            selectedPauseOption++; // Move down the menu
+        }
+        pressedKeys.remove(KeyCode.S); // Prevent rapid movement
     }
 
+    if (pressedKeys.contains(KeyCode.ENTER)) {
+        pressedKeys.remove(KeyCode.ENTER); // Only allow a single press to register
+
+        switch (selectedPauseOption) {
+            case 0: // Resume
+                paused = false; // Exit the pause menu
+                break;
+            case 1: // Restart Area
+                paused = false;
+                // Reset Zack's position directly
+                zack.setX(INITIAL_ZACK_X);
+                zack.setY(INITIAL_ZACK_Y);
+                tiles = ll.getRoomTiles(ll.getCurrentRoomNumber()); // Restart current room
+                System.out.println("Restarting current area.");
+                break;
+            case 2: // Restart Level
+                paused = false;
+                // Reset Zack's position directly
+                zack.setX(INITIAL_ZACK_X);
+                zack.setY(INITIAL_ZACK_Y);
+                tiles = ll.getRoomTiles(0); // Restart from room 0
+                ll.setCurrentRoomNumber(0); // Reset room number
+                System.out.println("Restarting level from room 0.");
+                break;
+            case 3: // Save
+                // Implement save functionality here
+                System.out.println("Saving game...");
+                break;
+            case 4: // Load
+                // Implement load functionality here
+                System.out.println("Loading game...");
+                break;
+            case 5: // Exit Game
+                System.exit(0); // Exit the game
+                break;
+        }
+    }
+}
+
+
+   private void updateMovement() {
+      int deltaX = 0;
+      int deltaY = 0;
+   
+      if (pressedKeys.contains(KeyCode.W)) {
+         deltaY = -1; // Move up
+      }
+      if (pressedKeys.contains(KeyCode.S)) {
+         deltaY = 1; // Move down
+      }
+      if (pressedKeys.contains(KeyCode.A)) {
+         deltaX = -1; // Move left
+      }
+      if (pressedKeys.contains(KeyCode.D)) {
+         deltaX = 1; // Move right
+      }
+   
+        // Update Zack's position
+      zack.setX(zack.getX() + deltaX);
+      zack.setY(zack.getY() + deltaY);
+   
+        // Check for pause input
+      if (pressedKeys.contains(KeyCode.ESCAPE)) {
+         paused = true; // Set the game to paused state
+      }
+   
+   }
     
+   public void handle(long now) {
+      if (inMenu) {
+         updateMenu();
+      } else if (paused) {
+         updatePauseMenu(); // Update pause menu
+         drawPauseMenu(); // Draw pause menu
+      } else {
+         updateMovement();
+      }
+      draw(); // Redraw the scene on each frame
+   }
 
-    private void updateMovement() 
-    {
-        int deltaX = 0;
-        int deltaY = 0;
-        boolean canMove = true;
-
-        if (pressedKeys.contains(KeyCode.W)) 
-        {
-            deltaY = -1; // Move up
-        }
-        if (pressedKeys.contains(KeyCode.S)) 
-        {
-            deltaY = 1; // Move down
-        }
-        if (pressedKeys.contains(KeyCode.A)) 
-        {
-            deltaX = -1; // Move left
-        }
-        if (pressedKeys.contains(KeyCode.D)) 
-        {
-            deltaX = 1; // Move right
-        }
-        
-        //collission code
-        // Loop over tiles and call drawMe
-        for (int i = 0; i < tiles.length; i++) 
-        {
-            for (int j = 0; j < tiles[i].length; j++) 
-            {
-               //I am calling the collides method in here for efficiency since we are already looping
-               if(tiles[i][j].collides(zack.getX(),zack.getY()))
-               {
-                  //get the istraverable property from tile[i][j]
-                  canMove = tiles[i][j].isTraversable();
-               }
-                  
-            }
-        }
-
-         
-         if(canMove)
-         {
-            //We can use the isTraversable method in Tile to determine if we can walk into block once constructed.s
-            zack.setX(zack.getX() + deltaX);
-            zack.setY(zack.getY() + deltaY);
-         }
-         else
-         {
-            zack.setX(zack.getX() - (deltaX));
-            zack.setY(zack.getY() - (deltaY));
-         }
-
-         
-    }
 }
