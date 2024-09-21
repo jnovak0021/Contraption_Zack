@@ -115,7 +115,7 @@ public class LoadLevel
                         // Alternate colors
                         if ((i + j) % 2 == 0) // Corrected: Parentheses around (i + j)
                         {
-                            temp2d[i][j] = new Floor(i * 80, j * 80, (i * 80) + 80, (j * 80) + 80, primaryColor, true);
+                            temp2d[i][j] = new Floor(i * 80, j * 80, i * 80 + 80, j * 80 + 80, primaryColor, true);
                         } 
                         else 
                         {
@@ -125,7 +125,7 @@ public class LoadLevel
                     // Edge case: if no matching values, make it abyss
                     else 
                     {
-                        temp2d[i][j] = new Abyss(i * 80, j * 80, i * 80 + 80, j * 80 + 80, Color.BLACK, false);
+                        temp2d[i][j] = new Abyss(i * 80, j * 80, i * 80 + 80, j * 80 + 80, Color.BLACK, true);
                     }
                 }
             }
@@ -180,7 +180,7 @@ public class LoadLevel
             //<object><property><activated>:<startx>:<starty>:<endx>:<endy>
             //GameObject g = new GameObject(gameStr.charAt(0), gameStr.charAt(1), gameStr.charAt(2), gameStr.charAt(3), gameStr.charAt(4), gameStr.charAt(5), gameStr.charAt(6));
             //tempGameObjectArray.append(g);
-            tempGameObjectArray.add(new Spike(0,0,Color.GREEN));
+            tempGameObjectArray.add(new Spike(0,0,0,0,Color.GREEN));
             //System.out.println(gameStr.charAt(0) + " " + gameStr.charAt(1) + " " + gameStr.charAt(2) + " " +  gameStr.charAt(3) + " " + gameStr.charAt(4) + " " + gameStr.charAt(5) + " " + gameStr.charAt(6));
          }
          

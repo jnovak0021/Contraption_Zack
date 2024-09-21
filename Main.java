@@ -210,6 +210,9 @@ public class Main extends Application {
                 zack.setY(INITIAL_ZACK_Y);
                 tiles = ll.getRoomTiles(0); // Restart from room 0
                 ll.setCurrentRoomNumber(0); // Reset room number
+                
+                //call resetlevel from loadLevel
+                ll.resetLevel();
                 System.out.println("Restarting level from room 0.");
                 break;
             case 3: // Save

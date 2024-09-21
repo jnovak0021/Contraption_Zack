@@ -35,7 +35,7 @@ public abstract class Tile extends GameObject
    public boolean collides(int xIn, int yIn)
    {
         // This method checks if the point (xIn, yIn) is inside this tile's bounds
-        return ((xIn > x && xIn < x + 80) && (yIn > y && yIn < y + 80));
+        return ((xIn + 20 > x && xIn - 20 < x + 80) && (yIn + 20 > y && yIn - 20 < y + 80));
    
    }
     

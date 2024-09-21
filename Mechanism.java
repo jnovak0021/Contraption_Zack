@@ -25,15 +25,5 @@ public abstract class Mechanism extends GameObject
     
     
     public abstract void drawMe(GraphicsContext gc);
-    
-    //methods for Mechanisms
-    /* 
-    setIsActive()
-    getIsActive()
-    getProperty()
-    getStartX()
-    getStartY()
-    getEndX()
-    getEndY()
-    */
+
 }
