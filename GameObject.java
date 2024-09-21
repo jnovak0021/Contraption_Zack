@@ -31,6 +31,14 @@ public abstract class GameObject
     //Absract methods to implement:
     /*
     draw()
+    setActive()	//set value of isActive
+    setIsActive()
+    getIsActive()
+    getProperty()
+    getStartX()
+    getStartY()
+    getEndX()
+    getEndY()
     getLinkedObjectsList()	//returns linkedObjects Arraylist
     setLinkedObjectList(ArrayList linkedObjectIn	)	//on second loop, 
     */
