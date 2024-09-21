@@ -34,9 +34,8 @@ public abstract class Tile extends GameObject
    //method to see if x,y coordinate is within Tile
    public boolean collides(int xIn, int yIn)
    {
-          // This method checks if the point (xIn, yIn) is inside this tile's bounds
-   
-        return ((xIn >= x && xIn <= x + 80) && (yIn >= y && yIn <= y + 80));
+        // This method checks if the point (xIn, yIn) is inside this tile's bounds
+        return ((xIn > x && xIn < x + 80) && (yIn > y && yIn < y + 80));
    
    }
     
@@ -98,6 +97,6 @@ public abstract class Tile extends GameObject
    public void drawMe(GraphicsContext gc){}
    
    //This is a temp method to help with collision
-   public void drawMe(GraphicsContext gc, Color in){}
+   public abstract void drawMe(GraphicsContext gc, Color in);
 
 }

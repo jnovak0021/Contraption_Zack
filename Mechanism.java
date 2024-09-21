@@ -16,11 +16,15 @@ import java.util.Set;
 
 public abstract class Mechanism extends GameObject
 {
-    public Mechanism(int xPos, int yPos, Color myColor)
+    public Mechanism(int x, int y, int endX, int endY, Color myColor)
     {
-        super(xPos, yPos, myColor); //call parent constructor
+        super(x, y, endX, endY,  myColor); //call parent constructor
         
     }
+    
+    
+    
+    public abstract void drawMe(GraphicsContext gc);
     
     //methods for Mechanisms
     /* 

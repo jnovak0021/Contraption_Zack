@@ -114,6 +114,7 @@ public class Main extends Application
     {
         int deltaX = 0;
         int deltaY = 0;
+        boolean canMove = true;
 
         if (pressedKeys.contains(KeyCode.W)) 
         {
@@ -132,11 +133,34 @@ public class Main extends Application
             deltaX = 1; // Move right
         }
         
+        //collission code
+        // Loop over tiles and call drawMe
+        for (int i = 0; i < tiles.length; i++) 
+        {
+            for (int j = 0; j < tiles[i].length; j++) 
+            {
+               //I am calling the collides method in here for efficiency since we are already looping
+               if(tiles[i][j].collides(zack.getX(),zack.getY()))
+               {
+                  //get the istraverable property from tile[i][j]
+                  canMove = tiles[i][j].isTraversable();
+               }
+                  
+            }
+        }
+
          
-         
-         //We can use the isTraversable method in Tile to determine if we can walk into block once constructed.s
-         zack.setX(zack.getX() + deltaX);
-         zack.setY(zack.getY() + deltaY);
+         if(canMove)
+         {
+            //We can use the isTraversable method in Tile to determine if we can walk into block once constructed.s
+            zack.setX(zack.getX() + deltaX);
+            zack.setY(zack.getY() + deltaY);
+         }
+         else
+         {
+            zack.setX(zack.getX() - (deltaX));
+            zack.setY(zack.getY() - (deltaY));
+         }
 
          
     }
