@@ -34,8 +34,10 @@ public abstract class Tile extends GameObject
    //method to see if x,y coordinate is within Tile
    public boolean collides(int xIn, int yIn)
    {
-      return(xIn  >= x && xIn   <= endX) && (yIn  >= y && yIn <= endY);
-      
+          // This method checks if the point (xIn, yIn) is inside this tile's bounds
+   
+        return ((xIn >= x && xIn <= x + 80) && (yIn >= y && yIn <= y + 80));
+   
    }
     
     public boolean isTraversable(){

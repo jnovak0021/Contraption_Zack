@@ -1,9 +1,11 @@
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.scene.*;
+import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.util.HashSet;
@@ -11,11 +13,14 @@ import java.util.Set;
 
 public class Main extends Application 
 {
-
     private Set<KeyCode> pressedKeys = new HashSet<>();
     private Zack zack;
     private LoadLevel ll;
     private Tile[][] tiles;
+    private Canvas canvas;
+    private GraphicsContext gc;
+  
+
 
     public static void main(String[] args) 
     {
@@ -25,74 +30,85 @@ public class Main extends Application
     @Override
     public void start(Stage primaryStage) 
     {
-        Pane root = new Pane();
+        canvas = new Canvas(720, 720);
+        gc = canvas.getGraphicsContext2D();
 
         ll = new LoadLevel();
         tiles = ll.getRoomTiles(0);
+        zack = new Zack(400, 400, Color.BLUE); // Initial position and color
 
         if (tiles != null) 
         {
-            boolean isGrey = true; // Start with grey
-            for (int i = 0; i < tiles.length; i++) 
-            {
-                for (int j = 0; j < tiles[i].length; j++) 
-                {
-                    
-                    Tile tile = tiles[i][j];
-                    System.out.print(tile);
-                    tile.setColor(Color.LIGHTGREY);
-                    
-                    if (tile != null) 
-                    {
-                        if (isGrey) 
-                        {
-                            tile.setColor(Color.LIGHTGREY);
-                        } 
-                        else 
-                        {
-                            tile.setColor(Color.BLACK);
-                        }
-                        // System.out.println("tile:\n\t" + tile.getX() + "\t" + tile.getY());
-                        // Flip the color for the next tile
-                        isGrey = !isGrey;
-                        
-                        tile.drawMe(root); // Pass the root pane to draw the tile
-                    }
-                }
-                System.out.println();
-            }
+            drawTiles(); // Draw tiles on the canvas
         } 
         else 
         {
             System.out.println("No tiles were returned.");
         }
 
-        zack = new Zack(100, 100, Color.BLUE); // Initial position and color
-        root.getChildren().add(zack.getShape()); // Add Zack to the root pane
+        
 
-        Scene scene = new Scene(root, 800, 600);
+        Pane root = new Pane(canvas); // Use Pane to hold the Canvas
+        Scene scene = new Scene(root, 720, 720);
 
         scene.setOnKeyPressed(event -> pressedKeys.add(event.getCode()));
         scene.setOnKeyReleased(event -> pressedKeys.remove(event.getCode()));
 
         AnimationTimer animationTimer = new AnimationTimer() 
         {
-   
             @Override
             public void handle(long now) 
             {
                 updateMovement();
-                zack.updatePosition(); // Update Zack's visual position
-                getCurrentTile(tiles, zack.getX(), zack.getY());
+                draw(); // Redraw the scene on each frame
+
             }
-           
         };
         animationTimer.start();
 
-        primaryStage.setTitle("Tile Layout");
+        primaryStage.setTitle("GraphicsContext Example");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
+    //method to call drawMe method of all tiles and print them to graphicsContext
+    private void drawTiles() 
+    {   
+        
+        // Loop over tiles and call drawMe
+        for (int i = 0; i < tiles.length; i++) 
+        {
+            for (int j = 0; j < tiles[i].length; j++) 
+            {
+               //call Tile or Abyss draw
+               tiles[i][j].drawMe(gc);   
+               
+               
+               //I am calling the collides method in here for efficiency since we are already looping
+               if(tiles[i][j].collides(zack.getX(),zack.getY()))
+               {
+                  tiles[i][j].drawMe(gc, Color.YELLOW);  
+               }
+                  
+            }
+        }
+    }
+
+    private void draw() 
+    {
+        // Clear the canvas
+        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+        // Redraw tiles
+        drawTiles();
+
+        // Draw Zack
+        zack.drawMe(gc);
+        
+        //add method to draw mechanisms later
+    }
+
+    
 
     private void updateMovement() 
     {
@@ -101,38 +117,27 @@ public class Main extends Application
 
         if (pressedKeys.contains(KeyCode.W)) 
         {
-            deltaY = -5; // Move up
+            deltaY = -1; // Move up
         }
         if (pressedKeys.contains(KeyCode.S)) 
         {
-            deltaY = 5; // Move down
+            deltaY = 1; // Move down
         }
         if (pressedKeys.contains(KeyCode.A)) 
         {
-            deltaX = -5; // Move left
+            deltaX = -1; // Move left
         }
         if (pressedKeys.contains(KeyCode.D)) 
         {
-            deltaX = 5; // Move right
+            deltaX = 1; // Move right
         }
+        
+         
+         
+         //We can use the isTraversable method in Tile to determine if we can walk into block once constructed.s
+         zack.setX(zack.getX() + deltaX);
+         zack.setY(zack.getY() + deltaY);
 
-        // Update Zack's position
-        // zack.setXPos(zack.getXPos() + deltaX);
-        zack.incrementY(deltaY);
-        zack.incrementX(deltaX);
-
-        //System.out.println(zack.getXPos());
-
-        if (zack.getX() % 100 == 0) 
-        {
-            //System.out.println("MASSIVE PENIS");
-        }
-    }
-
-    public void getCurrentTile(Tile[][] tiles, int x, int y) 
-    {
-        x = ((x / 100) / 1);
-        y = ((y / 100) / 1);
-        System.out.println("Current Tile: \t" + x + " " + y);
+         
     }
 }
