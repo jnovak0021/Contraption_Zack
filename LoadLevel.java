@@ -256,6 +256,14 @@ public class LoadLevel
          secondaryColor = Color.rgb(0,0,0,1);
       }
    }
+   
+   
+   //method to reset all game data -- i.e reread it in
+   public void resetLevel()
+   {
+      //call readfile again
+      readFile();
+   }
 
 }
 
