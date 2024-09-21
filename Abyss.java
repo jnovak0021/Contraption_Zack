@@ -47,9 +47,17 @@ public class Abyss extends Tile
    //draw me method that takes in gc and draws black box
    public void drawMe(GraphicsContext gc)
    {
-   //draw a black rectangle
-   gc.setFill(myColor);
-   gc.fillRect(getX(),getY(), 80, 80);
+      //draw a black rectangle
+      gc.setFill(myColor);
+      gc.fillRect(getX(),getY(), 80, 80);
+
+   }
+   //draw me method that takes in gc and draws black box
+   public void drawMe(GraphicsContext gc, Color in)
+   {
+      //draw a black rectangle
+      gc.setFill(in);
+      gc.fillRect(getX(),getY(), 80, 80);
 
    }
    
