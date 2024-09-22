@@ -42,7 +42,7 @@ public class LoadLevel
    
    //method to read in each room level
    //for loop that calls privatereadFileMethod for each room in level 1
-   //returns a 3d arraylist of arraylist of gameObjects
+ 
    public void readFile()
    {
      
@@ -81,7 +81,7 @@ public class LoadLevel
       Tile [][] temp2d;
       
       //temp ArrayList of GameObjects
-      ArrayList <GameObject> tempGameObjectArray = new ArrayList<GameObject>();
+      ArrayList <Mechanism> tempMechanismArray = new ArrayList<Mechanism>();
          
       
       try   //FileNotFoundException
@@ -155,38 +155,36 @@ public class LoadLevel
                }
             }
          }
-         
-         //CODE FOR GETTING THE PRINT FORMAT OF EACH FILE READ IN
-         System.out.println("X: " + temp2d.length);
-         System.out.println("Y: " + temp2d[1].length);
-         for(int i = 0; i < temp2d.length; i++)
-         {
-            for(int j = 0; j < temp2d[i].length; j++)
-            {
-               System.out.print("[" + i + "][" + j + "]" + temp2d[i][j].getColor() + " ");
-            }
-            System.out.println();
-            //string to store the line of the file
-         }
-         
-   
+            
          //read in the GameObject array at the end
          while(scanner.hasNext())
          {
-            //store the gameString
-            String gameStr = scanner.next();
+            String mechanismStr = scanner.next();
+            //temp variables
+            char property;
+            int x, y, endX, endY;
             
-            //loop over the gameString and call the constructor reading in each 
-            //<object><property><activated>:<startx>:<starty>:<endx>:<endy>
-            //GameObject g = new GameObject(gameStr.charAt(0), gameStr.charAt(1), gameStr.charAt(2), gameStr.charAt(3), gameStr.charAt(4), gameStr.charAt(5), gameStr.charAt(6));
-            //tempGameObjectArray.append(g);
-            tempGameObjectArray.add(new Spike(0,0,0,0,Color.GREEN));
-            //System.out.println(gameStr.charAt(0) + " " + gameStr.charAt(1) + " " + gameStr.charAt(2) + " " +  gameStr.charAt(3) + " " + gameStr.charAt(4) + " " + gameStr.charAt(5) + " " + gameStr.charAt(6));
+            //split up string read in by colons
+            String[] parts = mechanismStr.split(":");
+            
+       
+            
+            //if statement to determine which mechanism
+            if(parts[0].equals("3"))
+            {
+             
+               //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
+               tempMechanismArray.add(new Door(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]))); 
+            }
+            
+           
+               
          }
+         System.out.println(tempMechanismArray.get(0).toString());
          
          //set member variables of Roomobject
          tempRoomObject.setGameBoard2d(temp2d);
-         tempRoomObject.setGameObjectArray(tempGameObjectArray);
+         tempRoomObject.setMechanismArray(tempMechanismArray);
          
          //close scanner
          scanner.close();
@@ -219,6 +217,13 @@ public class LoadLevel
    {
       return rooms.get(i).getGameBoard2d();
    }
+   
+   
+   public ArrayList<Mechanism> getRoomMechanisms(int i)
+   {
+      return rooms.get(i).getMechanismArray();
+   }
+   
 
 
    //print out the whole game board
@@ -281,13 +286,9 @@ class RoomObject
    //2d array list of the game tiles
    private Tile [][] gameBoard2d;
    //arraylist of GameObjects that represnt things such as buttons...
-   private ArrayList<GameObject> gameObjectArray;
+   private ArrayList<Mechanism> mechanismArray;
 
-//    public RoomObject(int[][] gameBoard2d, ArrayList<GameObject> gameObjectArray)
-//    {
-//       this.gameBoard2d = gameBoard2d;
-//       this.gameObjectArray = gameObjectArray;
-//    }
+
 
    //accessors and mutator for gameBoard2dArray variables
    public Tile[][] getGameBoard2d()
@@ -299,16 +300,16 @@ class RoomObject
       this.gameBoard2d = gameBoard2d;
    }
 
-   //gameObject accesor, mutator
-   public ArrayList<GameObject> getGameObjectArray()
+   //Mechanism accesor, mutator
+   public ArrayList<Mechanism> getMechanismArray()
    {
-      return gameObjectArray;
+      return mechanismArray;
    }
    
    //mutator
-   public void setGameObjectArray(ArrayList<GameObject> gameObjectArray)
+   public void setMechanismArray(ArrayList<Mechanism> mechanismArray)
    {
-      this.gameObjectArray = gameObjectArray;
+      this.mechanismArray = mechanismArray;
    }
    
    //to string
@@ -326,10 +327,10 @@ class RoomObject
       }
       temp += "\n\n";
       
-      //print gameObject array
-      for ( int i = 0; i < gameObjectArray.size(); i++ )
+      //print mechanism array
+      for ( int i = 0; i < mechanismArray.size(); i++ )
       {
-         temp += gameObjectArray.get(i).toString() + " ";
+         temp += mechanismArray.get(i).toString() + " ";
       }
       temp += "\n";
       return temp;

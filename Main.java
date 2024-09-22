@@ -10,12 +10,14 @@ import javafx.stage.Stage;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.*;
 
 public class Main extends Application {
    private Set<KeyCode> pressedKeys = new HashSet<>();
    private Zack zack;
    private LoadLevel ll;
    private Tile[][] tiles;
+   private ArrayList<Mechanism> mechanisms;
    private Canvas canvas;
    private GraphicsContext gc;
    private int selectedPauseOption = 0; // Track the selected pause menu option
@@ -73,7 +75,7 @@ public class Main extends Application {
    }
 
    private void drawTiles() {
-        // Loop over tiles and call drawMe
+      // Loop over tiles and call drawMe
       for (int i = 0; i < tiles.length; i++) {
          for (int j = 0; j < tiles[i].length; j++) {
                 // Call Tile or Abyss draw
@@ -84,6 +86,17 @@ public class Main extends Application {
                tiles[i][j].drawMe(gc, Color.YELLOW);
             }
          }
+      }
+   }
+   
+   //method to draw the mechanisms in the level
+   
+   public void drawMechanisms()
+   {
+      //loop over mechanism and call 
+      for(int i = 0; i < mechanisms.size(); i++)
+      {
+         mechanisms.get(i).drawMe(gc);
       }
    }
 
@@ -98,7 +111,10 @@ public class Main extends Application {
       } else {
             // Draw tiles and Zack
          drawTiles();
+         drawMechanisms();
          zack.drawMe(gc);
+         
+         //add a draw mechanisms
       }
    }
 
@@ -161,6 +177,7 @@ public class Main extends Application {
             case 0: // Start Game
                inMenu = false; // Start the game
                tiles = ll.getRoomTiles(0); // Get the first room tiles
+               mechanisms = ll.getRoomMechanisms(0);  //load the mechanisms
                System.out.println("Starting the game, loading first room.");
                break;
             case 1: // Load Game
@@ -201,6 +218,7 @@ public class Main extends Application {
                 zack.setX(INITIAL_ZACK_X);
                 zack.setY(INITIAL_ZACK_Y);
                 tiles = ll.getRoomTiles(ll.getCurrentRoomNumber()); // Restart current room
+                mechanisms = ll.getRoomMechanisms(ll.getCurrentRoomNumber());  //load the mechanisms
                 System.out.println("Restarting current area.");
                 break;
             case 2: // Restart Level
@@ -209,6 +227,7 @@ public class Main extends Application {
                 zack.setX(INITIAL_ZACK_X);
                 zack.setY(INITIAL_ZACK_Y);
                 tiles = ll.getRoomTiles(0); // Restart from room 0
+                mechanisms = ll.getRoomMechanisms(0);  //load the mechanisms
                 ll.setCurrentRoomNumber(0); // Reset room number
                 
                 //call resetlevel from loadLevel
