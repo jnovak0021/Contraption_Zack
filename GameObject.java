@@ -22,7 +22,7 @@ public abstract class GameObject
     private int x = 0, y = 0; //coordinates on the game board 
     private int endX = 0, endY = 0;
     private Color myColor; //Color of the tile/room theme
-    private char property;
+   
     
     //new constructor for Tiles
     //MAIN constructor
@@ -44,12 +44,7 @@ public abstract class GameObject
        this.myColor = myColor;
     }
 
-    //only take in property as it is the only common value that is shared
-    public GameObject(char property)
-    {
-        this.property = property;
-    }
-    
+
     //public abstract void draw();
 
 
@@ -68,10 +63,7 @@ public abstract class GameObject
     {
         return myColor;
     }
-    public char getProperty()
-    {
-        return property;
-    }
+
     // We wont ever need to increment x or y
     public void incrementX(int dX)
     {
