@@ -29,9 +29,32 @@ public class Zack extends GameObject {
         this.endY = newY + 40; // Update endY accordingly
     }
     
-    public void move(int newX, int newY, Tiles[][]){
+    //this will get called from Main{} to move Zack
+    public void move(int dX, int dY, Tile[][] tiles)
+    {
+        incrementX(dX);
+        incrementY(dY);
+      
+        //if there is a collision, revert changes
+        if(collides(tiles) == true)
+        {
+            incrementX(-dX);
+            incrementY(-dY);
+        }
+     
+    }
+    //internal to zack
+    private boolean collides(Tile[][] tiles)
+    {
+        //check
+        for (int i = 0; i < tiles.length; i++){
+            for (int j = 0; j < tiles[i].length; j++) {
+                if(tiles[i][j].collidesD(this) && tiles[i][j] instanceof Abyss)
+                    return true;
+            } 
+        }
         
-        //move zack
+        return false;
     }
 
     public int getX() {
@@ -56,6 +79,18 @@ public class Zack extends GameObject {
 
     public void drawMe(GraphicsContext gc) {
         gc.setFill(this.color);
-        gc.fillRect(x - 20, y - 20, 40, 40); // Center the rectangle on Zack's position
+        gc.fillRect(x /*- 20*/, y /*- 20*/, 40, 40); // Center the rectangle on Zack's position
+    }
+    
+    
+    public void incrementX(int dX)
+    {
+        x += dX;
+        endX += dX;
+    }
+    public void incrementY(int dY)
+    {
+        y += dY;
+        endY += dY;
     }
 }
