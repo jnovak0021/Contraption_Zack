@@ -28,6 +28,11 @@ public class Zack extends GameObject {
         this.endY = y;
         this.endY = newY + 40; // Update endY accordingly
     }
+    
+    public void move(int newX, int newY, Tiles[][]){
+        
+        //move zack
+    }
 
     public int getX() {
         return this.x;
