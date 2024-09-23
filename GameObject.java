@@ -119,4 +119,53 @@ public abstract class GameObject
     {
       return myColor;
     }
+    
+    
+    //this is a collides method that can determine if any two game objects are currently overlapping
+    //Zack will implement a different collides method that makes a small change to his poistion and 
+    //then uses this method to check collision
+    public boolean collidesD(GameObject o) {
+        
+        
+        // Check if the objects are the same
+        if (this == o) {
+            return false;
+        }
+   
+        // Calculate the borders for both objects
+        int thisLeft = getX();
+        int thisRight = getEndX();
+        int thisTop = getY();
+        int thisBottom = getEndY();
+    
+        int otherLeft = o.getX();
+        int otherRight = o.getEndX();
+        int otherTop = o.getY();
+        int otherBottom = o.getEndY();
+   
+        // Check for overlap
+        return ( //thisRight < otherLeft || 
+                 //thisLeft > otherRight || 
+                 //thisBottom < otherTop || 
+                 //thisTop > otherBottom
+                 
+                getX() < o.getEndX() &&
+                getEndX() > o.getX() &&
+                getY() < o.getEndY() &&
+                getEndY() > o.getY()
+                );
+        
+         
+        /*if (getEndX() <= o.getX() || o.getEndX() <= getX()) {
+            return false;
+        }
+
+        // Check if one rectangle is above the other
+        if (getEndY() <= o.getY() || o.getEndY() <= getY()) {
+             return false;
+        }
+
+        return true; // Rectangles overlap
+        */
+    }
 }
