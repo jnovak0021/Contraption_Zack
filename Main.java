@@ -76,7 +76,7 @@ public class Main extends Application {
 
    private void drawTiles() {
       // Loop over tiles and call drawMe
-      for (int i = 0; i < tiles.length; i++) {
+      for(int i = 0; i < tiles.length; i++) {
          for (int j = 0; j < tiles[i].length; j++) {
                 // Call Tile or Abyss draw
             tiles[i][j].drawMe(gc);
@@ -277,7 +277,8 @@ public class Main extends Application {
       }
    
    }
-    
+
+   //not being used
    public void handle(long now) {
       if (inMenu) {
          updateMenu();

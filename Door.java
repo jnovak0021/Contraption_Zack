@@ -14,9 +14,9 @@ public class Door extends Mechanism
 {
 
 
-   public Door(String property, boolean activated, int x, int y, int endX, int endY, Color myColor, int temp) 
+   public Door(String property, boolean activated, int x, int y, int endX, int endY, Color myColor, int associatedMechanisms)
    {
-      super(property, activated, x, y, endX, endY, myColor,temp);
+      super(property, activated, x, y, endX, endY, myColor,associatedMechanisms);
    }
 
 
