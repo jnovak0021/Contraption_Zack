@@ -49,12 +49,60 @@ public class Zack extends GameObject {
         //check
         for (int i = 0; i < tiles.length; i++){
             for (int j = 0; j < tiles[i].length; j++) {
-                if(tiles[i][j].collidesD(this) && tiles[i][j] instanceof Abyss)
+                if(overlap(tiles[i][j]) && tiles[i][j] instanceof Abyss)
                     return true;
             } 
         }
         
         return false;
+    }
+    
+    //this is a collides method that can determine if any two game objects are currently overlapping
+    //Zack will implement a different collides method that makes a small change to his poistion and 
+    //then uses this method to check collision
+    public boolean overlap(GameObject o) {
+        
+        
+        // Check if the objects are the same
+        if (this == o) {
+            return false;
+        }
+   
+        // Calculate the borders for both objects
+        int thisLeft = getX();
+        int thisRight = getEndX();
+        int thisTop = getY();
+        int thisBottom = getEndY();
+    
+        int otherLeft = o.getX();
+        int otherRight = o.getEndX();
+        int otherTop = o.getY();
+        int otherBottom = o.getEndY();
+   
+        // Check for overlap
+        return ( //thisRight < otherLeft || 
+                 //thisLeft > otherRight || 
+                 //thisBottom < otherTop || 
+                 //thisTop > otherBottom
+                 
+                getX() < o.getEndX() &&
+                getEndX() > o.getX() &&
+                getY() < o.getEndY() &&
+                getEndY() > o.getY()
+                );
+        
+         
+        /*if (getEndX() <= o.getX() || o.getEndX() <= getX()) {
+            return false;
+        }
+
+        // Check if one rectangle is above the other
+        if (getEndY() <= o.getY() || o.getEndY() <= getY()) {
+             return false;
+        }
+
+        return true; // Rectangles overlap
+        */
     }
 
     public int getX() {
