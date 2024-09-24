@@ -104,7 +104,7 @@ public abstract class GameObject
 
     public int getEndY()
     {
-        return endX;
+        return endY;
     }
     public void setEndY(int endY)
     {

@@ -85,10 +85,10 @@ public class Zack extends GameObject {
                  //thisBottom < otherTop || 
                  //thisTop > otherBottom
                  
-                getX() < o.getEndX() &&
-                getEndX() > o.getX() &&
-                getY() < o.getEndY() &&
-                getEndY() > o.getY()
+                thisLeft < otherRight &&
+                thisRight > otherLeft &&
+                thisTop < otherBottom &&
+                thisBottom > otherTop
                 );
         
          
@@ -127,7 +127,7 @@ public class Zack extends GameObject {
 
     public void drawMe(GraphicsContext gc) {
         gc.setFill(this.color);
-        gc.fillRect(x /*- 20*/, y /*- 20*/, 40, 40); // Center the rectangle on Zack's position
+        gc.fillRect(x, y, 40, 40); // Center the rectangle on Zack's position
     }
     
     
