@@ -14,13 +14,13 @@ public class Zack extends GameObject {
     }
 
     //this will get called from Main{} to move Zack
-    public void move(int dX, int dY, Tile[][] tiles/*, ArrayList <Mechanism> mechs*/)
+    public void move(int dX, int dY, Tile[][] tiles, ArrayList <Mechanism> mechs)
     {
         incrementX(dX);
         incrementY(dY);
       
         //if there is a collision, revert changes
-        if(collides(tiles) == true)
+        if(collides(tiles, mechs) == true)
         {
             incrementX(-dX);
             incrementY(-dY);
@@ -28,7 +28,7 @@ public class Zack extends GameObject {
      
     }
     //internal to zack
-    private boolean collides(Tile[][] tiles)
+    private boolean collides(Tile[][] tiles, ArrayList <Mechanism> mechs)
     {
         //check
         for (int i = 0; i < tiles.length; i++){
@@ -36,6 +36,11 @@ public class Zack extends GameObject {
                 if(overlap(tiles[i][j]) && tiles[i][j] instanceof Abyss)
                     return true;
             } 
+        }
+        
+        for (int i = 0; i < mechs.size(); i++){
+            if(overlap(mechs.get(i)))
+               return true;
         }
         
         return false;
