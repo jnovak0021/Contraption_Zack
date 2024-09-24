@@ -251,12 +251,13 @@ public class LoadLevel
    }
    
    //method to return all of the mechanisms that are connected across the entire game
-   public ArrayList<Mechanism> getRoomMechanisms(int i)
+   public ArrayList<Mechanism> getRoomMechanisms(int roomNumber)
    {
-      return rooms.get(i).getRoomMechanismArray();
+      return rooms.get(roomNumber).getRoomMechanismArray();
    }
 
-   //retunr the ArrayList of mechanisms that are associated with an integer value read in
+   //to get all the mechanisms that are associated with a Mechanism
+   //returns ArrayList<Mechanism>
    public ArrayList<Mechanism> getAssociatedMechanisms(int i)
    {
       return associatedMechanisms[i];
