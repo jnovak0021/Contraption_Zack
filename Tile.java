@@ -32,10 +32,9 @@ public abstract class Tile extends GameObject
    }
    // Method to see if xIn, yIn (center of Zack) collides with the Tile
    public boolean collides(int xIn, int yIn) {
-      return false;
-      //return (yIn - 20 >= y && yIn + 20 >= y+(endY - y));
-      //left of objcet
-      /*
+      return ((xIn >= x && xIn <= endX) && (yIn  >= y && yIn  <= endY) && (xIn <= getEndX() && xIn >= getX()));
+
+   /*
       if((xIn+20 >= x) && (yIn >= y && yIn <= endY))
       {
          if(xIn-20 <= endX)
@@ -69,8 +68,8 @@ public abstract class Tile extends GameObject
       {
          return false;
       }
-      */
 
+*/
    }
    /*
    //method to see if x,y coordinate is within Tile
