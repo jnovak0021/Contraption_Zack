@@ -42,6 +42,8 @@ public class Zack extends GameObject {
             if(overlap(mechs.get(i)))
                return true;
         }
+        //if door
+            //
         
         return false;
     }
