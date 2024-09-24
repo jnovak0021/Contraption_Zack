@@ -131,17 +131,17 @@ public class LoadLevel
                         // Alternate colors
                         if ((i + j) % 2 == 0) // Corrected: Parentheses around (i + j)
                         {
-                            temp2d[i][j] = new Floor(i * 80, j * 80, i * 80 + 80, j * 80 + 80, primaryColor, true);
+                            temp2d[i][j] = new Floor(i * 80, j * 80, primaryColor);
                         } 
                         else 
                         {
-                            temp2d[i][j] = new Floor(i * 80, j * 80, i * 80 + 80, j * 80 + 80, secondaryColor, true);
+                            temp2d[i][j] = new Floor(i * 80, j * 80, secondaryColor);
                         }
                     } 
                     // Edge case: if no matching values, make it abyss
                     else 
                     {
-                        temp2d[i][j] = new Abyss(i * 80, j * 80, i * 80 + 80, j * 80 + 80, Color.BLACK, true);
+                        temp2d[i][j] = new Abyss(i * 80, j * 80);
                     }
                 }
             }
@@ -160,13 +160,13 @@ public class LoadLevel
                   if( currentIndex == 1)
                   {
                      //temp2d[i][j] = new Floor(i,j,c, true);
-                     temp2d[i][j] = new Floor(i*50, j*50, i*50+50, j*50+50, c, true); 
+                     temp2d[i][j] = new Floor(i*50, j*50, c); 
                   }
                   //edge case: if no matching values, make it abyss
                   else 
                   {
                      //temp2d[i][j] = (new Abyss(i,j,Color.BLACK, false));
-                     temp2d[i][j] = new Abyss(i*50, j*50, i*50+50, j*50+50, Color.BLACK, false); 
+                     temp2d[i][j] = new Abyss(i*50, j*50); 
                   }
                }
             }

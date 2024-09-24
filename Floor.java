@@ -16,11 +16,9 @@ import java.util.Set;
 
 public class Floor extends Tile
 {
-   private Color myColor;
-   public Floor(int x, int y, int endX, int endY, Color myColor, boolean traverseable)
+   public Floor(int x, int y, Color myColor)
    {
-      super(x,y, endX, endY, myColor, traverseable);
-      this.myColor = myColor;
+      super(x, y, x + width, y + length, myColor, true);
    }
 
    /*
@@ -43,7 +41,7 @@ public class Floor extends Tile
        // System.out.print(" [x-" + getX() + " y-" + getY() + "]");
    
        // Set fill color for the tile
-       gc.setFill(myColor);
+       gc.setFill(getMyColor());
        // Draw the main tile rectangle
        gc.fillRect(getX(), getY(), 80, 80);
    
