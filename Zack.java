@@ -1,36 +1,20 @@
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-/*
-   Zack really no longer uses any gameobject functionalituy
-*/
+import java.util.*;
+
+
 public class Zack extends GameObject {
-    private int x, y, endX, endY;
-    private Color color;
+
+   static int length = 40;
+   static int width = 40;
 
     public Zack(int x, int y, Color myColor) {
-        super(x, y, myColor);
-        this.x = x;
-        this.y = y;
-        this.color = myColor;
-        this.endX = x + 40; // Adjust based on rectangle size
-        this.endY = y + 40;
+        super(x, y, x + width, y + length, myColor);
     }
 
-    public void setX(int newX) {
-        this.x = newX;
-        this.endY = endY;
-        this.endX = newX + 40; // Update endX accordingly
-    }
-
-    public void setY(int newY) {
-        this.y = newY;
-        this.endY = y;
-        this.endY = newY + 40; // Update endY accordingly
-    }
-    
     //this will get called from Main{} to move Zack
-    public void move(int dX, int dY, Tile[][] tiles)
+    public void move(int dX, int dY, Tile[][] tiles/*, ArrayList <Mechanism> mechs*/)
     {
         incrementX(dX);
         incrementY(dY);
@@ -62,7 +46,6 @@ public class Zack extends GameObject {
     //then uses this method to check collision
     public boolean overlap(GameObject o) {
         
-        
         // Check if the objects are the same
         if (this == o) {
             return false;
@@ -80,65 +63,18 @@ public class Zack extends GameObject {
         int otherBottom = o.getEndY();
    
         // Check for overlap
-        return ( //thisRight < otherLeft || 
-                 //thisLeft > otherRight || 
-                 //thisBottom < otherTop || 
-                 //thisTop > otherBottom
-                 
-                thisLeft < otherRight &&
+        return (thisLeft < otherRight &&
                 thisRight > otherLeft &&
                 thisTop < otherBottom &&
                 thisBottom > otherTop
                 );
-        
-         
-        /*if (getEndX() <= o.getX() || o.getEndX() <= getX()) {
-            return false;
-        }
-
-        // Check if one rectangle is above the other
-        if (getEndY() <= o.getY() || o.getEndY() <= getY()) {
-             return false;
-        }
-
-        return true; // Rectangles overlap
-        */
     }
 
-    public int getX() {
-        return this.x;
-    }
-
-    public int getY() {
-        return this.y;
-    }
-
-    public int getEndX() {
-        return this.endX;
-    }
-
-    public int getEndY() {
-        return this.endY;
-    }
-
-    public Color getColor() {
-        return this.color;
-    }
 
     public void drawMe(GraphicsContext gc) {
-        gc.setFill(this.color);
-        gc.fillRect(x, y, 40, 40); // Center the rectangle on Zack's position
+        gc.setFill(getColor());
+        gc.fillRect(getX(), getY(), length, width); // Center the rectangle on Zack's position
     }
     
     
-    public void incrementX(int dX)
-    {
-        x += dX;
-        endX += dX;
-    }
-    public void incrementY(int dY)
-    {
-        y += dY;
-        endY += dY;
-    }
 }
