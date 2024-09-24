@@ -14,9 +14,9 @@ public class Door extends Mechanism
 {
 
 
-   public Door(String property, boolean activated, int x, int y, int endX, int endY, Color myColor, int temp) 
+   public Door(String property, boolean activated, int x, int y, int endX, int endY, Color myColor, int associatedMechanisms)
    {
-      super(property, activated, x, y, endX, endY, myColor,temp);
+      super(property, activated, x, y, endX, endY, myColor,associatedMechanisms);
    }
 
 
@@ -38,36 +38,42 @@ public class Door extends Mechanism
 
    @Override
     // Method to draw the arrow within a rectangle defined bgetY() (x, y) and (endX, endY)
-    public void drawMe(GraphicsContext gc) 
-    {
-        gc.setFill(Color.RED);
+   public void drawMe(GraphicsContext gc)
+   {
+       // First, draw the grey rectangle
+       gc.setFill(Color.GREY);
+       gc.fillRect(getX(), getY(), (getEndX() - getX()), (getEndY() - getY()));
 
-        // Calculate width and height of the rectangle
-        double width = getEndX() - getX();
-        double height = getEndY() - getY();
+       // Then, draw the red arrow
+       gc.setFill(Color.RED);
 
-        // Define the points of the arrow, scaled to fit inside the rectangle
-        double[] xPoints = {
-            getX() + width * 0.5,  // Tip of the arrow (middle top)
-            getX() + width * 1.0,  // Right corner
-            getX() + width * 0.75, // Bottom right corner
-            getX() + width * 0.75, // Bottom right tail
-            getX() + width * 0.25, // Bottom left tail
-            getX() + width * 0.25, // Bottom left corner
-            getX() + width * 0.0   // Left corner
-        };
+       // Calculate width and height of the rectangle
+       double width = 80;
+       double height = 80;
 
-        double[] yPoints = {
-            getY() + height * 0.0,  // Tip of the arrow
-            getY() + height * 0.5,  // Right corner
-            getY() + height * 0.5,  // Bottom right corner
-            getY() + height * 1.0,  // Bottom right tail
-            getY() + height * 1.0,  // Bottom left tail
-            getY() + height * 0.5,  // Bottom left corner
-            getY() + height * 0.5   // Left corner
-        };
+       // Define the points of the arrow, scaled to fit inside the rectangle
+       double[] xPoints = {
+               getX() + width * 0.5,  // Tip of the arrow (middle top)
+               getX() + width * 1.0,  // Right corner
+               getX() + width * 0.75, // Bottom right corner
+               getX() + width * 0.75, // Bottom right tail
+               getX() + width * 0.25, // Bottom left tail
+               getX() + width * 0.25, // Bottom left corner
+               getX() + width * 0.0   // Left corner
+       };
 
-        // Draw the polygon (arrow) that fits inside the defined rectangle
-        gc.fillPolygon(xPoints, yPoints, xPoints.length);
-    }
+       double[] yPoints = {
+               getY() + height * 0.0,  // Tip of the arrow
+               getY() + height * 0.5,  // Right corner
+               getY() + height * 0.5,  // Bottom right corner
+               getY() + height * 1.0,  // Bottom right tail
+               getY() + height * 1.0,  // Bottom left tail
+               getY() + height * 0.5,  // Bottom left corner
+               getY() + height * 0.5   // Left corner
+       };
+
+       // Draw the polygon (arrow) that fits inside the defined rectangle
+       gc.fillPolygon(xPoints, yPoints, xPoints.length);
+   }
+
 }

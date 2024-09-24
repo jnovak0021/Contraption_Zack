@@ -4,6 +4,8 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import javafx.scene.paint.Color;
 
+import javax.imageio.stream.MemoryCacheImageInputStream;
+
 
 /*
  * Files are read in using the LoadLevel class
@@ -27,18 +29,32 @@ public class LoadLevel
 {
    //store the current room
    private int currentRoomNumber = 0;
-   
+
+   //associative array for the mechanisms -- 2d arraylist of Mechanisms where each index is a different associative number
+   private ArrayList<Mechanism> [] associatedMechanisms;
+
+   //list of RoomObject that is read in using privateReadFile
+   ArrayList<RoomObject> rooms;
+
    //store color of tiles in level
    Color primaryColor, secondaryColor;
    
    //constructur that calls readFile to load in the game objects
    public LoadLevel()
    {
+      associatedMechanisms = new ArrayList[100];  //may need to up intial capacity
+      for(int i = 0; i < associatedMechanisms.length; i++)
+      {
+         associatedMechanisms[i] = new ArrayList<Mechanism>();
+      }
+
+      System.out.println("size: " +associatedMechanisms.length);
+
+      rooms = new ArrayList<RoomObject>();
       //call readFile method to load the data into the level
       readFile();
    }
-   //list of RoomObject that is read in using privateReadFile
-   ArrayList<RoomObject> rooms = new ArrayList<RoomObject>();
+
    
    //method to read in each room level
    //for loop that calls privatereadFileMethod for each room in level 1
@@ -48,7 +64,7 @@ public class LoadLevel
      
       //note -- this needs to be changed later when all levles exist
       //loop through each of the 10 rooms 
-      for( int i = 0; i < 1; i++ )
+      for( int i = 0; i < 2; i++ )
       {
          //set index of arrayIn to return value of privateReadFile
          System.out.println("reading in file " + i);
@@ -163,28 +179,43 @@ public class LoadLevel
             //temp variables
             char property;
             int x, y, endX, endY;
-            
+            System.out.println("ADFLUHAD");
             //split up string read in by colons
             String[] parts = mechanismStr.split(":");
-            
-       
+            Mechanism temp = null;
+
+
+
             
             //if statement to determine which mechanism
             if(parts[0].equals("3"))
             {
-             
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
-               tempMechanismArray.add(new Door(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]))); 
+               temp = new Door(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]));
+               //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
+               tempMechanismArray.add(temp);
             }
-            
-           
+            //juke box
+            else if(parts[0].equals("J"))
+            {
+               //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
+               temp = new Jukebox(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]));
+               //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
+               tempMechanismArray.add(temp);
+            }
+
+
+            System.out.println("adding mechanism to \t" + Integer.parseInt(parts[8]));
+            System.out.println();
+            //add mechanism to its correct index in associatedMechanisms
+            associatedMechanisms[Integer.parseInt(parts[8])].add(temp);
                
          }
          System.out.println(tempMechanismArray.get(0).toString());
          
          //set member variables of Roomobject
          tempRoomObject.setGameBoard2d(temp2d);
-         tempRoomObject.setMechanismArray(tempMechanismArray);
+         tempRoomObject.setRoomMechanismArray(tempMechanismArray);
          
          //close scanner
          scanner.close();
@@ -212,16 +243,24 @@ public class LoadLevel
    {
       this.currentRoomNumber = currentRoomNumber;
    }
-   //method to take in a level at index i and to 
+
+   //method to take in a level at index i and to
    public Tile[][] getRoomTiles(int i)
    {
       return rooms.get(i).getGameBoard2d();
    }
    
-   
-   public ArrayList<Mechanism> getRoomMechanisms(int i)
+   //method to return all of the mechanisms that are connected across the entire game
+   public ArrayList<Mechanism> getRoomMechanisms(int roomNumber)
    {
-      return rooms.get(i).getMechanismArray();
+      return rooms.get(roomNumber).getRoomMechanismArray();
+   }
+
+   //to get all the mechanisms that are associated with a Mechanism
+   //returns ArrayList<Mechanism>
+   public ArrayList<Mechanism> getAssociatedMechanisms(int i)
+   {
+      return associatedMechanisms[i];
    }
    
 
@@ -301,13 +340,13 @@ class RoomObject
    }
 
    //Mechanism accesor, mutator
-   public ArrayList<Mechanism> getMechanismArray()
+   public ArrayList<Mechanism> getRoomMechanismArray()
    {
       return mechanismArray;
    }
    
    //mutator
-   public void setMechanismArray(ArrayList<Mechanism> mechanismArray)
+   public void setRoomMechanismArray(ArrayList<Mechanism> mechanismArray)
    {
       this.mechanismArray = mechanismArray;
    }

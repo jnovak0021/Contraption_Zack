@@ -30,14 +30,82 @@ public abstract class Tile extends GameObject
       this.endY = endY;
       this.traverseable = traverseable;
    }
-   
+   // Method to see if xIn, yIn (center of Zack) collides with the Tile
+   public boolean collides(int xIn, int yIn) {
+      return ((xIn >= x && xIn <= endX) && (yIn  >= y && yIn  <= endY) && (xIn <= getEndX() && xIn >= getX()));
+
+   /*
+      if((xIn+20 >= x) && (yIn >= y && yIn <= endY))
+      {
+         if(xIn-20 <= endX)
+            return true;
+         else
+            return false;
+      }
+      //right of object
+      else if((xIn - 20 <= endX) && (yIn >= y && yIn <= endY)) {
+         if (xIn + 20 >= x)
+            return true;
+         else
+            return false;
+      }
+      //top
+      if((yIn+20 >= y) && (xIn >= x && xIn <= endX))
+      {
+         if(yIn-20 <= y)
+            return true;
+         else
+            return false;
+      }
+      //bottom of object
+      else if((yIn - 20 <= endY) && (xIn >= x && xIn <= endX)) {
+         if (yIn + 20 >= y)
+            return true;
+         else
+            return false;
+      }
+      else
+      {
+         return false;
+      }
+
+*/
+   }
+   /*
    //method to see if x,y coordinate is within Tile
    public boolean collides(int xIn, int yIn)
    {
-        // This method checks if the point (xIn, yIn) is inside this tile's bounds
-        return ((xIn + 20 > x && xIn - 20 < x + 80) && (yIn + 20 > y && yIn - 20 < y + 80));
-   
+      //top of object collions
+      if( ((yIn+20) > y && (yIn < endY)) && ((xIn > x) && (xIn < endX)))
+      {
+         return true;
+      }
+      //bottom of object collision
+      else if( (((yIn-20) < y) && (yIn > x)) && ((xIn > x) && (xIn < endX)))
+      {
+         return true;
+      }
+      //right of object collision
+      else if( (((xIn+20) > x) && (xIn < endX)) && ((yIn > y) && (yIn < endY)))
+      {
+         return true;
+      }
+      //left of object collision
+      else if( (((xIn-20) < x) && (xIn > x)) && ((yIn > y) && (yIn < endY)))
+      {
+         return true;
+      }
+      else
+      {
+         return false;
+      }
+//      if(xIn + 20 > x && xIn - 20 < x + 80)
+//     // This method checks if the point (xIn, yIn) is inside this tile's bounds
+//     return ((xIn + 20 > x && xIn - 20 < x + 80) && (yIn + 20 > y && yIn - 20 < y + 80));
+//
    }
+
+    */
     
     public boolean isTraversable(){
         return traverseable;

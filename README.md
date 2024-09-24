@@ -107,15 +107,24 @@ LoadLevel API
 LoadLevel reads in the file, stores and creates the objects
 
 //To use in another class use
+//this calls the readFile method which stores all the data about the game
 LoadLevel ll = new LoadLevel();
 
-//to store all data for level 1 of contraption zack
-ll.readFile();
 
 //to get the tile objects of a specific level
 ll.getRoomTiles(int roomNumber);
 
 //to get the mechanisms of a specific level
+//returns ArrayList<Mechanism>
 ll.getRoomMechanisms(int roomNumber);
 
+//to get the room number stored by LoadLevel
+ll.getCurrentRoomNumber()
 
+//to update the current room number stored by LoadLevel
+ll.setCurrentRoomNumber(int currentRoomNumber)
+
+//to get all the mechanisms that are associated with a Mechanism
+//use this on mechanism triggers
+//returns ArrayList<Mechanism>
+ll.getAssociatedMechanisms(int i)	
