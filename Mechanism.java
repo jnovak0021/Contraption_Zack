@@ -18,7 +18,7 @@ public abstract class Mechanism extends GameObject
 {
    // Private variable to store the property of the object
    private String property;
-   
+
    //boolean for if mechanism is activated
    boolean activated = false;
 
