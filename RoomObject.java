@@ -1,3 +1,4 @@
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -11,6 +12,7 @@ import javafx.scene.paint.Color;
  * methods:
  *    accessor mutators for the 2d array and arraylist of GameObjects
  */
+
 public class RoomObject
 {
     //2d array list of the game tiles

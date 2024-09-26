@@ -46,8 +46,6 @@ public abstract class Tile extends GameObject
     public void drawMe(GraphicsContext gc){}
    
     //This is a temp method to help with collision
-    public abstract void drawMe(GraphicsContext gc, Color in);
-   
     public int getLength(){
         return length;
     }

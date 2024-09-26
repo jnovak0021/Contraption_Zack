@@ -21,6 +21,11 @@ public class Main extends Application {
    private Canvas canvas;
    private GraphicsContext gc;
    private int selectedPauseOption = 0; // Track the selected pause menu option
+   
+   private ArrayList<RoomObject> savedRooms;
+   private int savedZackY;
+   private int savedZackX;
+
 
 
    private boolean inMenu = true; // Track if we're in the main menu
@@ -75,18 +80,18 @@ public class Main extends Application {
    }
 
    private void drawTiles() {
+   
+   
       // Loop over tiles and call drawMe
       for(int i = 0; i < tiles.length; i++) {
          for (int j = 0; j < tiles[i].length; j++) {
-                // Call Tile or Abyss draw
+             // Call Tile or Abyss draw
+            System.out.print(tiles[j][i] + " ");
             tiles[i][j].drawMe(gc);
-         
-                // Collision detection
-            if (tiles[i][j].collides(zack.getX(), zack.getY())) {
-               tiles[i][j].drawMe(gc, Color.YELLOW);
-            }
          }
+         System.out.println();
       }
+      System.out.print("\n\n\n\n");
    }
    
    //method to draw the mechanisms in the level
@@ -192,62 +197,86 @@ public class Main extends Application {
    }
 
    private void updatePauseMenu() {
-    if (pressedKeys.contains(KeyCode.W)) {
-        if (selectedPauseOption > 0) {
+      if (pressedKeys.contains(KeyCode.W)) {
+         if (selectedPauseOption > 0) {
             selectedPauseOption--; // Move up the menu
-        }
-        pressedKeys.remove(KeyCode.W); // Prevent rapid movement
-    }
-    if (pressedKeys.contains(KeyCode.S)) {
-        if (selectedPauseOption < 5) { // Adjusted for 6 options
+         }
+         pressedKeys.remove(KeyCode.W); // Prevent rapid movement
+      }
+      if (pressedKeys.contains(KeyCode.S)) {
+         if (selectedPauseOption < 5) { // Adjusted for 6 options
             selectedPauseOption++; // Move down the menu
-        }
-        pressedKeys.remove(KeyCode.S); // Prevent rapid movement
-    }
-
-    if (pressedKeys.contains(KeyCode.ENTER)) {
-        pressedKeys.remove(KeyCode.ENTER); // Only allow a single press to register
-
-        switch (selectedPauseOption) {
+         }
+         pressedKeys.remove(KeyCode.S); // Prevent rapid movement
+      }
+   
+      if (pressedKeys.contains(KeyCode.ENTER)) {
+         pressedKeys.remove(KeyCode.ENTER); // Only allow a single press to register
+         
+      
+         switch (selectedPauseOption) {
             case 0: // Resume
-                paused = false; // Exit the pause menu
-                break;
+               paused = false; // Exit the pause menu
+               break;
             case 1: // Restart Area
-                paused = false;
+               paused = false;
                 // Reset Zack's position directly
-                zack.setX(INITIAL_ZACK_X);
-                zack.setY(INITIAL_ZACK_Y);
-                tiles = ll.getRoomTiles(ll.getCurrentRoomNumber()); // Restart current room
-                mechanisms = ll.getRoomMechanisms(ll.getCurrentRoomNumber());  //load the mechanisms
-                System.out.println("Restarting current area.");
-                break;
+               zack.setX(INITIAL_ZACK_X);
+               zack.setY(INITIAL_ZACK_Y);
+               tiles = ll.getRoomTiles(ll.getCurrentRoomNumber()); // Restart current room
+               mechanisms = ll.getRoomMechanisms(ll.getCurrentRoomNumber());  //load the mechanisms
+               System.out.println("Restarting current area.");
+               break;
             case 2: // Restart Level
-                paused = false;
+               paused = false;
                 // Reset Zack's position directly
-                zack.setX(INITIAL_ZACK_X);
-                zack.setY(INITIAL_ZACK_Y);
-                tiles = ll.getRoomTiles(0); // Restart from room 0
-                mechanisms = ll.getRoomMechanisms(0);  //load the mechanisms
-                ll.setCurrentRoomNumber(0); // Reset room number
+               zack.setX(INITIAL_ZACK_X);
+               zack.setY(INITIAL_ZACK_Y);
+               tiles = ll.getRoomTiles(0); // Restart from room 0
+               mechanisms = ll.getRoomMechanisms(0);  //load the mechanisms
+               ll.setCurrentRoomNumber(0); // Reset room number
                 
                 //call resetlevel from loadLevel
-                ll.resetLevel();
-                System.out.println("Restarting level from room 0.");
-                break;
+               ll.resetLevel();
+               System.out.println("Restarting level from room 0.");
+               break;
             case 3: // Save
-                // Implement save functionality here
-                System.out.println("Saving game...");
-                break;
+               paused = false;
+            
+               savedRooms = ll.saveAllRoomsState();
+               savedZackY = zack.getY();
+               savedZackX = zack.getX();
+            
+               System.out.println("Saving Game.");
+            
+               break;
+         
             case 4: // Load
-                // Implement load functionality here
-                System.out.println("Loading game...");
-                break;
+               try
+               {
+                  paused = false;
+               
+                  ll.loadState(savedRooms); 
+                  zack.setX(savedZackX);
+                  zack.setY(savedZackY);
+               
+                  System.out.println("Loading Game.");
+               
+               }
+               catch (Exception e) {
+                  System.out.println("An error occurred while loading the game: " + e.getMessage());
+               }
+               break;
+         
+            default:
+               System.out.println("Invalid option.");
+               break;
             case 5: // Exit Game
-                System.exit(0); // Exit the game
-                break;
-        }
-    }
-}
+               System.exit(0); // Exit the game
+               break;
+         }
+      }
+   }
 
 
    private void updateMovement() {

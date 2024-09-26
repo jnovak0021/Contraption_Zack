@@ -21,14 +21,7 @@ public class Floor extends Tile
       super(x, y, x + width, y + length, myColor, true);
    }
 
-   /*
-   public Floor(int x, int y, Color myColor, boolean traverseable)
-   {
-      super(x, y, myColor, traverseable); //call parent constructor
 
-        
-   }
-   */
     
     public String toString()
     {
@@ -43,30 +36,15 @@ public class Floor extends Tile
        // Set fill color for the tile
        gc.setFill(getMyColor());
        // Draw the main tile rectangle
-       gc.fillRect(getX(), getY(), 80, 80);
+       gc.fillRect(getY(), getX(), 80, 80);
    
        // Set stroke color for the border
        gc.setStroke(Color.BLACK);
        gc.setLineWidth(2); // Optional: set the border thickness
        // Draw the border rectangle
-       gc.strokeRect(getX(), getY(), 80, 80);
+       gc.strokeRect(getY(), getX(), 80, 80);
    }
-   public void drawMe(GraphicsContext gc, Color in) 
-   {
-       // Print position information (uncomment if needed)
-       // System.out.print(" [x-" + getX() + " y-" + getY() + "]");
-   
-       // Set fill color for the tile
-       gc.setFill(in);
-       // Draw the main tile rectangle
-       gc.fillRect(getX(), getY(), 80, 80);
-   
-       // Set stroke color for the border
-       gc.setStroke(Color.BLACK);
-       gc.setLineWidth(2); // Optional: set the border thickness
-       // Draw the border rectangle
-       gc.strokeRect(getX(), getY(), 80, 80);
-   }
+
 
 }
 
