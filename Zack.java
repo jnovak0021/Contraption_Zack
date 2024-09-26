@@ -41,8 +41,13 @@ public class Zack extends GameObject {
 
 
         for (int i = 0; i < mechs.size(); i++){
-            if(overlap(mechs.get(i))) {
-                mechs.get(i).performFunction(); //set that the mechanism is being collided with
+            GameObject current = mechs.get(i);
+            boolean hit = overlap(current);
+            if(current instanceof Wall && hit ) {
+                //mechs.get(i).performFunction(); //set that the mechanism is being collided with
+                return true;
+            }
+            if(current instanceof Jukebox && hit){
                 return true;
             }
 
