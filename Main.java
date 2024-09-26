@@ -262,11 +262,10 @@ public class Main extends Application {
          deltaX = 1; // Move right
       }
    
-        // Update Zack's position
-      //zack.setX(zack.getX() + deltaX);
-      //zack.setY(zack.getY() + deltaY);
-      zack.move(deltaX, deltaY, tiles);
-        // Check for pause input
+      // Zack handles movement
+      zack.move(deltaX, deltaY, tiles, mechanisms);
+      
+      // Check for pause input
       if (pressedKeys.contains(KeyCode.ESCAPE)) {
          paused = true; // Set the game to paused state
       }

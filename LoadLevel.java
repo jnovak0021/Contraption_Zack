@@ -34,7 +34,7 @@ public class LoadLevel
    private ArrayList<Mechanism> [] associatedMechanisms;
 
    //list of RoomObject that is read in using privateReadFile
-   ArrayList<RoomObject> rooms;
+   private ArrayList<RoomObject> rooms;
 
    //store color of tiles in level
    Color primaryColor, secondaryColor;
@@ -129,17 +129,17 @@ public class LoadLevel
                         // Alternate colors
                         if ((i + j) % 2 == 0) // Corrected: Parentheses around (i + j)
                         {
-                            temp2d[i][j] = new Floor(i * 80, j * 80, i * 80 + 80, j * 80 + 80, primaryColor, true);
+                            temp2d[i][j] = new Floor(i * 80, j * 80, primaryColor);
                         } 
                         else 
                         {
-                            temp2d[i][j] = new Floor(i * 80, j * 80, i * 80 + 80, j * 80 + 80, secondaryColor, true);
+                            temp2d[i][j] = new Floor(i * 80, j * 80, secondaryColor);
                         }
                     } 
                     // Edge case: if no matching values, make it abyss
                     else 
                     {
-                        temp2d[i][j] = new Abyss(i * 80, j * 80, i * 80 + 80, j * 80 + 80, Color.BLACK, true);
+                        temp2d[i][j] = new Abyss(i * 80, j * 80, Color.BLACK);
                     }
                 }
             }
@@ -158,12 +158,12 @@ public class LoadLevel
                   //decision tree to determine which type of object to create based off int value read in.
                   if( currentIndex == 1)
                   {
-                     temp2d[i][j] = new Floor(i * 80, j * 80, i * 80 + 80, j * 80 + 80, primaryColor, true);
+                     temp2d[i][j] = new Floor(i * 80, j * 80,  primaryColor);
                   }
                   //edge case: if no matching values, make it abyss
                   else 
                   {
-                     temp2d[i][j] = new Abyss(i * 80, j * 80, i * 80 + 80, j * 80 + 80, Color.BLACK, true);
+                     temp2d[i][j] = new Abyss(i * 80, j * 80,  Color.BLACK);
                   }
                }
             }

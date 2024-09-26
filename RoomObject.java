@@ -12,7 +12,8 @@ import javafx.scene.paint.Color;
  * methods:
  *    accessor mutators for the 2d array and arraylist of GameObjects
  */
-class RoomObject
+
+public class RoomObject
 {
     //2d array list of the game tiles
     private Tile [][] gameBoard2d;

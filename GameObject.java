@@ -68,10 +68,12 @@ public abstract class GameObject
     public void incrementX(int dX)
     {
         x += dX;
+        endX += dX;
     }
     public void incrementY(int dY)
     {
         y += dY;
+        endY += dY;
     }
     
     public int getX()
@@ -81,6 +83,7 @@ public abstract class GameObject
     public void setX(int newX)
     {
         x = newX;
+        endX = newX + 40; // Update endX
     }
 
     public int getY()
@@ -90,8 +93,8 @@ public abstract class GameObject
     public void setY(int newY)
     {
         y = newY;
+        endY = newY + 40; // Update endY
     }
-
 
     public int getEndX()
     {
@@ -120,6 +123,5 @@ public abstract class GameObject
       return myColor;
     }
     
-    
-    
+
 }

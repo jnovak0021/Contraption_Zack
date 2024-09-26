@@ -14,7 +14,7 @@ public class Wall extends Mechanism
 {
 
 
-    public Door(String property, boolean activated, int x, int y, int endX, int endY, Color myColor, int associatedMechanisms)
+    public Wall(String property, boolean activated, int x, int y, int endX, int endY, Color myColor, int associatedMechanisms)
     {
         super(property, activated, x, y, endX, endY, myColor,associatedMechanisms);
     }
@@ -38,8 +38,7 @@ public class Wall extends Mechanism
 
     @Override
     // Method to draw the arrow within a rectangle defined bgetY() (x, y) and (endX, endY)
-    public void drawMe(GraphicsContext gc)
-    {
+    public void drawMe(GraphicsContext gc) {
 
-
+    }
 }

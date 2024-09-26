@@ -13,11 +13,10 @@ import java.util.Set;
 
 public class Abyss extends Tile
 {
-   Color myColor;
-   public Abyss(int x, int y, int endX, int endY, Color myColor, boolean traverseable)
+
+   public Abyss(int x, int y, Color myColor)
    {
-      super(x,y, endX, endY, myColor, traverseable);
-      this.myColor = myColor;
+      super(x, y, x + width, y + length, Color.BLACK, false);
    }
    
    public String toString()
@@ -48,8 +47,8 @@ public class Abyss extends Tile
    public void drawMe(GraphicsContext gc)
    {
       //draw a black rectangle
-      gc.setFill(myColor);
-      gc.fillRect(getX(),getY(), 80, 80);
+      gc.setFill(getMyColor());
+      gc.fillRect(getX(),getY(), width, length);
 
    }
    //draw me method that takes in gc and draws black box
@@ -57,7 +56,7 @@ public class Abyss extends Tile
    {
       //draw a black rectangle
       gc.setFill(in);
-      gc.fillRect(getX(),getY(), 80, 80);
+      gc.fillRect(getX(),getY(), width, length);
 
    }
    
