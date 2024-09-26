@@ -64,7 +64,7 @@ public class LoadLevel
 
       //note -- this needs to be changed later when all levles exist
       //loop through each of the 10 rooms
-      for( int i = 0; i < 2; i++ )
+      for( int i = 0; i < 10; i++ )
       {
          //set index of arrayIn to return value of privateReadFile
          System.out.println("reading in file " + i);
@@ -162,6 +162,13 @@ public class LoadLevel
                      //temp2d[i][j] = new Floor(i,j,c, true);
                      temp2d[i][j] = new Floor(i*80, j*80, c);
                   }
+                  //draw water
+                  else if( currentIndex == 4)
+                  {
+                     temp2d[i][j] = new Water(i*80, j*80, Color.BLUE);
+
+                  }
+
                   //edge case: if no matching values, make it abyss
                   else
                   {
