@@ -30,13 +30,7 @@ public class Zack extends GameObject {
     //internal to zack
     private boolean collides(Tile[][] tiles, ArrayList <Mechanism> mechs)
     {
-        for (int i = 0; i < mechs.size(); i++){
-            if(overlap(mechs.get(i))) {
-                mechs.get(i).performFunction(); //set that the mechanism is being collided with
-                return true;
-            }
 
-        }
         //check
         for (int i = 0; i < tiles.length; i++){
             for (int j = 0; j < tiles[i].length; j++) {
@@ -44,7 +38,15 @@ public class Zack extends GameObject {
                     return true;
             } 
         }
-        
+
+
+        for (int i = 0; i < mechs.size(); i++){
+            if(overlap(mechs.get(i))) {
+                mechs.get(i).performFunction(); //set that the mechanism is being collided with
+                return true;
+            }
+
+        }
 
         return false;
     }

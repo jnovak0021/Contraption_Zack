@@ -13,9 +13,10 @@ import java.util.HashSet;
 import java.util.Set;
 public class Jukebox extends Mechanism
 {
-    public Jukebox(String property, boolean activated, int x, int y, int endX, int endY, Color myColor, int associatedMechanisms)
+    //feature/jacob contructor
+    public Jukebox(String property, boolean activated, int x, int y, int endX, int endY, Color myColor, int associatedMechanisms, LoadLevel ll)
     {
-        super(property, activated, x, y, endX, endY, myColor,associatedMechanisms);
+        super(property, activated, x, y, endX, endY, myColor,associatedMechanisms, ll);
     }
 
     public String toString()

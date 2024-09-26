@@ -83,9 +83,12 @@ public class Main extends Application {
       for (int i = 0; i < tiles.length; i++) {
          for (int j = 0; j < tiles[i].length; j++) {
             // Call Tile or Abyss draw
+            System.out.print(tiles[i][j] + " ");
             tiles[i][j].drawMe(gc);
          }
+         System.out.print("\n");
       }
+      System.out.println("\n");
    }
 
    // Method to draw the mechanisms in the level

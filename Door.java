@@ -12,25 +12,19 @@ import java.util.HashSet;
 import java.util.Set;
 public class Door extends Mechanism 
 {
-    LoadLevel ll;
 
-   public Door(String property, boolean activated, int x, int y, int endX, int endY, Color myColor, int associatedMechanisms)
-   {
-      super(property, activated, x, y, endX, endY, myColor,associatedMechanisms);
-   }
 
     //feature/jacob contructor
     public Door(String property, boolean activated, int x, int y, int endX, int endY, Color myColor, int associatedMechanisms, LoadLevel ll)
     {
-        super(property, activated, x, y, endX, endY, myColor,associatedMechanisms);
-        this.ll = ll;
+        super(property, activated, x, y, endX, endY, myColor,associatedMechanisms, ll);
     }
 
     @Override
     public void performFunction() {
 
-        ll.setCurrentRoomNumber(Integer.parseInt(getProperty()));
-        System.out.print(ll.getCurrentRoomNumber());
+        getLL().setCurrentRoomNumber(Integer.parseInt(getProperty()));
+        System.out.print(getLL().getCurrentRoomNumber());
     }
 
     public String toString()
