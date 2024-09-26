@@ -221,6 +221,7 @@ public class LoadLevel
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
                tempMechanismArray.add(temp);
             }
+            
             //juke box
             else if(parts[0].equals("J"))
             {
@@ -228,6 +229,12 @@ public class LoadLevel
                temp = new Jukebox(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this);
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
                tempMechanismArray.add(temp);
+            }
+            
+            //Wall
+            else if(parts[0].equals("W"))
+            {
+                tempMechanismArray.add(new Wall(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this));
             }
          
          

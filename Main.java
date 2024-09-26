@@ -30,7 +30,7 @@ public class Main extends Application {
    private boolean paused = false; // Track if the game is paused
    private int selectedOption = 0; // Track the selected menu option
 
-   private static final int INITIAL_ZACK_X = 400; // Starting X position
+   private static final int INITIAL_ZACK_X = 300; // Starting X position
    private static final int INITIAL_ZACK_Y = 400; // Starting Y position
 
    public static void main(String[] args) {
@@ -44,7 +44,7 @@ public class Main extends Application {
 
       ll = new LoadLevel();
       tiles = null; // Initially set to null until the game starts
-      zack = new Zack(400, 400, Color.BLUE); // Initial position and color
+      zack = new Zack(INITIAL_ZACK_X, INITIAL_ZACK_Y, Color.BLUE); // Initial position and color
 
       Pane root = new Pane(canvas); // Use Pane to hold the Canvas
       Scene scene = new Scene(root, 720, 720);
