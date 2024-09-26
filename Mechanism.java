@@ -25,17 +25,28 @@ public abstract class Mechanism extends GameObject
    //store the array value that mechanism is apart of
    private int associatedMechanisms;
 
+   private LoadLevel ll;   //store ll
+
    //takes in a property which is specific to each mechanism, the starting and ending x,y, color of object, and the int value of the mechanisms that are associated with the array
-   public Mechanism(String property, boolean activated, int x, int y, int endX, int endY, Color myColor, int associatedMechanisms)
+   public Mechanism(String property, boolean activated, int x, int y, int endX, int endY, Color myColor, int associatedMechanisms, LoadLevel ll)
    {
       super(x, y, endX, endY, myColor); // Call parent constructor
+      this.ll = ll;
       this.property = property;
       this.activated = activated;
       this.associatedMechanisms = associatedMechanisms;
    }
 
 
-   
+   //loadlevel get/set
+   public LoadLevel getLL()
+   {
+      return ll;
+   }
+
+
+
+   //stores whether the
    public boolean isActive()
    {
       return activated;
@@ -77,4 +88,8 @@ public abstract class Mechanism extends GameObject
    public abstract String toString();
 
    public abstract void drawMe(GraphicsContext gc);
+
+   //abstract method to perform the functoin of each mechanism
+   //i.e -- do nothing for wall, but for door, read in property and go to next room
+   public abstract void performFunction();
 }

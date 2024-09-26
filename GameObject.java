@@ -41,12 +41,7 @@ public abstract class GameObject
     //public abstract void draw();
 
 
-    //Absract methods to implement:
-    /*
-    draw()
-    getLinkedObjectsList()	//returns linkedObjects Arraylist
-    setLinkedObjectList(ArrayList linkedObjectIn	)	//on second loop, 
-    */
+
     
     /* add a method for drawing/graphics? */
     

@@ -16,9 +16,9 @@ import java.util.Set;
 //Spikes usually occupy three consecutive tiles and can be oriented horizontally or vertically 
 public class Spike extends Mechanism
 {
-    public Spike(String property, boolean activated, int x, int y, int endX, int endY, Color myColor, int temp)
+    public Spike(String property, boolean activated, int x, int y, int endX, int endY, Color myColor, int associatedMechanisms, LoadLevel ll)
     {
-        super(property, activated, x, y, endX, endY, myColor,temp);
+        super(property, activated, x, y, endX, endY, myColor,associatedMechanisms, ll);
     }
     
         
@@ -51,5 +51,11 @@ public class Spike extends Mechanism
     {
 
         return " ";
+    }
+
+    //do nothing for spike
+    public void performFunction()
+    {
+
     }
 }

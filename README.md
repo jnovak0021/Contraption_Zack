@@ -85,10 +85,11 @@ Item
 Game Object Legend
 **********************************************************************************************************************************
 
-Abyss: 0 
+Abyss: 0 s
 Floor: 1
 Wall: 2
 Door: 3
+    property: the next room that door is linked to 
 Water: 4
 
 Stanchion: 
