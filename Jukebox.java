@@ -32,6 +32,11 @@ public class Jukebox extends Mechanism
 
     }
 
+    @Override
+    public void performFunction() {
+
+    }
+
     public void drawMe(GraphicsContext gc) {
         // Width and height based on the start (top-left) and end (bottom-right) coordinates
         double width = getEndX() - getX();

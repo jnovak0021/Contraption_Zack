@@ -213,10 +213,11 @@ public class LoadLevel
          
          
             //if statement to determine which mechanism
+            //Door
             if(parts[0].equals("3"))
             {
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
-               temp = new Door(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]));
+               temp = new Door(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this);
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
                tempMechanismArray.add(temp);
             }
@@ -267,6 +268,7 @@ public class LoadLevel
    public void setCurrentRoomNumber(int currentRoomNumber)
    {
       this.currentRoomNumber = currentRoomNumber;
+
    }
 
    //method to take in a level at index i and to

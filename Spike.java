@@ -52,4 +52,10 @@ public class Spike extends Mechanism
 
         return " ";
     }
+
+    //do nothing for spike
+    public void performFunction()
+    {
+
+    }
 }

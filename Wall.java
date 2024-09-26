@@ -41,4 +41,6 @@ public class Wall extends Mechanism
     public void drawMe(GraphicsContext gc) {
 
     }
+    @Override
+    public void performFunction(){}
 }

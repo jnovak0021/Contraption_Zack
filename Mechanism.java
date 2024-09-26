@@ -35,7 +35,8 @@ public abstract class Mechanism extends GameObject
    }
 
 
-   
+
+   //stores whether the
    public boolean isActive()
    {
       return activated;
@@ -77,4 +78,8 @@ public abstract class Mechanism extends GameObject
    public abstract String toString();
 
    public abstract void drawMe(GraphicsContext gc);
+
+   //abstract method to perform the functoin of each mechanism
+   //i.e -- do nothing for wall, but for door, read in property and go to next room
+   public abstract void performFunction();
 }
