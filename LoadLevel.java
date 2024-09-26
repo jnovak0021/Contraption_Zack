@@ -48,8 +48,6 @@ public class LoadLevel
          associatedMechanisms[i] = new ArrayList<Mechanism>();
       }
 
-      System.out.println("size: " +associatedMechanisms.length);
-
       rooms = new ArrayList<RoomObject>();
       //call readFile method to load the data into the level
       readFile();
@@ -146,6 +144,7 @@ public class LoadLevel
                 }
             }
          }
+         //for printing all rooms besides room 0
          else
          {
             //System.out.println(rows + " " + columns); 
@@ -159,17 +158,25 @@ public class LoadLevel
                   //decision tree to determine which type of object to create based off int value read in.
                   if( currentIndex == 1)
                   {
-                     //temp2d[i][j] = new Floor(i,j,c, true);
-                     temp2d[i][j] = new Floor(i*50, j*50, i*50+50, j*50+50, c, true); 
+                     temp2d[i][j] = new Floor(i * 80, j * 80, i * 80 + 80, j * 80 + 80, primaryColor, true);
                   }
                   //edge case: if no matching values, make it abyss
                   else 
                   {
-                     //temp2d[i][j] = (new Abyss(i,j,Color.BLACK, false));
-                     temp2d[i][j] = new Abyss(i*50, j*50, i*50+50, j*50+50, Color.BLACK, false); 
+                     temp2d[i][j] = new Abyss(i * 80, j * 80, i * 80 + 80, j * 80 + 80, Color.BLACK, true);
                   }
                }
             }
+         }
+
+
+         for(int i = 0; i < rows; i++)
+         {
+            for(int j = 0; j < columns; j++) {
+            System.out.print(temp2d[i][j] + " ");
+
+            }
+            System.out.print("\n");
          }
             
          //read in the GameObject array at the end
@@ -311,67 +318,3 @@ public class LoadLevel
 
 }
 
-
-/*
- * Class RoomObject -- stores the content read in by each individual file
- * Member Variables:
- *    contains a 2d array list of the game tiles
- *    contains an arraylist of GameObjects that represnt things such as buttons...
- * methods: 
- *    accessor mutators for the 2d array and arraylist of GameObjects
-*/
-class RoomObject
-{
-   //2d array list of the game tiles
-   private Tile [][] gameBoard2d;
-   //arraylist of GameObjects that represnt things such as buttons...
-   private ArrayList<Mechanism> mechanismArray;
-
-
-
-   //accessors and mutator for gameBoard2dArray variables
-   public Tile[][] getGameBoard2d()
-   {
-      return gameBoard2d;
-   }
-   public void setGameBoard2d(Tile[][] gameBoard2d)
-   {
-      this.gameBoard2d = gameBoard2d;
-   }
-
-   //Mechanism accesor, mutator
-   public ArrayList<Mechanism> getRoomMechanismArray()
-   {
-      return mechanismArray;
-   }
-   
-   //mutator
-   public void setRoomMechanismArray(ArrayList<Mechanism> mechanismArray)
-   {
-      this.mechanismArray = mechanismArray;
-   }
-   
-   //to string
-   public String toString()
-   {
-      String temp = "Room:\n";
-      temp += "tile\n";
-      for ( int i = 0; i < gameBoard2d.length; i++)
-      {
-         for (int j = 0; j < gameBoard2d[i].length; j++)
-         {
-            temp += gameBoard2d[i][j] + " ";
-         }
-         temp += "\n";
-      }
-      temp += "\n\n";
-      
-      //print mechanism array
-      for ( int i = 0; i < mechanismArray.size(); i++ )
-      {
-         temp += mechanismArray.get(i).toString() + " ";
-      }
-      temp += "\n";
-      return temp;
-   }
-}

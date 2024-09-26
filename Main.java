@@ -78,13 +78,8 @@ public class Main extends Application {
       // Loop over tiles and call drawMe
       for(int i = 0; i < tiles.length; i++) {
          for (int j = 0; j < tiles[i].length; j++) {
-                // Call Tile or Abyss draw
-            tiles[i][j].drawMe(gc);
-         
-                // Collision detection
-            if (tiles[i][j].collides(zack.getX(), zack.getY())) {
-               tiles[i][j].drawMe(gc, Color.YELLOW);
-            }
+             // Call Tile or Abyss draw
+             tiles[i][j].drawMe(gc);
          }
       }
    }
@@ -226,9 +221,9 @@ public class Main extends Application {
                 // Reset Zack's position directly
                 zack.setX(INITIAL_ZACK_X);
                 zack.setY(INITIAL_ZACK_Y);
-                tiles = ll.getRoomTiles(0); // Restart from room 0
-                mechanisms = ll.getRoomMechanisms(0);  //load the mechanisms
-                ll.setCurrentRoomNumber(0); // Reset room number
+                tiles = ll.getRoomTiles(1); // Restart from room 0
+                mechanisms = ll.getRoomMechanisms(1);  //load the mechanisms
+                ll.setCurrentRoomNumber(1); // Reset room number
                 
                 //call resetlevel from loadLevel
                 ll.resetLevel();
