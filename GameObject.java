@@ -35,14 +35,7 @@ public abstract class GameObject
         this.myColor = myColor;
     }
 
-    //parent constructor
-    //Dorians -- made to accept color 
-    public GameObject(int x, int y, Color myColor)
-    {
-       this.x = x;
-       this.y = y;
-       this.myColor = myColor;
-    }
+
 
 
     //public abstract void draw();
@@ -83,7 +76,7 @@ public abstract class GameObject
     public void setX(int newX)
     {
         x = newX;
-        endX = newX + 40; // Update endX
+        endX = newX + 80; // Update endX
     }
 
     public int getY()
@@ -93,7 +86,7 @@ public abstract class GameObject
     public void setY(int newY)
     {
         y = newY;
-        endY = newY + 40; // Update endY
+        endY = newY + 80; // Update endY
     }
 
     public int getEndX()

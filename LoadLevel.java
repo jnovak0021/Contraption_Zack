@@ -34,11 +34,11 @@ public class LoadLevel
    private ArrayList<Mechanism> [] associatedMechanisms;
 
    //list of RoomObject that is read in using privateReadFile
-   private ArrayList<RoomObject> rooms;
+   ArrayList<RoomObject> rooms;
 
    //store color of tiles in level
    Color primaryColor, secondaryColor;
-   
+
    //constructur that calls readFile to load in the game objects
    public LoadLevel()
    {
@@ -48,137 +48,130 @@ public class LoadLevel
          associatedMechanisms[i] = new ArrayList<Mechanism>();
       }
 
+      System.out.println("size: " +associatedMechanisms.length);
+
       rooms = new ArrayList<RoomObject>();
       //call readFile method to load the data into the level
       readFile();
    }
 
-   
+
    //method to read in each room level
    //for loop that calls privatereadFileMethod for each room in level 1
- 
+
    public void readFile()
    {
-     
+
       //note -- this needs to be changed later when all levles exist
-      //loop through each of the 10 rooms 
+      //loop through each of the 10 rooms
       for( int i = 0; i < 2; i++ )
       {
          //set index of arrayIn to return value of privateReadFile
          System.out.println("reading in file " + i);
-         
+
          //get room color
          setRoomColor();
          rooms.add(privateReadFile("room" + i + ".txt"));
-       
+
          currentRoomNumber++; //increment currentRoomNUmber for specifics on color
-      } 
+      }
       //reset currentRoomNumber
       currentRoomNumber = 0;
 
    }
-   
-   //private readFile method to load each room  
-   //returns a RoomObject that contains the 2darray and the tiles 
+
+   //private readFile method to load each room
+   //returns a RoomObject that contains the 2darray and the tiles
    private RoomObject privateReadFile(String roomFileName)
    {
       //RoomObject to return to list
       RoomObject tempRoomObject = new RoomObject();
-      
+
       //color object to store the color of the tiles in the level
       Color c;
 
       //num rows and columns in the tile array
       int rows, columns;
-      
+
       //temp 2d array of ints to hold values
       Tile [][] temp2d;
-      
+
       //temp ArrayList of GameObjects
       ArrayList <Mechanism> tempMechanismArray = new ArrayList<Mechanism>();
-         
-      
+
+
       try   //FileNotFoundException
       {
          //read in file
          Scanner scanner = new Scanner(new File(roomFileName));
-         
+
          c = Color.GREEN;
-         
+
          //System.out.println("color: " + c);   //for checking color read in
          rows = scanner.nextInt();
-      
+
          columns = scanner.nextInt();
 
          temp2d = new Tile[rows][columns];
-         
+
          //if the current room number is 0, alternate tile colors
          if(currentRoomNumber == 0)
          {
-            // System.out.println(rows + " " + columns); 
-            for (int i = 0; i < rows; i++) 
+            // System.out.println(rows + " " + columns);
+            for (int i = 0; i < rows; i++)
             {
-                for (int j = 0; j < columns; j++) 
+                for (int j = 0; j < columns; j++)
                 {
                     int currentIndex = scanner.nextInt();
-            
+
                     // ADD CASES HERE FOR CREATING TILE OBJECTS
                     // decision tree to determine which type of object to create based off int value read in.
-                    if (currentIndex == 1) 
+                    if (currentIndex == 1)
                     {
                         // Alternate colors
                         if ((i + j) % 2 == 0) // Corrected: Parentheses around (i + j)
                         {
                             temp2d[i][j] = new Floor(i * 80, j * 80, primaryColor);
-                        } 
-                        else 
+                        }
+                        else
                         {
                             temp2d[i][j] = new Floor(i * 80, j * 80, secondaryColor);
                         }
-                    } 
+                    }
                     // Edge case: if no matching values, make it abyss
-                    else 
+                    else
                     {
                         temp2d[i][j] = new Abyss(i * 80, j * 80, Color.BLACK);
                     }
                 }
             }
          }
-         //for printing all rooms besides room 0
          else
          {
-            //System.out.println(rows + " " + columns); 
+            //System.out.println(rows + " " + columns);
             for(int i = 0; i < rows; i++)
             {
                for(int j = 0; j < columns; j++)
                {
                   int currentIndex = scanner.nextInt();
-   
+
                   //ADD CASES HERE FOR CREATING TILE OBJECTS
                   //decision tree to determine which type of object to create based off int value read in.
                   if( currentIndex == 1)
                   {
-                     temp2d[i][j] = new Floor(i * 80, j * 80,  primaryColor);
+                     //temp2d[i][j] = new Floor(i,j,c, true);
+                     temp2d[i][j] = new Floor(i*80, j*80, c);
                   }
                   //edge case: if no matching values, make it abyss
-                  else 
+                  else
                   {
-                     temp2d[i][j] = new Abyss(i * 80, j * 80,  Color.BLACK);
+                     //temp2d[i][j] = (new Abyss(i,j,Color.BLACK, false));
+                     temp2d[i][j] = new Abyss(i*80, j*80, Color.BLACK);
                   }
                }
             }
          }
 
-
-         for(int i = 0; i < rows; i++)
-         {
-            for(int j = 0; j < columns; j++) {
-            System.out.print(temp2d[i][j] + " ");
-
-            }
-            System.out.print("\n");
-         }
-            
          //read in the GameObject array at the end
          while(scanner.hasNext())
          {
@@ -193,7 +186,7 @@ public class LoadLevel
 
 
 
-            
+
             //if statement to determine which mechanism
             if(parts[0].equals("3"))
             {
@@ -216,29 +209,29 @@ public class LoadLevel
             System.out.println();
             //add mechanism to its correct index in associatedMechanisms
             associatedMechanisms[Integer.parseInt(parts[8])].add(temp);
-               
+
          }
          System.out.println(tempMechanismArray.get(0).toString());
-         
+
          //set member variables of Roomobject
          tempRoomObject.setGameBoard2d(temp2d);
          tempRoomObject.setRoomMechanismArray(tempMechanismArray);
-         
+
          //close scanner
          scanner.close();
-         
-         
-      
+
+
+
       }
       catch( FileNotFoundException e)
       {
          System.out.println("File Not Found");
       }
       return tempRoomObject;
-      
-      
+
+
    }
-   
+
    //get current room number
    public int getCurrentRoomNumber()
    {
@@ -256,7 +249,7 @@ public class LoadLevel
    {
       return rooms.get(i).getGameBoard2d();
    }
-   
+
    //method to return all of the mechanisms that are connected across the entire game
    public ArrayList<Mechanism> getRoomMechanisms(int roomNumber)
    {
@@ -269,7 +262,7 @@ public class LoadLevel
    {
       return associatedMechanisms[i];
    }
-   
+
 
 
    //print out the whole game board
@@ -282,8 +275,8 @@ public class LoadLevel
          System.out.println(rooms.get(i).toString());
       }
    }
-   
-   
+
+
    /*
    colors
    room 1
@@ -307,8 +300,8 @@ public class LoadLevel
          secondaryColor = Color.rgb(0,0,0,1);
       }
    }
-   
-   
+
+
    //method to reset all game data -- i.e reread it in
    public void resetLevel()
    {
@@ -317,4 +310,5 @@ public class LoadLevel
    }
 
 }
+
 
