@@ -21,7 +21,7 @@ public class Abyss extends Tile
    
    public String toString()
    {
-      return "Abyss";
+      return "Abyss:" + getX() + ":" + getY() + "\t" ;
    }
 
 
@@ -31,7 +31,7 @@ public class Abyss extends Tile
    {
       //draw a black rectangle
       gc.setFill(getMyColor());
-      gc.fillRect(getY(),getX(), width, length);
+      gc.fillRect(getX(),getY(), width, length);
 
    }
 

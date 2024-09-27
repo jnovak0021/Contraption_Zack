@@ -14,15 +14,20 @@ public class Door extends Mechanism
 {
 
 
-   public Door(String property, boolean activated, int x, int y, int endX, int endY, Color myColor, int associatedMechanisms)
-   {
-      super(property, activated, x, y, endX, endY, myColor,associatedMechanisms);
-   }
+    //feature/jacob contructor
+    public Door(String property, boolean activated, int x, int y, int endX, int endY, Color myColor, int associatedMechanisms, LoadLevel ll)
+    {
+        super(property, activated, x, y, endX, endY, myColor,associatedMechanisms, ll);
+    }
 
+    @Override
+    public void performFunction() {
 
+        getLL().setCurrentRoomNumber(Integer.parseInt(getProperty()));
+        System.out.print(getLL().getCurrentRoomNumber());
+    }
 
-
-      public String toString() 
+    public String toString()
    {
       return "Door{" +
               "property='" + getProperty() + '\'' + // Adjust according to your propertgetY() type

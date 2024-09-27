@@ -85,15 +85,21 @@ Item
 Game Object Legend
 **********************************************************************************************************************************
 
-Abyss: 0 
+Abyss: 0 s
 Floor: 1
-Wall: 2
+
 Door: 3
+    property: the next room that door is linked to 
+Water: 4
+FloatingTile: F
+Wall: W
+
+Stanchion: 
+
    property: room linked to
 
 
- 
-2 Wall 3 Door(arrow) 4 Stanchion 5 River
+
 
 Mechanisms: Spikes Button(sqaure) Spring Trap Button (circle) Broken Pipe Lift Tesla Gate Switch (wall) Screw (wall) Treadmill Pulleys (wall)
 
@@ -107,15 +113,24 @@ LoadLevel API
 LoadLevel reads in the file, stores and creates the objects
 
 //To use in another class use
+//this calls the readFile method which stores all the data about the game
 LoadLevel ll = new LoadLevel();
 
-//to store all data for level 1 of contraption zack
-ll.readFile();
 
 //to get the tile objects of a specific level
 ll.getRoomTiles(int roomNumber);
 
 //to get the mechanisms of a specific level
+//returns ArrayList<Mechanism>
 ll.getRoomMechanisms(int roomNumber);
 
+//to get the room number stored by LoadLevel
+ll.getCurrentRoomNumber()
 
+//to update the current room number stored by LoadLevel
+ll.setCurrentRoomNumber(int currentRoomNumber)
+
+//to get all the mechanisms that are associated with a Mechanism
+//use this on mechanism triggers
+//returns ArrayList<Mechanism>
+ll.getAssociatedMechanisms(int i)	

@@ -55,12 +55,14 @@ public class LoadLevel
       readFile();
    }
 
+   //method to save all of the rooms in the game to memory
    public ArrayList<RoomObject> saveAllRoomsState() {
       System.out.println("inside.");
    
       return rooms;
    }
-   
+
+   //method to go through and reload all of the rooms in the game back from memory
    public void loadState(ArrayList<RoomObject> savedRooms) {
     // Clear the current rooms
       rooms.clear();
@@ -149,17 +151,17 @@ public class LoadLevel
                         // Alternate colors
                      if ((i + j) % 2 == 0) // Corrected: Parentheses around (i + j)
                      {
-                        temp2d[i][j] = new Floor(i * 80, j * 80, primaryColor);
+                        temp2d[i][j] = new Floor(j * 80, i * 80, primaryColor);
                      }
                      else
                      {
-                        temp2d[i][j] = new Floor(i * 80, j * 80, secondaryColor);
+                        temp2d[i][j] = new Floor(j * 80, i * 80, secondaryColor);
                      }
                   }
                     // Edge case: if no matching values, make it abyss
                   else
                   {
-                     temp2d[i][j] = new Abyss(i * 80, j * 80, Color.BLACK);
+                     temp2d[i][j] = new Abyss(j * 80, i * 80, Color.BLACK);
                   }
                }
             }
@@ -178,12 +180,12 @@ public class LoadLevel
                   if( currentIndex == 1)
                   {
                      //temp2d[i][j] = new Floor(i,j,c, true);
-                     temp2d[i][j] = new Floor(i*80, j*80, c);
+                     temp2d[i][j] = new Floor(j*80, i*80, c);
                   }
                   //draw water
                   else if( currentIndex == 4)
                   {
-                     temp2d[i][j] = new Water(i*80, j*80, Color.BLUE);
+                     temp2d[i][j] = new Water(j*80, i*80, Color.BLUE);
 
                   }
 
@@ -191,7 +193,7 @@ public class LoadLevel
                   else
                   {
                      //temp2d[i][j] = (new Abyss(i,j,Color.BLACK, false));
-                     temp2d[i][j] = new Abyss(i*80, j*80, Color.BLACK);
+                     temp2d[i][j] = new Abyss(j*80, i*80, Color.BLACK);
                   }
                }
             }
@@ -213,20 +215,33 @@ public class LoadLevel
          
          
             //if statement to determine which mechanism
+            //Door
             if(parts[0].equals("3"))
             {
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
-               temp = new Door(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]));
+               temp = new Door(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this);
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
                tempMechanismArray.add(temp);
             }
+            
             //juke box
             else if(parts[0].equals("J"))
             {
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
-               temp = new Jukebox(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]));
+               temp = new Jukebox(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this);
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
                tempMechanismArray.add(temp);
+            }
+            
+            //Wall
+            else if(parts[0].equals("W"))
+            {
+                tempMechanismArray.add(new Wall(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this));
+            }
+            //floatingTile
+            else if(parts[0].equals("F"))
+            {
+               tempMechanismArray.add(new FloatingTile(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this));
             }
          
          
@@ -267,6 +282,7 @@ public class LoadLevel
    public void setCurrentRoomNumber(int currentRoomNumber)
    {
       this.currentRoomNumber = currentRoomNumber;
+
    }
 
    //method to take in a level at index i and to

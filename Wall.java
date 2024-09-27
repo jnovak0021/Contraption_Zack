@@ -10,35 +10,34 @@ import javafx.stage.Stage;
 
 import java.util.HashSet;
 import java.util.Set;
+
+
 public class Wall extends Mechanism
 {
-
-
-    public Wall(String property, boolean activated, int x, int y, int endX, int endY, Color myColor, int associatedMechanisms)
+    // Constructor
+    //public Wall(int x, int y, int width, int length)
+    public Wall(String property, boolean activated, int x, int y, int endX, int endY, Color myColor, int associatedMechanisms, LoadLevel ll)
     {
-        super(property, activated, x, y, endX, endY, myColor,associatedMechanisms);
+        super(property, activated, x, y, endX, endY, myColor, associatedMechanisms, ll);
     }
-
-
-
-
-    public String toString()
-    {
-        return "Wall{" +
-                "property='" + getProperty() + '\'' + // Adjust according to your propertgetY() type
-                "activate=" + isActive() +
-                ", x=" + getX() +
-                ", y=" + getY() +
-                ", endX=" + getEndX() +
-                ", endY=" + getEndY() +
-                ", color=" + getColor() +
-                '}';
+    
+    
+    public void drawMe(GraphicsContext gc){
+        // Print position information (uncomment if needed)
+        // System.out.print(" [x-" + getX() + " y-" + getY() + "]");
+   
+        // Set fill color for the tile
+        gc.setFill(getMyColor());
+        // Draw the main tile rectangle
+        gc.fillRect(getX(), getY(), getEndX()-getX(), getEndY()-getY());
+   
     }
-
-
-    @Override
-    // Method to draw the arrow within a rectangle defined bgetY() (x, y) and (endX, endY)
-    public void drawMe(GraphicsContext gc) {
-
+    
+    public String toString(){
+        return "";
+    }
+    
+    public void performFunction(){
+       //no function
     }
 }
