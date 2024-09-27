@@ -83,12 +83,9 @@ public class Main extends Application {
       for (int i = 0; i < tiles.length; i++) {
          for (int j = 0; j < tiles[i].length; j++) {
             // Call Tile or Abyss draw
-            System.out.print(tiles[i][j] + " ");
             tiles[i][j].drawMe(gc);
          }
-         System.out.print("\n");
       }
-      System.out.println("\n");
    }
 
    // Method to draw the mechanisms in the level
@@ -168,6 +165,7 @@ public class Main extends Application {
          switch (selectedOption) {
             case 0: // Start Game
                inMenu = false; // Start the game
+               ll.setCurrentRoomNumber(0);
                tiles = ll.getRoomTiles(0); // Get the first room tiles
                mechanisms = ll.getRoomMechanisms(0); // Load the mechanisms
                System.out.println("Starting the game, loading first room.");

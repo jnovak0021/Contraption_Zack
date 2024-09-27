@@ -31,26 +31,40 @@ public class Zack extends GameObject {
     private boolean collides(Tile[][] tiles, ArrayList <Mechanism> mechs)
     {
 
+        for (int i = 0; i < mechs.size(); i++){
+            GameObject current = mechs.get(i);
+            boolean hit = overlap(current);
+            //check if the current object is a wall and if it collides
+            if(current instanceof Wall && hit ) {
+                System.out.println("WAL");
+                return true;
+            }
+            //check if object is a jukebox and if it collides
+            else if(current instanceof Jukebox && hit){
+                System.out.println("Juke");
+                return true;
+            }
+            else if(current instanceof FloatingTile)
+            {
+                System.out.println("FLOAT TILE");
+                return false;
+            }
+            //for all objects that Zack can collide with, call performFunction method
+            else if(hit)
+            {
+                System.out.println("HIT CODE");
+                mechs.get(i).performFunction(); //set that the mechanism is being collided with
+            }
+
+
+        }
+
         //check
         for (int i = 0; i < tiles.length; i++){
             for (int j = 0; j < tiles[i].length; j++) {
                 if(overlap(tiles[i][j]) && tiles[i][j] instanceof Abyss)
                     return true;
             } 
-        }
-
-
-        for (int i = 0; i < mechs.size(); i++){
-            GameObject current = mechs.get(i);
-            boolean hit = overlap(current);
-            if(current instanceof Wall && hit ) {
-                //mechs.get(i).performFunction(); //set that the mechanism is being collided with
-                return true;
-            }
-            if(current instanceof Jukebox && hit){
-                return true;
-            }
-
         }
 
         return false;

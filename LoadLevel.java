@@ -236,6 +236,11 @@ public class LoadLevel
             {
                 tempMechanismArray.add(new Wall(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this));
             }
+            //floatingTile
+            else if(parts[0].equals("F"))
+            {
+               tempMechanismArray.add(new FloatingTile(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this));
+            }
          
          
             System.out.println("adding mechanism to \t" + Integer.parseInt(parts[8]));
