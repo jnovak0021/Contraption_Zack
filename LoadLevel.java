@@ -55,12 +55,14 @@ public class LoadLevel
       readFile();
    }
 
+   //method to save all of the rooms in the game to memory
    public ArrayList<RoomObject> saveAllRoomsState() {
       System.out.println("inside.");
    
       return rooms;
    }
-   
+
+   //method to go through and reload all of the rooms in the game back from memory
    public void loadState(ArrayList<RoomObject> savedRooms) {
     // Clear the current rooms
       rooms.clear();
