@@ -25,13 +25,21 @@ public class Main extends Application {
    private ArrayList<RoomObject> savedRooms;
    private int savedZackY;
    private int savedZackX;
+   private LoadLevel savedLL = new LoadLevel();
+
 
    private boolean inMenu = true; // Track if we're in the main menu
    private boolean paused = false; // Track if the game is paused
    private int selectedOption = 0; // Track the selected menu option
 
-   private static final int INITIAL_ZACK_X = 300; // Starting X position
-   private static final int INITIAL_ZACK_Y = 400; // Starting Y position
+   private int INITIAL_ZACK_X = 300; // Starting X position
+   private int INITIAL_ZACK_Y = 540; // Starting Y position
+   
+   private int mouseX = 0;
+   private int mouseY = 0;
+   
+   private int roomCount = 0;
+
 
    public static void main(String[] args) {
       launch(args);
@@ -41,26 +49,32 @@ public class Main extends Application {
    public void start(Stage primaryStage) {
       canvas = new Canvas(720, 720);
       gc = canvas.getGraphicsContext2D();
-
+   
       ll = new LoadLevel();
       tiles = null; // Initially set to null until the game starts
       zack = new Zack(INITIAL_ZACK_X, INITIAL_ZACK_Y, Color.BLUE); // Initial position and color
-
+   
       Pane root = new Pane(canvas); // Use Pane to hold the Canvas
       Scene scene = new Scene(root, 720, 720);
-
+   
       scene.setOnKeyPressed(event -> pressedKeys.add(event.getCode()));
       scene.setOnKeyReleased(event -> pressedKeys.remove(event.getCode()));
-
+   
       AnimationTimer animationTimer =
               new AnimationTimer() {
                  @Override
                  public void handle(long now) {
-
+                 
                     //get current tiles and mechanism
                     tiles = ll.getRoomTiles(ll.getCurrentRoomNumber());
                     mechanisms = ll.getRoomMechanisms(ll.getCurrentRoomNumber());
-
+                    
+                    scene.setOnMouseMoved(
+                       event -> {
+                          mouseX = (int) event.getX();
+                          mouseY = (int) event.getY();
+                       });
+                 
                     if (inMenu) {
                        updateMenu();
                     } else if (paused) {
@@ -72,7 +86,7 @@ public class Main extends Application {
                  }
               };
       animationTimer.start();
-
+   
       primaryStage.setTitle("Contraption Zack");
       primaryStage.setScene(scene);
       primaryStage.show();
@@ -99,7 +113,8 @@ public class Main extends Application {
    private void draw() {
       // Clear the canvas
       gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-
+      
+   
       if (inMenu) {
          drawMenu();
       } else if (paused) {
@@ -110,22 +125,26 @@ public class Main extends Application {
          drawMechanisms();
          zack.drawMe(gc);
       }
+      
+      gc.setFill(Color.WHITE);
+      gc.setFont(javafx.scene.text.Font.font(20));
+      gc.fillText("Mouse X: " + mouseX + ", Mouse Y: " + mouseY, 10, 30);
    }
 
    private void drawMenu() {
       // Draw background color
       gc.setFill(Color.BLACK);
       gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-
+   
       // Draw title
       gc.setFill(Color.WHITE);
       gc.setFont(javafx.scene.text.Font.font(40)); // Title font size
       String title = "Contraption Zack";
       double titleWidth = gc.getFont().getSize() * title.length() * 0.5; // Approximate width calculation
       gc.fillText(title, (canvas.getWidth() - titleWidth) / 2, 100); // Center title
-
+   
       // Draw menu options
-      String[] menuOptions = {"Start Game", "Load Game", "Exit Game"};
+      String[] menuOptions = {"Start Game", "Exit Game"};
       for (int i = 0; i < menuOptions.length; i++) {
          gc.setFill(i == selectedOption ? Color.YELLOW : Color.WHITE); // Highlight selected option
          double optionWidth = gc.getFont().getSize() * menuOptions[i].length() * 0.5; // Approximate width calculation
@@ -136,7 +155,7 @@ public class Main extends Application {
    private void drawPauseMenu() {
       gc.setFill(Color.BLACK);
       gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-
+   
       String[] pauseOptions = {"Resume", "Restart Area", "Restart Level", "Save", "Load", "Exit Game"};
       for (int i = 0; i < pauseOptions.length; i++) {
          gc.setFill(i == selectedPauseOption ? Color.YELLOW : Color.WHITE); // Highlight selected option
@@ -157,11 +176,11 @@ public class Main extends Application {
          }
          pressedKeys.remove(KeyCode.S); // Prevent rapid movement
       }
-
+   
       if (pressedKeys.contains(KeyCode.ENTER)) {
          // Only allow a single press to register
          pressedKeys.remove(KeyCode.ENTER);
-
+      
          switch (selectedOption) {
             case 0: // Start Game
                inMenu = false; // Start the game
@@ -170,11 +189,8 @@ public class Main extends Application {
                mechanisms = ll.getRoomMechanisms(0); // Load the mechanisms
                System.out.println("Starting the game, loading first room.");
                break;
-            case 1: // Load Game
-               // Functionality not implemented
-               System.out.println("Load Game option selected, but not functional.");
-               break;
-            case 2: // Exit Game
+         
+            case 1: // Exit Game
                System.exit(0); // Exit the game
                break;
          }
@@ -194,10 +210,10 @@ public class Main extends Application {
          }
          pressedKeys.remove(KeyCode.S); // Prevent rapid movement
       }
-
+   
       if (pressedKeys.contains(KeyCode.ENTER)) {
          pressedKeys.remove(KeyCode.ENTER); // Only allow a single press to register
-
+     
          switch (selectedPauseOption) {
             case 0: // Resume
                paused = false; // Exit the pause menu
@@ -225,17 +241,23 @@ public class Main extends Application {
                break;
             case 3: // Save
                paused = false;
-               savedRooms = ll.saveAllRoomsState();
+               savedLL = ll;
+               savedLL.setSavedRoom(ll.getCurrentRoomNumber());
+               
+               //savedRooms = ll.saveAllRoomsState();
                savedZackY = zack.getY();
                savedZackX = zack.getX();
                System.out.println("Saving Game.");
                break;
             case 4: // Load
                try {
+                  //ll = savedLL; 
                   paused = false;
-                  ll.loadState(savedRooms);
-                  zack.setX(savedZackX);
-                  zack.setY(savedZackY);
+                  //ll.loadState(savedRooms);
+                  zackPositionHandler(savedLL.getSavedRoom());
+                  ll.setCurrentRoomNumber(savedLL.getSavedRoom());
+                  System.out.println(savedLL.getSavedRoom());
+               
                   System.out.println("Loading Game.");
                } catch (Exception e) {
                   System.out.println("An error occurred while loading the game: " + e.getMessage());
@@ -248,13 +270,15 @@ public class Main extends Application {
                System.exit(0); // Exit the game
                break;
          }
+         
+         
       }
    }
 
    private void updateMovement() {
       int deltaX = 0;
       int deltaY = 0;
-
+   
       if (pressedKeys.contains(KeyCode.W)) {
          deltaY = -1; // Move up
       }
@@ -267,10 +291,10 @@ public class Main extends Application {
       if (pressedKeys.contains(KeyCode.D)) {
          deltaX = 1; // Move right
       }
-
+   
       // Zack handles movement
       zack.move(deltaX, deltaY, tiles, mechanisms);
-
+   
       // Check for pause input
       if (pressedKeys.contains(KeyCode.ESCAPE)) {
          paused = true; // Set the game to paused state
@@ -289,4 +313,57 @@ public class Main extends Application {
       }
       draw(); // Redraw the scene on each frame
    }
+   
+   public static void zackPositionHandler(int number) {
+      switch (number) {
+         case 0:
+            int INITIAL_ZACK_X = 300;
+            int INITIAL_ZACK_Y = 540;
+            break;
+         case 1:
+            INITIAL_ZACK_X = 400;
+            INITIAL_ZACK_Y = 660;
+            break;
+         case 2:
+            INITIAL_ZACK_X = 2;
+            INITIAL_ZACK_Y = 0;
+            break;
+         case 3:
+            INITIAL_ZACK_X = 3;
+            INITIAL_ZACK_Y = 0;
+            break;
+         case 4:
+            INITIAL_ZACK_X = 4;
+            INITIAL_ZACK_Y = 0;
+            break;
+         case 5:
+            INITIAL_ZACK_X = 5;
+            INITIAL_ZACK_Y = 0;
+            break;
+         case 6:
+            INITIAL_ZACK_X = 6;
+            INITIAL_ZACK_Y = 0;
+            break;
+         case 7:
+            INITIAL_ZACK_X = 7;
+            INITIAL_ZACK_Y = 0;
+            break;
+         case 8:
+            INITIAL_ZACK_X = 8;
+            INITIAL_ZACK_Y = 0;
+            break;
+         case 9:
+            INITIAL_ZACK_X = 9;
+            INITIAL_ZACK_Y = 0;
+            break;
+         case 10:
+            INITIAL_ZACK_X = 10;
+            INITIAL_ZACK_Y = 0;
+            break;
+         default:
+                // Handle out-of-range case if needed
+            break;
+      }
+   }
+   
 }

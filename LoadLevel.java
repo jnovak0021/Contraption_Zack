@@ -29,7 +29,7 @@ public class LoadLevel
 {
    //store the current room
    private int currentRoomNumber = 0;
-
+   private int savedRoom = 0;
    //associative array for the mechanisms -- 2d arraylist of Mechanisms where each index is a different associative number
    private ArrayList<Mechanism> [] associatedMechanisms;
 
@@ -349,6 +349,16 @@ public class LoadLevel
       //call readfile again
       readFile();
    }
+   
+   
+   public int getSavedRoom() {
+        return savedRoom;
+    }
+
+    // Setter for savedRoom
+    public void setSavedRoom(int savedRoom) {
+        this.savedRoom = savedRoom;
+    }
 
 }
 
