@@ -56,7 +56,8 @@ public class Main extends Application {
       tiles = null; // Initially set to null until the game starts
       zack = new Zack(INITIAL_ZACK_X, INITIAL_ZACK_Y, Color.BLUE); // Initial position and color
 
-      //crate clock
+
+         //crate clock
       Clock clock = new Clock();
 
       Pane root = new Pane(canvas); // Use Pane to hold the Canvas
@@ -89,7 +90,7 @@ public class Main extends Application {
                     }
                     draw(); // Redraw the scene on each frame
                     Duration elapsedTime = clock.getElapsedTime();
-                    System.out.println("Elapsed time: " + elapsedTime.toMillis() + " milliseconds");
+                    //System.out.println("Elapsed time: " + elapsedTime.toMillis() + " milliseconds");
                  }
               };
       animationTimer.start();

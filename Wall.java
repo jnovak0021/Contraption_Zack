@@ -32,9 +32,19 @@ public class Wall extends Mechanism
         gc.fillRect(getX(), getY(), getEndX()-getX(), getEndY()-getY());
    
     }
-    
-    public String toString(){
-        return "";
+
+    public String toString()
+    {
+        return "Wall{" +
+                "property='" + getProperty() + '\'' + // Adjust according to your propertgetY() type
+                "activate=" + isActive() +
+                ", x=" + getX() +
+                ", y=" + getY() +
+                ", endX=" + getEndX() +
+                ", endY=" + getEndY() +
+                ", color=" + getColor() +
+                '}';
+
     }
     
     public void performFunction(){

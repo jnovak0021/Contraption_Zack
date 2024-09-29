@@ -84,7 +84,7 @@ public class LoadLevel
 
       //note -- this needs to be changed later when all levles exist
       //loop through each of the 10 rooms
-      for( int i = 0; i < 10; i++ )
+      for( int i = 0; i < 2; i++ )
       {
          //set index of arrayIn to return value of privateReadFile
          System.out.println("reading in file " + i);
@@ -206,13 +206,15 @@ public class LoadLevel
             //temp variables
             char property;
             int x, y, endX, endY;
-            System.out.println("ADFLUHAD");
+            System.out.println("\n\n");
             //split up string read in by colons
             String[] parts = mechanismStr.split(":");
             Mechanism temp = null;
 
 
+            //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
 
+            System.out.println("part 0 \"" + parts[0] + "\"");
 
             //if statement to determine which mechanism
             //Door
@@ -224,7 +226,7 @@ public class LoadLevel
             }
 
             //juke box
-            else if(parts[0].equals("J")){
+            else if(parts[0].toUpperCase().equals("J")){
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
                temp = new Jukebox(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this);
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
@@ -232,38 +234,64 @@ public class LoadLevel
             }
 
             //Wall
-            else if(parts[0].equals("W")){
-                tempMechanismArray.add(new Wall(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this));
+            else if(parts[0].toUpperCase().equals("W")){
+               System.out.println(":L:L:L:L:L:L:L:L:L:L:L:L:L:L:L:L:L:L:L:");
+
+               //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
+               temp = new Wall(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this);
+               //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
+               tempMechanismArray.add(temp);
             }
-            
+
             //floatingTile
-            else if(parts[0].equals("F")){
-               tempMechanismArray.add(new FloatingTile(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this));
+            else if(parts[0].toUpperCase().equals("F")){
+               //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
+               temp = new FloatingTile(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this);
+               //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
+               tempMechanismArray.add(temp);
             }
-            
+
             //spike
-            else if(parts[0].equals("S")){
-               tempMechanismArray.add(new Spike(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this));
+            else if(parts[0].toUpperCase().equals("S")){
+               //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
+               temp = new Spike(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this);
+               //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
+               tempMechanismArray.add(temp);
             }
-            
+
             //button
-            else if(parts[0].equals("B")){
-               tempMechanismArray.add(new Button(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this));
+            else if(parts[0].toUpperCase().equals("B")){
+               //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
+               temp = new Button(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this);
+               //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
+               tempMechanismArray.add(temp);
             }
+            //floating tile
             else if(parts[0].equals("2"))
             {
-               tempMechanismArray.add(new FloatingTile(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this));
+               //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
+               temp = new FloatingTile(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this);
+               //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
+               tempMechanismArray.add(temp);
             }
             //srping
             else if(parts[0].equals("5"))
             {
-               tempMechanismArray.add(new Spring(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this));
+               //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
+               temp = new Spring(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this);
+               //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
+               tempMechanismArray.add(temp);
             }
             //timerdoor
             else if(parts[0].equals("6"))
             {
-               tempMechanismArray.add(new TimerDoor(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this));
+               //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
+               temp = new Spring(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this);
+               //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
+               tempMechanismArray.add(temp);
             }
+
+
             System.out.println(tempMechanismArray.get(tempMechanismArray.size()-1));
             System.out.println("adding mechanism to \t" + Integer.parseInt(parts[8]));
 
@@ -280,7 +308,14 @@ public class LoadLevel
          //close scanner
          scanner.close();
 
+         /*
+         System.out.println("\n\nMechs 1 \n\n\n");
 
+         for(int i=0; i < associatedMechanisms[1].size(); i++){
+            System.out.println(associatedMechanisms[1].get(i));
+         }
+         System.out.println("\n\nMechs 1 end \n\n\n");
+          */
 
       }
       catch( FileNotFoundException e)

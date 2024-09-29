@@ -77,7 +77,11 @@ public abstract class Mechanism extends GameObject
    
    public void activate()
    {
-       activated = !activated;
+       if(this.activated){
+          this.activated = false;
+       }
+       else
+          this.activated = true;
    }
 
    // Accessor and mutator for property

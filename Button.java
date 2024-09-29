@@ -23,21 +23,41 @@ public class Button extends Mechanism
     
         
     public void drawMe(GraphicsContext gc){
+
         //draw a simple square
         gc.setFill(getMyColor());
         gc.fillRect(getX(),getY(), getWidth(), getLength());
 
     }
 
-    public String toString(){
-        return " ";
+    public String toString()
+    {
+        return "Button{" +
+                "property='" + getProperty() + '\'' + // Adjust according to your propertgetY() type
+                "activate=" + isActive() +
+                ", x=" + getX() +
+                ", y=" + getY() +
+                ", endX=" + getEndX() +
+                ", endY=" + getEndY() +
+                ", color=" + getColor() +
+                '}';
+
     }
 
     //this method will be called from zack, and will activate/deactivate the correct spikes
     public void performFunction(){
         ArrayList <Mechanism> mechs = ll.getAssociatedMechanisms(associatedMechanisms);
+        System.out.println("MECHSSSSSSS");
+
         for(int i=0; i < mechs.size(); i++){
-            mechs.get(i).activate();//holy spirit activate
+            System.out.print(mechs.get(i)+ " ");
+            //dont activate other buttons
+            if(!(mechs.get(i) instanceof Button))
+                mechs.get(i).activate();//holy spirit activate
         }
+        System.out.println();
+
     }
 }
+
+//get int associatedMechanisms

@@ -26,6 +26,8 @@ public class Spike extends Mechanism
         if(isActive()){
             drawSpikeTrap(gc, Color.YELLOW);
         }
+        else
+            gc.clearRect(getX(), getEndY() - 20, 64, 20);
     }
     
     // Method to draw a spike trap with specified color
@@ -46,8 +48,18 @@ public class Spike extends Mechanism
         gc.fillPolygon(xPoints, yPoints, 3);
     }
 
-    public String toString(){
-        return " ";
+    public String toString()
+    {
+        return "Spike{" +
+                "property='" + getProperty() + '\'' + // Adjust according to your propertgetY() type
+                "activate=" + isActive() +
+                ", x=" + getX() +
+                ", y=" + getY() +
+                ", endX=" + getEndX() +
+                ", endY=" + getEndY() +
+                ", color=" + getColor() +
+                '}';
+
     }
 
     //do nothing for spike
