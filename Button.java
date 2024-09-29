@@ -47,7 +47,6 @@ public class Button extends Mechanism
     //this method will be called from zack, and will activate/deactivate the correct spikes
     public void performFunction(){
         ArrayList <Mechanism> mechs = ll.getAssociatedMechanisms(associatedMechanisms);
-        System.out.println("MECHSSSSSSS");
 
         for(int i=0; i < mechs.size(); i++){
             System.out.print(mechs.get(i)+ " ");
