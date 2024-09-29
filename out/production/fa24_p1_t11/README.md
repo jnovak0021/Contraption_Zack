@@ -87,12 +87,21 @@ Game Object Legend
 
 Abyss: 0 s
 Floor: 1
-
+FloatingTile: 2
 Door: 3
     property: the next room that door is linked to 
 Water: 4
-FloatingTile: F
+Spring: 5
+    property: the direction to spring zack
+        w: up
+        s: down
+        a: left
+        d: right
+TimerDoor: 6
 Wall: W
+Spike: S
+
+
 
 Stanchion: 
 

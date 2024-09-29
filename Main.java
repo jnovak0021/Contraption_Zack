@@ -11,6 +11,8 @@ import javafx.stage.Stage;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.*;
+import java.time.*;
+
 
 public class Main extends Application {
    private Set<KeyCode> pressedKeys = new HashSet<>();
@@ -47,15 +49,18 @@ public class Main extends Application {
 
    @Override
    public void start(Stage primaryStage) {
-      canvas = new Canvas(720, 720);
+      canvas = new Canvas(1368, 728);
       gc = canvas.getGraphicsContext2D();
    
       ll = new LoadLevel();
       tiles = null; // Initially set to null until the game starts
       zack = new Zack(INITIAL_ZACK_X, INITIAL_ZACK_Y, Color.BLUE); // Initial position and color
-   
+
+      //crate clock
+      Clock clock = new Clock();
+
       Pane root = new Pane(canvas); // Use Pane to hold the Canvas
-      Scene scene = new Scene(root, 720, 720);
+      Scene scene = new Scene(root, 1366, 728);
    
       scene.setOnKeyPressed(event -> pressedKeys.add(event.getCode()));
       scene.setOnKeyReleased(event -> pressedKeys.remove(event.getCode()));
@@ -83,6 +88,8 @@ public class Main extends Application {
                        updateMovement();
                     }
                     draw(); // Redraw the scene on each frame
+                    Duration elapsedTime = clock.getElapsedTime();
+                    System.out.println("Elapsed time: " + elapsedTime.toMillis() + " milliseconds");
                  }
               };
       animationTimer.start();
