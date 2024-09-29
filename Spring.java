@@ -57,22 +57,22 @@ public class Spring extends Mechanism
         double arrowHeight = halfHeight / 2;
 
         // Draw arrows based on the property (w = north, a = west, s = south, d = east)
-        if (property.equals("w")) { // North facing
+        if (property.equals("w") || property.equals("ww")) { // North facing
             drawArrow(gc, getX() + halfWidth / 2, getY(), arrowWidth, arrowHeight, "up");
             drawArrow(gc, getX() + halfWidth + halfWidth / 2, getY(), arrowWidth, arrowHeight, "up");
             drawArrow(gc, getX() + halfWidth / 2, getY() + halfHeight, arrowWidth, arrowHeight, "up");
             drawArrow(gc, getX() + halfWidth + halfWidth / 2, getY() + halfHeight, arrowWidth, arrowHeight, "up");
-        } else if (property.equals("a")) { // West facing
+        } else if (property.equals("a") || property.equals("aa")) { // West facing
             drawArrow(gc, getX(), getY() + halfHeight / 2, arrowWidth, arrowHeight, "left");
             drawArrow(gc, getX(), getY() + halfHeight + halfHeight / 2, arrowWidth, arrowHeight, "left");
             drawArrow(gc, getX() + halfWidth, getY() + halfHeight / 2, arrowWidth, arrowHeight, "left");
             drawArrow(gc, getX() + halfWidth, getY() + halfHeight + halfHeight / 2, arrowWidth, arrowHeight, "left");
-        } else if (property.equals("s")) { // South facing
+        } else if (property.equals("s") || property.equals("ss")) { // South facing
             drawArrow(gc, getX() + halfWidth / 2, getY() + halfHeight + halfHeight / 2, arrowWidth, arrowHeight, "down");
             drawArrow(gc, getX() + halfWidth + halfWidth / 2, getY() + halfHeight + halfHeight / 2, arrowWidth, arrowHeight, "down");
             drawArrow(gc, getX() + halfWidth / 2, getY() + halfHeight, arrowWidth, arrowHeight, "down");
             drawArrow(gc, getX() + halfWidth + halfWidth / 2, getY() + halfHeight, arrowWidth, arrowHeight, "down");
-        } else if (property.equals("d")) { // East facing
+        } else if (property.equals("d") || property.equals("dd")) { // East facing
             drawArrow(gc, getX() + halfWidth + halfWidth / 2, getY() + halfHeight / 2, arrowWidth, arrowHeight, "right");
             drawArrow(gc, getX() + halfWidth + halfWidth / 2, getY() + halfHeight + halfHeight / 2, arrowWidth, arrowHeight, "right");
             drawArrow(gc, getX() + halfWidth / 2, getY() + halfHeight / 2, arrowWidth, arrowHeight, "right");
@@ -85,13 +85,13 @@ public class Spring extends Mechanism
             double lineThickness = Math.min(width, height) / 8;
 
             // Draw the thick black line on the edge the rectangle is facing
-            if (property.equals("w")) {
+            if (property.equals("w") || property.equals("ww")) {
                 gc.fillRect(getX(), getY(), width, lineThickness); // Top edge (north)
-            } else if (property.equals("a")) {
+            } else if (property.equals("a") || property.equals("aa")) {
                 gc.fillRect(getX(), getY(), lineThickness, height); // Left edge (west)
-            } else if (property.equals("s")) {
+            } else if (property.equals("s") || property.equals("ss")) {
                 gc.fillRect(getX(), getY() + height - lineThickness, width, lineThickness); // Bottom edge (south)
-            } else if (property.equals("d")) {
+            } else if (property.equals("d") || property.equals("dd")) {
                 gc.fillRect(getX() + width - lineThickness, getY(), lineThickness, height); // Right edge (east)
             }
 
@@ -99,22 +99,22 @@ public class Spring extends Mechanism
             double circleRadius = width / 3; // Each circle is 1/3 the width of the rectangle
             gc.setFill(Color.RED); // You can adjust the color as needed
 
-            if (property.equals("w")) {
+            if (property.equals("w") || property.equals("ww")) {
                 // Draw circles on the west edge (left)
                 for (int i = 0; i < 3; i++) {
                     gc.fillOval(getX(), getY() + i * circleRadius, circleRadius, circleRadius);
                 }
-            } else if (property.equals("a")) {
+            } else if (property.equals("a") || property.equals("aa")) {
                 // Draw circles on the south edge (bottom)
                 for (int i = 0; i < 3; i++) {
                     gc.fillOval(getX() + i * circleRadius, getY() + height - circleRadius, circleRadius, circleRadius);
                 }
-            } else if (property.equals("s")) {
+            } else if (property.equals("s") || property.equals("ss")) {
                 // Draw circles on the west edge (left)
                 for (int i = 0; i < 3; i++) {
                     gc.fillOval(getX(), getY() + i * circleRadius, circleRadius, circleRadius);
                 }
-            } else if (property.equals("d")) {
+            } else if (property.equals("d") || property.equals("dd")) {
                 // Draw circles on the south edge (bottom)
                 for (int i = 0; i < 3; i++) {
                     gc.fillOval(getX() + i * circleRadius, getY() + height - circleRadius, circleRadius, circleRadius);

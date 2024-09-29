@@ -66,14 +66,17 @@ public class Zack extends GameObject {
                 System.out.println("FLOAT TILE");
                 return false;
             }
-            //spring collision, for 1 second, move zack fast using the Clock class
+            //spring collision
             else if(current instanceof Spring && hit) {
                 System.out.println("Spring");
                 if(current.isActive())
                     return true;
                 else {
                     springMove(current, current.getProperty());
-                    current.activate();
+
+                    //if spring is not a reusbale spring (aa,ww,dd,ss), activate it so that it will not be usable
+                    if(!(current.getProperty().equals("ww") || current.getProperty().equals("aa") || current.getProperty().equals("ss") || current.getProperty().equals("dd")))
+                        current.activate();
                     return false;
                 }
             }
