@@ -97,6 +97,10 @@ Spring: 5
         s: down
         a: left
         d: right
+        ww: up reusable
+        ss: down reusable
+        aa: left reusable
+        dd: right reusable
 TimerDoor: 6
 Wall: W
 Spike: S
