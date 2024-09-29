@@ -23,9 +23,9 @@ public abstract class Mechanism extends GameObject
    boolean activated = false;
 
    //store the array value that mechanism is apart of
-   private int associatedMechanisms;
+   protected int associatedMechanisms;
 
-   private LoadLevel ll;   //store ll
+   protected LoadLevel ll;   //store ll
 
    //takes in a property which is specific to each mechanism, the starting and ending x,y, color of object, and the int value of the mechanisms that are associated with the array
    public Mechanism(String property, boolean activated, int x, int y, int endX, int endY, Color myColor, int associatedMechanisms, LoadLevel ll)
@@ -54,10 +54,7 @@ public abstract class Mechanism extends GameObject
    
    public void activate()
    {
-      if(activated)
-         activated = false;
-      else 
-         activated = true;
+       activated = !activated;
    }
 
    // Accessor and mutator for property

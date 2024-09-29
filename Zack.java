@@ -13,7 +13,7 @@ public class Zack extends GameObject {
         super(x, y, x + width, y + length, myColor);
     }
 
-    //this will get called from Main{} to move Zack
+    //This method is constantly called from Main{}
     public void move(int dX, int dY, Tile[][] tiles, ArrayList <Mechanism> mechs)
     {
         incrementX(dX);
@@ -34,24 +34,39 @@ public class Zack extends GameObject {
         for (int i = 0; i < mechs.size(); i++){
             GameObject current = mechs.get(i);
             boolean hit = overlap(current);
+            
             //check if the current object is a wall and if it collides
             if(current instanceof Wall && hit ) {
-                System.out.println("WAL");
+                System.out.println("WALL");
                 return true;
             }
+            
             //check if object is a jukebox and if it collides
             else if(current instanceof Jukebox && hit){
                 System.out.println("Juke");
                 return true;
             }
-            else if(current instanceof FloatingTile)
-            {
+            
+            else if(current instanceof Button && hit){
+                if(((Mechanism) current).isActive()){ //Button is not pressed
+                    ((Mechanism) current).activate();
+                    ((Mechanism) current).performFunction();
+                }
+                System.out.println("BUTTON");
+                return false;
+            }
+            
+            else if(current instanceof Spike && hit){
+                System.out.println("SPIKE");
+                return true;
+            }
+            
+            else if(current instanceof FloatingTile && hit){
                 System.out.println("FLOAT TILE");
                 return false;
             }
             //for all objects that Zack can collide with, call performFunction method
-            else if(hit)
-            {
+            else if(hit){
                 System.out.println("HIT CODE");
                 mechs.get(i).performFunction(); //set that the mechanism is being collided with
             }

@@ -21,6 +21,7 @@ public abstract class GameObject
     //Member data
     private int x = 0, y = 0; //coordinates on the game board 
     private int endX = 0, endY = 0;
+    private int length, width;
     private Color myColor; //Color of the tile/room theme
    
     
@@ -31,85 +32,75 @@ public abstract class GameObject
         this.x = x;
         this.y = y;
         this.endX = endX;
+        width = endX-x;
         this.endY = endY;
+        length = endY-y;
         this.myColor = myColor;
     }
-
-
-
-
-    //public abstract void draw();
-
-
-
-    
-    /* add a method for drawing/graphics? */
     
     //Inherited acessors and mutators:
 
-    public Color getMyColor()
-    {
+    public Color getMyColor(){
         return myColor;
     }
 
-    // We wont ever need to increment x or y
-    public void incrementX(int dX)
-    {
+    public void incrementX(int dX){
         x += dX;
         endX += dX;
     }
-    public void incrementY(int dY)
-    {
+    
+    public void incrementY(int dY){
         y += dY;
         endY += dY;
     }
     
-    public int getX()
-    {
+    public int getX(){
         return x;
     }
-    public void setX(int newX)
-    {
+    
+    public void setX(int newX){
         x = newX;
         endX = newX + 80; // Update endX
     }
 
-    public int getY()
-    {
+    public int getY(){
         return y;
     }
-    public void setY(int newY)
-    {
+    
+    public void setY(int newY){
         y = newY;
         endY = newY + 80; // Update endY
     }
 
-    public int getEndX()
-    {
+    public int getEndX(){
         return endX;
     }
-    public void setEndX(int endX)
-    {
+    
+    public void setEndX(int endX){
         this.endX = endX;
     }
 
-    public int getEndY()
-    {
+    public int getEndY(){
         return endY;
     }
-    public void setEndY(int endY)
-    {
+    
+    public void setEndY(int endY){
         this.endY = endY;
     }
 
-    public void setColor(Color newColor)
-    {
+    public void setColor(Color newColor){
         myColor = newColor;
     }
-    public Color getColor()
-    {
+    
+    public Color getColor(){
       return myColor;
     }
     
-
+    public int getLength(){
+        return length;
+    }
+   
+    public int getWidth(){
+        return width;
+    }
 }

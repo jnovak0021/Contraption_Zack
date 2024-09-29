@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 import java.util.HashSet;
 import java.util.Set;
 
-//Walls are mechanisms that Impede Zack's progress.
+//Spikes are mechanisms that Impede Zack's progress.
 //Their color will depend on which button they are linked to
 //Spikes usually occupy three consecutive tiles and can be oriented horizontally or vertically 
 public class Spike extends Mechanism
@@ -22,40 +22,35 @@ public class Spike extends Mechanism
     }
     
         
-    public  void drawMe(GraphicsContext gc)
-    {
-      drawSpikeTrap(gc, Color.YELLOW);
+    public  void drawMe(GraphicsContext gc){
+        if(isActive()){
+            drawSpikeTrap(gc, Color.YELLOW);
+        }
     }
     
     // Method to draw a spike trap with specified color
-    private void drawSpikeTrap(GraphicsContext gc, Color spikeColor) 
-    {
+    private void drawSpikeTrap(GraphicsContext gc, Color spikeColor){
         // Set the color for the spikes
         gc.setFill(spikeColor);
 
         // Draw three spikes
-        drawSpike(gc, 0, 80);
-        drawSpike(gc, 6, 80);
-        drawSpike(gc, 12, 80);
+        drawSpike(gc, getX(), getEndY());
+        drawSpike(gc, getX()+27, getEndY());
+        drawSpike(gc, getX()+54, getEndY());
     }
 
     // Method to draw a single spike as a triangle
-    private void drawSpike(GraphicsContext gc, double xOffset, double height) 
-    {
+    private void drawSpike(GraphicsContext gc, double xOffset, double height){
         double[] xPoints = {xOffset, xOffset + 10, xOffset + 5};
         double[] yPoints = {height, height, height - 20};
         gc.fillPolygon(xPoints, yPoints, 3);
     }
 
-    public String toString()
-    {
-
+    public String toString(){
         return " ";
     }
 
     //do nothing for spike
-    public void performFunction()
-    {
-
+    public void performFunction(){
     }
 }

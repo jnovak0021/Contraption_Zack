@@ -216,8 +216,7 @@ public class LoadLevel
          
             //if statement to determine which mechanism
             //Door
-            if(parts[0].equals("3"))
-            {
+            if(parts[0].equals("3")){
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
                temp = new Door(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this);
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
@@ -225,8 +224,7 @@ public class LoadLevel
             }
             
             //juke box
-            else if(parts[0].equals("J"))
-            {
+            else if(parts[0].equals("J")){
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
                temp = new Jukebox(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this);
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
@@ -234,14 +232,23 @@ public class LoadLevel
             }
             
             //Wall
-            else if(parts[0].equals("W"))
-            {
+            else if(parts[0].equals("W")){
                 tempMechanismArray.add(new Wall(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this));
             }
+            
             //floatingTile
-            else if(parts[0].equals("F"))
-            {
+            else if(parts[0].equals("F")){
                tempMechanismArray.add(new FloatingTile(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this));
+            }
+            
+            //spike
+            else if(parts[0].equals("S")){
+               tempMechanismArray.add(new Spike(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this));
+            }
+            
+            //button
+            else if(parts[0].equals("B")){
+               tempMechanismArray.add(new Button(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this));
             }
          
          

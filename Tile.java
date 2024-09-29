@@ -19,8 +19,9 @@ public abstract class Tile extends GameObject
 
    private boolean traverseable;
    
-   static int length = 80;
-   static int width = 80;
+   //size across all tiles
+   static protected int length = 80;
+   static protected int width = 80;
    
     //new constructor
     public Tile(int x, int y, int endX, int endY, Color myColor, boolean traverseable)
@@ -45,12 +46,5 @@ public abstract class Tile extends GameObject
    
     public void drawMe(GraphicsContext gc){}
    
-    //This is a temp method to help with collision
-    public int getLength(){
-        return length;
-    }
-   
-    public int getWidth(){
-        return width;
-    }
+    
 }
