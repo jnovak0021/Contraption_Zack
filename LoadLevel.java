@@ -35,7 +35,7 @@ public class LoadLevel
 
    //list of RoomObject that is read in using privateReadFile
    private ArrayList<RoomObject> rooms;
-   
+
    //store color of tiles in level
    Color primaryColor, secondaryColor;
 
@@ -47,9 +47,9 @@ public class LoadLevel
       {
          associatedMechanisms[i] = new ArrayList<Mechanism>();
       }
-   
+
       System.out.println("size: " +associatedMechanisms.length);
-   
+
       rooms = new ArrayList<RoomObject>();
       //call readFile method to load the data into the level
       readFile();
@@ -58,7 +58,7 @@ public class LoadLevel
    //method to save all of the rooms in the game to memory
    public ArrayList<RoomObject> saveAllRoomsState() {
       System.out.println("inside.");
-   
+
       return rooms;
    }
 
@@ -66,12 +66,12 @@ public class LoadLevel
    public void loadState(ArrayList<RoomObject> savedRooms) {
     // Clear the current rooms
       rooms.clear();
-   
+
     // Load the saved rooms
       for (RoomObject room : savedRooms) {
          rooms.add(room);
       }
-   
+
     // Reprint the rooms to show the loaded state
       printGame();
    }
@@ -81,23 +81,23 @@ public class LoadLevel
 
    public void readFile()
    {
-   
+
       //note -- this needs to be changed later when all levles exist
       //loop through each of the 10 rooms
       for( int i = 0; i < 10; i++ )
       {
          //set index of arrayIn to return value of privateReadFile
          System.out.println("reading in file " + i);
-      
+
          //get room color
          setRoomColor();
          rooms.add(privateReadFile("room" + i + ".txt"));
-      
+
          currentRoomNumber++; //increment currentRoomNUmber for specifics on color
       }
       //reset currentRoomNumber
       currentRoomNumber = 0;
-   
+
    }
 
    //private readFile method to load each room
@@ -106,34 +106,34 @@ public class LoadLevel
    {
       //RoomObject to return to list
       RoomObject tempRoomObject = new RoomObject();
-   
+
       //color object to store the color of the tiles in the level
       Color c;
-   
+
       //num rows and columns in the tile array
       int rows, columns;
-   
+
       //temp 2d array of ints to hold values
       Tile [][] temp2d;
-   
+
       //temp ArrayList of GameObjects
       ArrayList <Mechanism> tempMechanismArray = new ArrayList<Mechanism>();
-   
-   
+
+
       try   //FileNotFoundException
       {
          //read in file
          Scanner scanner = new Scanner(new File(roomFileName));
-      
+
          c = Color.GREEN;
-      
+
          //System.out.println("color: " + c);   //for checking color read in
          rows = scanner.nextInt();
-      
+
          columns = scanner.nextInt();
-      
+
          temp2d = new Tile[rows][columns];
-      
+
          //if the current room number is 0, alternate tile colors
          if(currentRoomNumber == 0)
          {
@@ -143,7 +143,7 @@ public class LoadLevel
                for (int j = 0; j < columns; j++)
                {
                   int currentIndex = scanner.nextInt();
-               
+
                     // ADD CASES HERE FOR CREATING TILE OBJECTS
                     // decision tree to determine which type of object to create based off int value read in.
                   if (currentIndex == 1)
@@ -174,7 +174,7 @@ public class LoadLevel
                for(int j = 0; j < columns; j++)
                {
                   int currentIndex = scanner.nextInt();
-               
+
                   //ADD CASES HERE FOR CREATING TILE OBJECTS
                   //decision tree to determine which type of object to create based off int value read in.
                   if( currentIndex == 1)
@@ -198,7 +198,7 @@ public class LoadLevel
                }
             }
          }
-      
+
          //read in the GameObject array at the end
          while(scanner.hasNext())
          {
@@ -210,10 +210,10 @@ public class LoadLevel
             //split up string read in by colons
             String[] parts = mechanismStr.split(":");
             Mechanism temp = null;
-         
-         
-         
-         
+
+
+
+
             //if statement to determine which mechanism
             //Door
             if(parts[0].equals("3")){
@@ -222,7 +222,7 @@ public class LoadLevel
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
                tempMechanismArray.add(temp);
             }
-            
+
             //juke box
             else if(parts[0].equals("J")){
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
@@ -230,7 +230,7 @@ public class LoadLevel
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
                tempMechanismArray.add(temp);
             }
-            
+
             //Wall
             else if(parts[0].equals("W")){
                 tempMechanismArray.add(new Wall(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this));
@@ -250,33 +250,46 @@ public class LoadLevel
             else if(parts[0].equals("B")){
                tempMechanismArray.add(new Button(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this));
             }
-         
-         
+            else if(parts[0].equals("2"))
+            {
+               tempMechanismArray.add(new FloatingTile(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this));
+            }
+            //srping
+            else if(parts[0].equals("5"))
+            {
+               tempMechanismArray.add(new Spring(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this));
+            }
+            //timerdoor
+            else if(parts[0].equals("6"))
+            {
+               tempMechanismArray.add(new TimerDoor(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this));
+            }
+            System.out.println(tempMechanismArray.get(tempMechanismArray.size()-1));
             System.out.println("adding mechanism to \t" + Integer.parseInt(parts[8]));
-            System.out.println();
+
             //add mechanism to its correct index in associatedMechanisms
             associatedMechanisms[Integer.parseInt(parts[8])].add(temp);
-         
+
          }
          System.out.println(tempMechanismArray.get(0).toString());
-      
+
          //set member variables of Roomobject
          tempRoomObject.setGameBoard2d(temp2d);
          tempRoomObject.setRoomMechanismArray(tempMechanismArray);
-      
+
          //close scanner
          scanner.close();
-      
-      
-      
+
+
+
       }
       catch( FileNotFoundException e)
       {
          System.out.println("File Not Found");
       }
       return tempRoomObject;
-   
-   
+
+
    }
 
    //get current room number
@@ -356,8 +369,8 @@ public class LoadLevel
       //call readfile again
       readFile();
    }
-   
-   
+
+
    public int getSavedRoom() {
         return savedRoom;
     }
