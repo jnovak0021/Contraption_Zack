@@ -132,6 +132,65 @@ public class Zack extends GameObject {
 
 
 
+
+    //Spring move method for zack to move when the spring is hit
+    //takes in the parameter of what direction to move zack
+    public void springMove(Mechanism m, String property){
+        //store the x, y or zack
+        int dX = 0;
+        int dY = 0;
+        //if spring is to launch up
+        if(property.equals("w")) {
+            //make it so zack lands in middle of next tile
+            //set zacks location to middle of two tiles to the left
+            this.setY(((m.getY() + m.getEndY())/2) - 160);
+            this.setEndY(this.getY() + length);
+            this.setX(((m.getX() + m.getEndX())/2));
+            this.setEndX(this.getX() + width);
+        }
+        //if spring is to launch down
+        else if(property.equals("s")) {
+            //make it so zack lands in middle of next tile
+            //set zacks location to middle of two tiles to the left
+            this.setY(((m.getY() + m.getEndY())/2) + 140);
+            this.setEndY(this.getY() + length);
+            this.setX(((m.getX() + m.getEndX())/2));
+            this.setEndX(this.getX() + width);
+        }
+        //if spring is to launch left
+        else if(property.equals("a")) {
+            //make it so zack lands in middle of next tile
+            //set zacks location to middle of two tiles to the left
+            this.setX(((m.getX() + m.getEndX())/2) - 160);
+            this.setEndX(this.getX() + width);
+            this.setY(((m.getY() + m.getEndY())/2));
+            this.setEndY(this.getY() + length);
+        }
+        //if spring is to launch right
+        else{
+            //make it so zack lands in middle of next tile
+            //set zacks location to middle of two tiles to the left
+            this.setX(((m.getX() + m.getEndX())/2) + 140);
+            this.setEndX(this.getX() + width);
+            this.setY(((m.getY() + m.getEndY())/2));
+            this.setEndY(this.getY() + length);
+        }
+    }
+
+
+
+
+
+
+    public void drawMe(GraphicsContext gc) {
+        gc.setFill(getColor());
+        gc.fillRect(getX(), getY(), length, width); // Center the rectangle on Zack's position
+    }
+    
+    
+}
+
+    /*
     public void springMove(Mechanism m, String property) {
         int step = 5;  // The incremental step size (5px per update)
 
@@ -171,13 +230,12 @@ public class Zack extends GameObject {
             }
 
             // Update the end positions after each step
-
             setEndX(getX() + width);
             setEndY(getY() + length);
 
             // Stop the Timeline when Zack reaches the destination
-            if ((getX() == targetX[0] && getY() == targetY[0])) {
-                ((Timeline) event.getSource()).stop();
+            if (getX() == targetX[0] && getY() == targetY[0]) {
+                timeline.stop();  // Stop the timeline directly
             }
         }));
 
@@ -187,60 +245,4 @@ public class Zack extends GameObject {
         // Start the timeline
         timeline.play();
     }
-
-
-
-    public void drawMe(GraphicsContext gc) {
-        gc.setFill(getColor());
-        gc.fillRect(getX(), getY(), length, width); // Center the rectangle on Zack's position
-    }
-    
-    
-}
-
-/*
-    //Spring move method for zack to move when the spring is hit
-    //takes in the parameter of what direction to move zack
-    public void springMove(Mechanism m, String property){
-        //store the x, y or zack
-        int dX = 0;
-        int dY = 0;
-        //if spring is to launch up
-        if(property.equals("w")) {
-            //make it so zack lands in middle of next tile
-            //set zacks location to middle of two tiles to the left
-            this.setY(((m.getY() + m.getEndY())/2) - 160);
-            this.setEndY(this.getY() + length);
-            this.setX(((m.getX() + m.getEndX())/2));
-            this.setEndX(this.getX() + width);
-        }
-        //if spring is to launch down
-        else if(property.equals("s")) {
-            //make it so zack lands in middle of next tile
-            //set zacks location to middle of two tiles to the left
-            this.setY(((m.getY() + m.getEndY())/2) + 160);
-            this.setEndY(this.getY() + length);
-            this.setX(((m.getX() + m.getEndX())/2));
-            this.setEndX(this.getX() + width);
-        }
-        //if spring is to launch left
-        else if(property.equals("a")) {
-            //make it so zack lands in middle of next tile
-            //set zacks location to middle of two tiles to the left
-            this.setX(((m.getX() + m.getEndX())/2) - 160);
-            this.setEndX(this.getX() + width);
-            this.setY(((m.getY() + m.getEndY())/2));
-            this.setEndY(this.getY() + length);
-        }
-        //if spring is to launch right
-        else{
-            //make it so zack lands in middle of next tile
-            //set zacks location to middle of two tiles to the left
-            this.setX(((m.getX() + m.getEndX())/2) + 160);
-            this.setEndX(this.getX() + width);
-            this.setY(((m.getY() + m.getEndY())/2));
-            this.setEndY(this.getY() + length);
-        }
-    }
-
- */
+    */
