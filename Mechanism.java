@@ -84,6 +84,11 @@ public abstract class Mechanism extends GameObject
           this.activated = true;
    }
 
+   public void setActivated(boolean b)
+   {
+      this.activated = b;
+   }
+
    // Accessor and mutator for property
    public String getProperty() 
    {
@@ -116,4 +121,7 @@ public abstract class Mechanism extends GameObject
    //abstract method to perform the functoin of each mechanism
    //i.e -- do nothing for wall, but for door, read in property and go to next room
    public abstract void performFunction();
+
+   //method to handle timed function
+   public void performTimedFunction(){}
 }

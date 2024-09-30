@@ -23,6 +23,8 @@ public class Main extends Application {
    private Canvas canvas;
    private GraphicsContext gc;
    private int selectedPauseOption = 0; // Track the selected pause menu option
+   private long startTime;  //store the start time of the system for math
+   private double elapsedTime;
 
    private ArrayList<RoomObject> savedRooms;
    private int savedZackY;
@@ -41,6 +43,7 @@ public class Main extends Application {
    private int mouseY = 0;
    
    private int roomCount = 0;
+   Clock c;
 
 
    public static void main(String[] args) {
@@ -51,14 +54,12 @@ public class Main extends Application {
    public void start(Stage primaryStage) {
       canvas = new Canvas(1368, 728);
       gc = canvas.getGraphicsContext2D();
-   
+
       ll = new LoadLevel();
       tiles = null; // Initially set to null until the game starts
       zack = new Zack(INITIAL_ZACK_X, INITIAL_ZACK_Y, Color.BLUE); // Initial position and color
 
 
-         //crate clock
-      Clock clock = new Clock();
 
       Pane root = new Pane(canvas); // Use Pane to hold the Canvas
       Scene scene = new Scene(root, 1366, 728);
@@ -74,7 +75,13 @@ public class Main extends Application {
                     //get current tiles and mechanism
                     tiles = ll.getRoomTiles(ll.getCurrentRoomNumber());
                     mechanisms = ll.getRoomMechanisms(ll.getCurrentRoomNumber());
-                    
+
+                    //get the elapsed time since program started in seconds
+                    double elapsedTime = (now - startTime) / 1_000_000_000.0;
+                    c.setElapsedTime(elapsedTime);
+
+                    handleTime();
+
                     scene.setOnMouseMoved(
                        event -> {
                           mouseX = (int) event.getX();
@@ -89,10 +96,13 @@ public class Main extends Application {
                        updateMovement();
                     }
                     draw(); // Redraw the scene on each frame
-                    Duration elapsedTime = clock.getElapsedTime();
-                    //System.out.println("Elapsed time: " + elapsedTime.toMillis() + " milliseconds");
                  }
               };
+
+      startTime = System.nanoTime();
+      c = new Clock(startTime, 0);
+
+      //store the start time of the system to use for math
       animationTimer.start();
    
       primaryStage.setTitle("Contraption Zack");
@@ -321,7 +331,22 @@ public class Main extends Application {
       }
       draw(); // Redraw the scene on each frame
    }
-   
+
+
+   //time handling method that handles all time sensitive operation for mechanisms
+   public void handleTime()
+   {
+      ArrayList<Mechanism> timedMechanisms = ll.getTimedMechanisms();
+      //System.out.println("TIMED");
+      for(int i = 0; i <  timedMechanisms.size(); i++)
+      {
+         timedMechanisms.get(i).performTimedFunction();
+      }
+
+   }
+
+
+
    public static void zackPositionHandler(int number) {
       switch (number) {
          case 0:

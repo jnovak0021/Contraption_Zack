@@ -17,8 +17,8 @@ W:0:true:160:360:240:400:grey:0
 W:0:true:560:360:640:400:grey:0
 S:0:true:360:140:440:160:yellow:1
 S:0:true:160:520:240:559:yellow:1
-B:0:true:187:560:267:639:yellow:1
-B:0:true:400:420:479:499:yellow:1
-5:a:false:280:560:360:620:brown:0
-5:d:false:440:560:520:620:brown:0
+B:0:true:200:560:280:640:yellow:1
+B:0:true:400:420:480:500:yellow:1
+5:a:false:320:560:400:640:brown:0
+5:d:false:440:560:520:640:brown:0
 

@@ -78,6 +78,15 @@ public class Zack extends GameObject {
                 System.out.println("FLOAT TILE");
                 return false;
             }
+            //TimerDoor - if active, return true
+            else if(current instanceof TimerDoor && hit){
+                System.out.println("TimerDoor");
+                if(((Mechanism)current).isActive())
+                    return true;
+                else
+                    return false;
+            }
+
             //spring collision
             else if(current instanceof Spring && hit) {
                 System.out.println("Spring");
