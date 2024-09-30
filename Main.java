@@ -34,13 +34,13 @@ public class Main extends Application {
    private boolean paused = false; // Track if the game is paused
    private int selectedOption = 0; // Track the selected menu option
 
-   private int INITIAL_ZACK_X = 300; // Starting X position
-   private int INITIAL_ZACK_Y = 540; // Starting Y position
+   private int INITIAL_ZACK_X; // Starting X position
+   private int INITIAL_ZACK_Y; // Starting Y position
    
    private int mouseX = 0;
    private int mouseY = 0;
    
-   private int roomCount = 0;
+   private int previousRoomNumber = -1; // Track the previous room number
 
 
    public static void main(String[] args) {
@@ -55,11 +55,11 @@ public class Main extends Application {
       ll = new LoadLevel();
       tiles = null; // Initially set to null until the game starts
       zack = new Zack(INITIAL_ZACK_X, INITIAL_ZACK_Y, Color.BLUE); // Initial position and color
-
-
+   
+   
          //crate clock
       Clock clock = new Clock();
-
+   
       Pane root = new Pane(canvas); // Use Pane to hold the Canvas
       Scene scene = new Scene(root, 1366, 728);
    
@@ -196,6 +196,8 @@ public class Main extends Application {
                tiles = ll.getRoomTiles(0); // Get the first room tiles
                mechanisms = ll.getRoomMechanisms(0); // Load the mechanisms
                System.out.println("Starting the game, loading first room.");
+               INITIAL_ZACK_X = 300; // Starting X position
+               INITIAL_ZACK_Y = 540;
                break;
          
             case 1: // Exit Game
@@ -221,7 +223,7 @@ public class Main extends Application {
    
       if (pressedKeys.contains(KeyCode.ENTER)) {
          pressedKeys.remove(KeyCode.ENTER); // Only allow a single press to register
-     
+      
          switch (selectedPauseOption) {
             case 0: // Resume
                paused = false; // Exit the pause menu
@@ -307,6 +309,17 @@ public class Main extends Application {
       if (pressedKeys.contains(KeyCode.ESCAPE)) {
          paused = true; // Set the game to paused state
       }
+      
+      int currentRoomNumber = ll.getCurrentRoomNumber();
+      if (currentRoomNumber != previousRoomNumber) {
+            // Room has changed, update Zack's position
+         System.out.println("yo");
+      
+         zackPositionHandler(currentRoomNumber);
+         zack.setX(INITIAL_ZACK_X); // Update Zack's position
+         zack.setY(INITIAL_ZACK_Y);
+         previousRoomNumber = currentRoomNumber; // Update previous room number
+      }
    }
 
    // Not being used
@@ -322,15 +335,16 @@ public class Main extends Application {
       draw(); // Redraw the scene on each frame
    }
    
-   public static void zackPositionHandler(int number) {
+   public void zackPositionHandler(int number) {
       switch (number) {
          case 0:
-            int INITIAL_ZACK_X = 300;
-            int INITIAL_ZACK_Y = 540;
+            INITIAL_ZACK_X = 300;
+            INITIAL_ZACK_Y = 540;
+            
             break;
          case 1:
-            INITIAL_ZACK_X = 400;
-            INITIAL_ZACK_Y = 660;
+            INITIAL_ZACK_X = 390;
+            INITIAL_ZACK_Y = 200;
             break;
          case 2:
             INITIAL_ZACK_X = 2;
