@@ -53,6 +53,13 @@ public class Zack extends GameObject {
                 System.out.println("WALL");
                 return true;
             }
+
+            //wall
+            if(current instanceof Door && hit )
+            {
+                ((Mechanism)current).performFunction();
+
+            }
             
             //check if object is a jukebox and if it collides
             else if(current instanceof Jukebox && hit){
@@ -68,8 +75,16 @@ public class Zack extends GameObject {
                 System.out.println("BUTTON");
                 return false;
             }
-            
-            else if(current instanceof Spike && hit){
+            else if(current instanceof TimerButton && hit){
+                if(((Mechanism) current).isActive()){ //Button is not pressed
+                    ((Mechanism) current).activate();
+                    ((Mechanism) current).performFunction();
+                }
+                System.out.println("BUTTON");
+                return false;
+            }
+
+            else if(current instanceof Spike && hit && current.isActive()){
                 System.out.println("SPIKE");
                 return true;
             }
