@@ -107,6 +107,8 @@ public class Main extends Application {
                  
                  
                  // Check if the room number has changed
+               
+                 
                     if (!isLoading && currentRoomNumber != previousRoomNumber) {
                     // Room has changed
                        if (currentRoomNumber > previousRoomNumber) {
@@ -128,6 +130,8 @@ public class Main extends Application {
                        previousRoomNumber = currentRoomNumber;
                     } else if (isLoading) {
                     // Reset loading flag after loading
+                       previousRoomNumber = currentRoomNumber;
+                    
                        isLoading = false;
                     }
                  
@@ -314,6 +318,7 @@ public class Main extends Application {
                try {
                   paused = false;
                   isLoading = true; // Set loading flag
+                  ll = savedLL;
                   zack.setX(savedZackX);
                   zack.setY(savedZackY);
                
