@@ -23,6 +23,7 @@ public abstract class GameObject
     private int endX = 0, endY = 0;
     private int length, width;
     private Color myColor; //Color of the tile/room theme
+    private Clock c;
    
     
     //new constructor for Tiles
@@ -36,6 +37,7 @@ public abstract class GameObject
         this.endY = endY;
         length = endY-y;
         this.myColor = myColor;
+        c = new Clock();
     }
     
     //Inherited acessors and mutators:
@@ -102,5 +104,11 @@ public abstract class GameObject
    
     public int getWidth(){
         return width;
+    }
+
+    //get clock
+    public Clock getClock()
+    {
+        return c;
     }
 }

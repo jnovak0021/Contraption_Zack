@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.reflect.Array;
 import java.util.Scanner;
 import java.util.ArrayList;
 import javafx.scene.paint.Color;
@@ -32,6 +33,8 @@ public class LoadLevel
    private int savedRoom = 0;
    //associative array for the mechanisms -- 2d arraylist of Mechanisms where each index is a different associative number
    private ArrayList<Mechanism> [] associatedMechanisms;
+   //store all mechanisms that have a time component in this array for easier handling
+   private ArrayList<Mechanism> timedMechanisms;
 
    //list of RoomObject that is read in using privateReadFile
    private ArrayList<RoomObject> rooms;
@@ -43,6 +46,7 @@ public class LoadLevel
    public LoadLevel()
    {
       associatedMechanisms = new ArrayList[100];  //may need to up intial capacity
+      timedMechanisms = new ArrayList<Mechanism>();
       for(int i = 0; i < associatedMechanisms.length; i++)
       {
          associatedMechanisms[i] = new ArrayList<Mechanism>();
@@ -55,36 +59,15 @@ public class LoadLevel
       readFile();
    }
 
-   //method to save all of the rooms in the game to memory
-   public ArrayList<RoomObject> saveAllRoomsState() {
-      System.out.println("inside.");
-
-      return rooms;
-   }
-
-   //method to go through and reload all of the rooms in the game back from memory
-   public void loadState(ArrayList<RoomObject> savedRooms) {
-    // Clear the current rooms
-      rooms.clear();
-
-    // Load the saved rooms
-      for (RoomObject room : savedRooms) {
-         rooms.add(room);
-      }
-
-    // Reprint the rooms to show the loaded state
-      printGame();
-   }
 
    //method to read in each room level
    //for loop that calls privatereadFileMethod for each room in level 1
-
    public void readFile()
    {
 
       //note -- this needs to be changed later when all levles exist
       //loop through each of the 10 rooms
-      for( int i = 0; i < 2; i++ )
+      for( int i = 0; i < 3; i++ )
       {
          //set index of arrayIn to return value of privateReadFile
          System.out.println("reading in file " + i);
@@ -235,7 +218,6 @@ public class LoadLevel
 
             //Wall
             else if(parts[0].toUpperCase().equals("W")){
-               System.out.println(":L:L:L:L:L:L:L:L:L:L:L:L:L:L:L:L:L:L:L:");
 
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
                temp = new Wall(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this);
@@ -285,10 +267,13 @@ public class LoadLevel
             //timerdoor
             else if(parts[0].equals("6"))
             {
+               System.out.println(":L:L:L:L:L:L:L:L:L:L:L:L:L:L:L:L:L:L:L:");
+
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
-               temp = new Spring(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this);
+               temp = new TimerDoor(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this);
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
                tempMechanismArray.add(temp);
+               timedMechanisms.add(temp);
             }
 
 
@@ -359,6 +344,11 @@ public class LoadLevel
       return associatedMechanisms[i];
    }
 
+   //returns all mechanisms that have a time component
+   public ArrayList<Mechanism> getTimedMechanisms()
+   {
+      return timedMechanisms;
+   }
 
 
    //print out the whole game board
@@ -414,6 +404,28 @@ public class LoadLevel
     public void setSavedRoom(int savedRoom) {
         this.savedRoom = savedRoom;
     }
+
+
+   //method to save all of the rooms in the game to memory
+   public ArrayList<RoomObject> saveAllRoomsState() {
+      System.out.println("inside.");
+
+      return rooms;
+   }
+
+   //method to go through and reload all of the rooms in the game back from memory
+   public void loadState(ArrayList<RoomObject> savedRooms) {
+      // Clear the current rooms
+      rooms.clear();
+
+      // Load the saved rooms
+      for (RoomObject room : savedRooms) {
+         rooms.add(room);
+      }
+
+      // Reprint the rooms to show the loaded state
+      printGame();
+   }
 
 }
 
