@@ -37,10 +37,13 @@ public class Main extends Application {
    private int INITIAL_ZACK_X; // Starting X position
    private int INITIAL_ZACK_Y; // Starting Y position
    
+   private int previousRoomNumber = -1; // Track the previous room number
+
+   
    private int mouseX = 0;
    private int mouseY = 0;
    
-   private int previousRoomNumber = -1; // Track the previous room number
+   private int roomCount = 0;
 
 
    public static void main(String[] args) {
@@ -313,13 +316,13 @@ public class Main extends Application {
       int currentRoomNumber = ll.getCurrentRoomNumber();
       if (currentRoomNumber != previousRoomNumber) {
             // Room has changed, update Zack's position
-         System.out.println("yo");
       
          zackPositionHandler(currentRoomNumber);
          zack.setX(INITIAL_ZACK_X); // Update Zack's position
          zack.setY(INITIAL_ZACK_Y);
          previousRoomNumber = currentRoomNumber; // Update previous room number
       }
+   
    }
 
    // Not being used
@@ -340,11 +343,10 @@ public class Main extends Application {
          case 0:
             INITIAL_ZACK_X = 300;
             INITIAL_ZACK_Y = 540;
-            
             break;
          case 1:
-            INITIAL_ZACK_X = 390;
-            INITIAL_ZACK_Y = 200;
+            INITIAL_ZACK_X = 400;
+            INITIAL_ZACK_Y = 560;
             break;
          case 2:
             INITIAL_ZACK_X = 2;
