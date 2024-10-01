@@ -24,7 +24,7 @@ public class Spike extends Mechanism
         
     public  void drawMe(GraphicsContext gc){
         if(isActive()){
-            drawSpikeTrap(gc, Color.YELLOW);
+            drawSpikeTrap(gc,getMyColor());
         }
         else
             gc.clearRect(getX(), getEndY() - 20, 64, 20);

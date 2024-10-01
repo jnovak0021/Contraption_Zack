@@ -176,7 +176,8 @@ public class Main extends Application {
    private void draw() {
       // Clear the canvas
       gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-      
+      gc.setFill(Color.BLACK);
+      gc.fillRect(0,0, canvas.getWidth(), canvas.getHeight());
    
       if (inMenu) {
          drawMenu();
@@ -411,8 +412,9 @@ public class Main extends Application {
             INITIAL_ZACK_Y = 100;
             break;
          case 2:
-            INITIAL_ZACK_X = 2;
-            INITIAL_ZACK_Y = 0;
+            INITIAL_ZACK_X = 240;
+            INITIAL_ZACK_Y = 100;
+
             break;
          case 3:
             INITIAL_ZACK_X = 3;
@@ -465,8 +467,8 @@ public class Main extends Application {
             INITIAL_ZACK_Y = 600;
             break;
          case 2:
-            INITIAL_ZACK_X = 2;
-            INITIAL_ZACK_Y = 0;
+            INITIAL_ZACK_X = 340;
+            INITIAL_ZACK_Y = 500;
             break;
          case 3:
             INITIAL_ZACK_X = 3;

@@ -90,6 +90,7 @@ Floor: 1
 FloatingTile: 2
 Door: 3
     property: the next room that door is linked to 
+    prop
 Water: 4
 Spring: 5
     property: the direction to spring zack
@@ -102,6 +103,7 @@ Spring: 5
         aa: left reusable
         dd: right reusable
 TimerDoor: 6
+TimerButton: 7
 Wall: W
 Spike: S
 

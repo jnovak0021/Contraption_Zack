@@ -23,7 +23,19 @@ public class Door extends Mechanism
     @Override
     public void performFunction() {
 
-        getLL().setCurrentRoomNumber(Integer.parseInt(getProperty()));
+        switch(getProperty())
+        {
+            case "2W":
+                System.out.println("SFE:SKJFESF");
+                getLL().setCurrentRoomNumber(4);
+                break;
+            default:
+                getLL().setCurrentRoomNumber(Integer.parseInt(getProperty()));
+                break;
+
+
+
+        }
         System.out.print(getLL().getCurrentRoomNumber());
     }
 
