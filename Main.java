@@ -107,7 +107,7 @@ public class Main extends Application {
                  
                  
                  // Check if the room number has changed
-               
+                 
                  
                     if (!isLoading && currentRoomNumber != previousRoomNumber) {
                     // Room has changed
@@ -294,18 +294,27 @@ public class Main extends Application {
                break;
             case 2: // Restart Level
                paused = false;
+                              isLoading = true; // Set loading flag
+
                // Reset Zack's position directly
-               zack.setX(INITIAL_ZACK_X);
-               zack.setY(INITIAL_ZACK_Y);
+               //zackPositionEnter(0);
+               ll.resetLevel();
+            
+               zack.setX(300);
+               zack.setY(540);
+               zack.setEndX(zack.getX() + 20);
+               zack.setEndY(zack.getY() + 20);
+            
                tiles = ll.getRoomTiles(0); // Restart from room 0
                mechanisms = ll.getRoomMechanisms(0); // Load the mechanisms
                ll.setCurrentRoomNumber(0); // Reset room number
                // Call resetLevel from LoadLevel
-               ll.resetLevel();
+            
                System.out.println("Restarting level from room 0.");
                break;
             case 3: // Save
                paused = false;
+            
                savedLL = ll;
                savedLL.setSavedRoom(ll.getCurrentRoomNumber());
                
@@ -411,8 +420,8 @@ public class Main extends Application {
             INITIAL_ZACK_Y = 100;
             break;
          case 2:
-            INITIAL_ZACK_X = 2;
-            INITIAL_ZACK_Y = 0;
+            INITIAL_ZACK_X = 260;
+            INITIAL_ZACK_Y = 270;
             break;
          case 3:
             INITIAL_ZACK_X = 3;
@@ -465,8 +474,8 @@ public class Main extends Application {
             INITIAL_ZACK_Y = 600;
             break;
          case 2:
-            INITIAL_ZACK_X = 2;
-            INITIAL_ZACK_Y = 0;
+            INITIAL_ZACK_X = 350;
+            INITIAL_ZACK_Y = 520;
             break;
          case 3:
             INITIAL_ZACK_X = 3;
