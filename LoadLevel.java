@@ -51,9 +51,9 @@ public class LoadLevel
       {
          associatedMechanisms[i] = new ArrayList<Mechanism>();
       }
-
+   
       System.out.println("size: " +associatedMechanisms.length);
-
+   
       rooms = new ArrayList<RoomObject>();
       //call readFile method to load the data into the level
       readFile();
@@ -64,23 +64,23 @@ public class LoadLevel
    //for loop that calls privatereadFileMethod for each room in level 1
    public void readFile()
    {
-
+   
       //note -- this needs to be changed later when all levles exist
       //loop through each of the 10 rooms
       for( int i = 0; i < 10; i++ )
       {
          //set index of arrayIn to return value of privateReadFile
          System.out.println("reading in file " + i);
-
+      
          //get room color
          setRoomColor();
          rooms.add(privateReadFile("room" + i + ".txt"));
-
+      
          currentRoomNumber++; //increment currentRoomNUmber for specifics on color
       }
       //reset currentRoomNumber
       currentRoomNumber = 0;
-
+   
    }
 
    //private readFile method to load each room
@@ -89,34 +89,34 @@ public class LoadLevel
    {
       //RoomObject to return to list
       RoomObject tempRoomObject = new RoomObject();
-
+   
       //color object to store the color of the tiles in the level
       Color c;
-
+   
       //num rows and columns in the tile array
       int rows, columns;
-
+   
       //temp 2d array of ints to hold values
       Tile [][] temp2d;
-
+   
       //temp ArrayList of GameObjects
       ArrayList <Mechanism> tempMechanismArray = new ArrayList<Mechanism>();
-
-
+   
+   
       try   //FileNotFoundException
       {
          //read in file
          Scanner scanner = new Scanner(new File(roomFileName));
-
+      
          c = Color.GREEN;
-
+      
          //System.out.println("color: " + c);   //for checking color read in
          rows = scanner.nextInt();
-
+      
          columns = scanner.nextInt();
-
+      
          temp2d = new Tile[rows][columns];
-
+      
          //if the current room number is 0, alternate tile colors
          if(currentRoomNumber == 0)
          {
@@ -126,7 +126,7 @@ public class LoadLevel
                for (int j = 0; j < columns; j++)
                {
                   int currentIndex = scanner.nextInt();
-
+               
                     // ADD CASES HERE FOR CREATING TILE OBJECTS
                     // decision tree to determine which type of object to create based off int value read in.
                   if (currentIndex == 1)
@@ -157,7 +157,7 @@ public class LoadLevel
                for(int j = 0; j < columns; j++)
                {
                   int currentIndex = scanner.nextInt();
-
+               
                   //ADD CASES HERE FOR CREATING TILE OBJECTS
                   //decision tree to determine which type of object to create based off int value read in.
                   if( currentIndex == 1)
@@ -169,9 +169,9 @@ public class LoadLevel
                   else if( currentIndex == 4)
                   {
                      temp2d[i][j] = new Water(j*80, i*80, Color.BLUE);
-
+                  
                   }
-
+                  
                   //edge case: if no matching values, make it abyss
                   else
                   {
@@ -181,7 +181,7 @@ public class LoadLevel
                }
             }
          }
-
+      
          //read in the GameObject array at the end
          while(scanner.hasNext())
          {
@@ -193,12 +193,12 @@ public class LoadLevel
             //split up string read in by colons
             String[] parts = mechanismStr.split(":");
             Mechanism temp = null;
-
-
+         
+         
             //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
-
+         
             System.out.println("part 0 \"" + parts[0] + "\"");
-
+         
             //if statement to determine which mechanism
             //Door
             if(parts[0].equals("3")){
@@ -207,7 +207,7 @@ public class LoadLevel
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
                tempMechanismArray.add(temp);
             }
-
+            
             //juke box
             else if(parts[0].toUpperCase().equals("J")){
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
@@ -215,16 +215,16 @@ public class LoadLevel
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
                tempMechanismArray.add(temp);
             }
-
+            
             //Wall
             else if(parts[0].toUpperCase().equals("W")){
-
+            
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
                temp = new Wall(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this);
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
                tempMechanismArray.add(temp);
             }
-
+            
             //floatingTile
             else if(parts[0].toUpperCase().equals("F")){
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
@@ -232,7 +232,7 @@ public class LoadLevel
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
                tempMechanismArray.add(temp);
             }
-
+            
             //spike
             else if(parts[0].toUpperCase().equals("S")){
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
@@ -240,7 +240,7 @@ public class LoadLevel
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
                tempMechanismArray.add(temp);
             }
-
+            
             //button
             else if(parts[0].toUpperCase().equals("B")){
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
@@ -282,40 +282,40 @@ public class LoadLevel
                tempMechanismArray.add(temp);
                timedMechanisms.add(temp);
             }
-
+         
             System.out.println(tempMechanismArray.get(tempMechanismArray.size()-1));
             System.out.println("adding mechanism to \t" + Integer.parseInt(parts[8]));
-
+         
             //add mechanism to its correct index in associatedMechanisms
             associatedMechanisms[Integer.parseInt(parts[8])].add(temp);
-
+         
          }
          System.out.println(tempMechanismArray.get(0).toString());
-
+      
          //set member variables of Roomobject
          tempRoomObject.setGameBoard2d(temp2d);
          tempRoomObject.setRoomMechanismArray(tempMechanismArray);
-
+      
          //close scanner
          scanner.close();
-
+      
          /*
          System.out.println("\n\nMechs 1 \n\n\n");
-
+      
          for(int i=0; i < associatedMechanisms[1].size(); i++){
             System.out.println(associatedMechanisms[1].get(i));
          }
          System.out.println("\n\nMechs 1 end \n\n\n");
           */
-
+      
       }
       catch( FileNotFoundException e)
       {
          System.out.println("File Not Found");
       }
       return tempRoomObject;
-
-
+   
+   
    }
 
    //get current room number
@@ -328,7 +328,7 @@ public class LoadLevel
    public void setCurrentRoomNumber(int currentRoomNumber)
    {
       this.currentRoomNumber = currentRoomNumber;
-
+   
    }
 
    //method to take in a level at index i and to
@@ -403,19 +403,19 @@ public class LoadLevel
 
 
    public int getSavedRoom() {
-        return savedRoom;
-    }
+      return savedRoom;
+   }
 
     // Setter for savedRoom
-    public void setSavedRoom(int savedRoom) {
-        this.savedRoom = savedRoom;
-    }
+   public void setSavedRoom(int savedRoom) {
+      this.savedRoom = savedRoom;
+   }
 
 
    //method to save all of the rooms in the game to memory
    public ArrayList<RoomObject> saveAllRoomsState() {
       System.out.println("inside.");
-
+   
       return rooms;
    }
 
@@ -423,15 +423,37 @@ public class LoadLevel
    public void loadState(ArrayList<RoomObject> savedRooms) {
       // Clear the current rooms
       rooms.clear();
-
+   
       // Load the saved rooms
       for (RoomObject room : savedRooms) {
          rooms.add(room);
       }
-
+   
       // Reprint the rooms to show the loaded state
       printGame();
    }
+   
+   public void resetBoard() {
+    // Clear the existing rooms and mechanisms
+      rooms.clear();
+      timedMechanisms.clear();
+      for (ArrayList<Mechanism> mechanisms : associatedMechanisms) {
+         if (mechanisms != null) {
+            mechanisms.clear();
+         }
+      }
+   
+    // Reinitialize the room data
+      readFile();
+   
+    // Reset the current room number to the starting point
+   
+      currentRoomNumber = 0;
+      setRoomColor();
+   
+      System.out.println("Game board has been reset.");
+   }
+
 
 }
 

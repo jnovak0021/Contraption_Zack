@@ -1,15 +1,18 @@
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.scene.*;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
+
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import java.util.*;
 import java.time.*;
 
@@ -107,7 +110,7 @@ public class Main extends Application {
                  
                  
                  // Check if the room number has changed
-               
+                 
                  
                     if (!isLoading && currentRoomNumber != previousRoomNumber) {
                     // Room has changed
@@ -176,8 +179,7 @@ public class Main extends Application {
    private void draw() {
       // Clear the canvas
       gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-      gc.setFill(Color.BLACK);
-      gc.fillRect(0,0, canvas.getWidth(), canvas.getHeight());
+      
    
       if (inMenu) {
          drawMenu();
@@ -289,24 +291,35 @@ public class Main extends Application {
                // Reset Zack's position directly
                zack.setX(INITIAL_ZACK_X);
                zack.setY(INITIAL_ZACK_Y);
+               zack.setEndX(zack.getX() + 20);
+               zack.setEndY(zack.getY() + 20);
                tiles = ll.getRoomTiles(ll.getCurrentRoomNumber()); // Restart current room
                mechanisms = ll.getRoomMechanisms(ll.getCurrentRoomNumber()); // Load the mechanisms
                System.out.println("Restarting current area.");
                break;
             case 2: // Restart Level
                paused = false;
+               isLoading = true; // Set loading flag
+            
                // Reset Zack's position directly
-               zack.setX(INITIAL_ZACK_X);
-               zack.setY(INITIAL_ZACK_Y);
+               //zackPositionEnter(0);
+               ll.resetBoard();
+            
+               zack.setX(300);
+               zack.setY(540);
+               zack.setEndX(zack.getX() + 20);
+               zack.setEndY(zack.getY() + 20);
+            
                tiles = ll.getRoomTiles(0); // Restart from room 0
                mechanisms = ll.getRoomMechanisms(0); // Load the mechanisms
                ll.setCurrentRoomNumber(0); // Reset room number
                // Call resetLevel from LoadLevel
-               ll.resetLevel();
+            
                System.out.println("Restarting level from room 0.");
                break;
             case 3: // Save
                paused = false;
+            
                savedLL = ll;
                savedLL.setSavedRoom(ll.getCurrentRoomNumber());
                
@@ -412,13 +425,12 @@ public class Main extends Application {
             INITIAL_ZACK_Y = 100;
             break;
          case 2:
-            INITIAL_ZACK_X = 240;
-            INITIAL_ZACK_Y = 100;
-
+            INITIAL_ZACK_X = 260;
+            INITIAL_ZACK_Y = 270;
             break;
          case 3:
-            INITIAL_ZACK_X = 3;
-            INITIAL_ZACK_Y = 0;
+            INITIAL_ZACK_X = 360;
+            INITIAL_ZACK_Y = 250;
             break;
          case 4:
             INITIAL_ZACK_X = 4;
@@ -467,16 +479,16 @@ public class Main extends Application {
             INITIAL_ZACK_Y = 600;
             break;
          case 2:
-            INITIAL_ZACK_X = 340;
-            INITIAL_ZACK_Y = 500;
+            INITIAL_ZACK_X = 350;
+            INITIAL_ZACK_Y = 520;
             break;
          case 3:
-            INITIAL_ZACK_X = 3;
-            INITIAL_ZACK_Y = 0;
+            INITIAL_ZACK_X = 360;
+            INITIAL_ZACK_Y = 250;
             break;
          case 4:
-            INITIAL_ZACK_X = 4;
-            INITIAL_ZACK_Y = 0;
+            INITIAL_ZACK_X = 230;
+            INITIAL_ZACK_Y = 440;
             break;
          case 5:
             INITIAL_ZACK_X = 5;
