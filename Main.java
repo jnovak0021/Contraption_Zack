@@ -36,8 +36,15 @@ public class Main extends Application {
    private boolean paused = false; // Track if the game is paused
    private int selectedOption = 0; // Track the selected menu option
 
-   private int INITIAL_ZACK_X = 300; // Starting X position
-   private int INITIAL_ZACK_Y = 540; // Starting Y position
+   private int INITIAL_ZACK_X; // Starting X position
+   private int INITIAL_ZACK_Y; // Starting Y position
+   
+   
+   private int previousRoomNumber = -1; // Track the previous room number
+   
+   private boolean isLoading = false; // Flag to indicate if the game is loading
+
+
    
    private int mouseX = 0;
    private int mouseY = 0;
@@ -54,13 +61,13 @@ public class Main extends Application {
    public void start(Stage primaryStage) {
       canvas = new Canvas(1368, 728);
       gc = canvas.getGraphicsContext2D();
-
+   
       ll = new LoadLevel();
       tiles = null; // Initially set to null until the game starts
       zack = new Zack(INITIAL_ZACK_X, INITIAL_ZACK_Y, Color.BLUE); // Initial position and color
-
-
-
+   
+   
+   
       Pane root = new Pane(canvas); // Use Pane to hold the Canvas
       Scene scene = new Scene(root, 1366, 728);
    
@@ -75,13 +82,13 @@ public class Main extends Application {
                     //get current tiles and mechanism
                     tiles = ll.getRoomTiles(ll.getCurrentRoomNumber());
                     mechanisms = ll.getRoomMechanisms(ll.getCurrentRoomNumber());
-
+                 
                     //get the elapsed time since program started in seconds
                     double elapsedTime = (now - startTime) / 1_000_000_000.0;
                     c.setElapsedTime(elapsedTime);
-
+                 
                     handleTime();
-
+                 
                     scene.setOnMouseMoved(
                        event -> {
                           mouseX = (int) event.getX();
@@ -95,13 +102,51 @@ public class Main extends Application {
                     } else {
                        updateMovement();
                     }
+                    
+                    int currentRoomNumber = ll.getCurrentRoomNumber();
+                 
+                 
+                 // Check if the room number has changed
+               
+                 
+                    if (!isLoading && currentRoomNumber != previousRoomNumber) {
+                    // Room has changed
+                       if (currentRoomNumber > previousRoomNumber) {
+                          System.out.println("Room increased: " + currentRoomNumber);
+                          zackPositionEnter(currentRoomNumber);
+                       } else if (currentRoomNumber < previousRoomNumber) {
+                          System.out.println("Room decreased: " + currentRoomNumber);
+                          zackPositionExit(currentRoomNumber);
+                       }
+                    
+                    // Update Zack's position
+                       zack.setX(INITIAL_ZACK_X);
+                       zack.setY(INITIAL_ZACK_Y);
+                    
+                       zack.setEndX(zack.getX() + 20);
+                       zack.setEndY(zack.getY() + 20);
+                    
+                    // Update previous room number
+                       previousRoomNumber = currentRoomNumber;
+                    } else if (isLoading) {
+                    // Reset loading flag after loading
+                       previousRoomNumber = currentRoomNumber;
+                    
+                       isLoading = false;
+                    }
+                 
+                    
+                 
+                    
                     draw(); // Redraw the scene on each frame
+                    
+                    
                  }
               };
-
+   
       startTime = System.nanoTime();
       c = new Clock(startTime, 0);
-
+   
       //store the start time of the system to use for math
       animationTimer.start();
    
@@ -206,6 +251,8 @@ public class Main extends Application {
                tiles = ll.getRoomTiles(0); // Get the first room tiles
                mechanisms = ll.getRoomMechanisms(0); // Load the mechanisms
                System.out.println("Starting the game, loading first room.");
+               INITIAL_ZACK_X = 300; // Starting X position
+               INITIAL_ZACK_Y = 540;
                break;
          
             case 1: // Exit Game
@@ -231,7 +278,7 @@ public class Main extends Application {
    
       if (pressedKeys.contains(KeyCode.ENTER)) {
          pressedKeys.remove(KeyCode.ENTER); // Only allow a single press to register
-     
+      
          switch (selectedPauseOption) {
             case 0: // Resume
                paused = false; // Exit the pause menu
@@ -269,10 +316,14 @@ public class Main extends Application {
                break;
             case 4: // Load
                try {
-                  //ll = savedLL; 
                   paused = false;
-                  //ll.loadState(savedRooms);
-                  zackPositionHandler(savedLL.getSavedRoom());
+                  isLoading = true; // Set loading flag
+                  ll = savedLL;
+                  zack.setX(savedZackX);
+                  zack.setY(savedZackY);
+               
+                  zack.setEndX(zack.getX() + 20);
+                  zack.setEndY(zack.getY() + 20);
                   ll.setCurrentRoomNumber(savedLL.getSavedRoom());
                   System.out.println(savedLL.getSavedRoom());
                
@@ -281,6 +332,7 @@ public class Main extends Application {
                   System.out.println("An error occurred while loading the game: " + e.getMessage());
                }
                break;
+         
             default:
                System.out.println("Invalid option.");
                break;
@@ -317,6 +369,7 @@ public class Main extends Application {
       if (pressedKeys.contains(KeyCode.ESCAPE)) {
          paused = true; // Set the game to paused state
       }
+      
    }
 
    // Not being used
@@ -342,20 +395,74 @@ public class Main extends Application {
       {
          timedMechanisms.get(i).performTimedFunction();
       }
-
+   
    }
 
-
-
-   public static void zackPositionHandler(int number) {
+   public void zackPositionExit(int number) {
       switch (number) {
          case 0:
-            int INITIAL_ZACK_X = 300;
-            int INITIAL_ZACK_Y = 540;
+            INITIAL_ZACK_X = 350;
+            INITIAL_ZACK_Y = 250;
+            
+         
             break;
          case 1:
-            INITIAL_ZACK_X = 400;
-            INITIAL_ZACK_Y = 660;
+            INITIAL_ZACK_X = 415;
+            INITIAL_ZACK_Y = 100;
+            break;
+         case 2:
+            INITIAL_ZACK_X = 2;
+            INITIAL_ZACK_Y = 0;
+            break;
+         case 3:
+            INITIAL_ZACK_X = 3;
+            INITIAL_ZACK_Y = 0;
+            break;
+         case 4:
+            INITIAL_ZACK_X = 4;
+            INITIAL_ZACK_Y = 0;
+            break;
+         case 5:
+            INITIAL_ZACK_X = 5;
+            INITIAL_ZACK_Y = 0;
+            break;
+         case 6:
+            INITIAL_ZACK_X = 6;
+            INITIAL_ZACK_Y = 0;
+            break;
+         case 7:
+            INITIAL_ZACK_X = 7;
+            INITIAL_ZACK_Y = 0;
+            break;
+         case 8:
+            INITIAL_ZACK_X = 8;
+            INITIAL_ZACK_Y = 0;
+            break;
+         case 9:
+            INITIAL_ZACK_X = 9;
+            INITIAL_ZACK_Y = 0;
+            break;
+         case 10:
+            INITIAL_ZACK_X = 10;
+            INITIAL_ZACK_Y = 0;
+            break;
+         default:
+                // Handle out-of-range case if needed
+            break;
+      }
+   }
+
+   public void zackPositionEnter(int number) {
+      switch (number) {
+         case 0:
+            INITIAL_ZACK_X = 300;
+            INITIAL_ZACK_Y = 540;
+            
+         
+            break;
+         case 1:
+            INITIAL_ZACK_X = 415;
+            INITIAL_ZACK_Y = 600;
             break;
          case 2:
             INITIAL_ZACK_X = 2;
