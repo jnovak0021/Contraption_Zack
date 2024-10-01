@@ -1,25 +1,53 @@
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+
 import java.util.HashSet;
 import java.util.Set;
-import java.util.List;
-import java.util.ArrayList;
 
-//Walls are tiles that Zack cannot pass over.
-//Their color depending on what the theme of the room is
 
-public class Wall extends Tile
+public class Wall extends Mechanism
 {
-    public Wall(int xPos, int yPos, Color myColor)
+    // Constructor
+    //public Wall(int x, int y, int width, int length)
+    public Wall(String property, boolean activated, int x, int y, int endX, int endY, Color myColor, int associatedMechanisms, LoadLevel ll)
     {
-        super(xPos, yPos, myColor); //call parent constructor
-        
+        super(property, activated, x, y, endX, endY, myColor, associatedMechanisms, ll);
     }
     
+    
+    public void drawMe(GraphicsContext gc){
+        // Print position information (uncomment if needed)
+        // System.out.print(" [x-" + getX() + " y-" + getY() + "]");
+   
+        // Set fill color for the tile
+        gc.setFill(getMyColor());
+        // Draw the main tile rectangle
+        gc.fillRect(getX(), getY(), getEndX()-getX(), getEndY()-getY());
+   
+    }
+
+    public String toString()
+    {
+        return "Wall{" +
+                "property='" + getProperty() + '\'' + // Adjust according to your propertgetY() type
+                "activate=" + isActive() +
+                ", x=" + getX() +
+                ", y=" + getY() +
+                ", endX=" + getEndX() +
+                ", endY=" + getEndY() +
+                ", color=" + getColor() +
+                '}';
+
+    }
+    
+    public void performFunction(){
+       //no function
+    }
 }

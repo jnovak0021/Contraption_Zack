@@ -1,18 +1,60 @@
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.*;
+import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class Main extends Application {
+import java.util.*;
+import java.time.*;
 
+
+public class Main extends Application {
    private Set<KeyCode> pressedKeys = new HashSet<>();
    private Zack zack;
+   private LoadLevel ll;
+   private Tile[][] tiles;
+   private ArrayList<Mechanism> mechanisms;
+   private Canvas canvas;
+   private GraphicsContext gc;
+   private int selectedPauseOption = 0; // Track the selected pause menu option
+   private long startTime;  //store the start time of the system for math
+   private double elapsedTime;
+
+   private ArrayList<RoomObject> savedRooms;
+   private int savedZackY;
+   private int savedZackX;
+   private LoadLevel savedLL = new LoadLevel();
+
+
+   private boolean inMenu = true; // Track if we're in the main menu
+   private boolean paused = false; // Track if the game is paused
+   private int selectedOption = 0; // Track the selected menu option
+
+   private int INITIAL_ZACK_X; // Starting X position
+   private int INITIAL_ZACK_Y; // Starting Y position
+   
+   
+   private int previousRoomNumber = -1; // Track the previous room number
+   
+   private boolean isLoading = false; // Flag to indicate if the game is loading
+
+
+   
+   private int mouseX = 0;
+   private int mouseY = 0;
+   
+   private int roomCount = 0;
+   Clock c;
+
 
    public static void main(String[] args) {
       launch(args);
@@ -20,59 +62,301 @@ public class Main extends Application {
 
    @Override
    public void start(Stage primaryStage) {
-      Pane root = new Pane();
+      canvas = new Canvas(1368, 728);
+      gc = canvas.getGraphicsContext2D();
    
-      LoadLevel ll = new LoadLevel();
-      Tile[][] tiles = ll.getRoomTiles(0);
+      ll = new LoadLevel();
+      tiles = null; // Initially set to null until the game starts
+      zack = new Zack(INITIAL_ZACK_X, INITIAL_ZACK_Y, Color.BLUE); // Initial position and color
    
-      if (tiles != null) {
-         boolean isGrey = true; // Start with grey
-         for (int i = 0; i < tiles.length; i++) {
-            for (int j = 0; j < tiles[i].length; j++) {
-               Tile tile = tiles[i][j];
-               if (tile != null) {
-                  System.out.print( ll.getCurrentRoomNumber());
-                  if (ll.getCurrentRoomNumber() == 0) {
-                     
-                     
-                     if (isGrey) {
-                        tile.setColor(Color.LIGHTGREY);
-                     } else {
-                        tile.setColor(Color.BLACK);
-                     }
-                  } 
-               
-                  // Flip the color for the next tile
-                  isGrey = !isGrey;
-                  tile.drawMe(root); // Pass the root pane to draw the tile
-               }
-            }
-         }
-      } else {
-         System.out.println("No tiles were returned.");
-      }
    
-      zack = new Zack(100, 100, Color.BLUE); // Initial position and color
-      root.getChildren().add(zack.getShape()); // Add Zack to the root pane after tiles
    
-      Scene scene = new Scene(root, 800, 600);
+      Pane root = new Pane(canvas); // Use Pane to hold the Canvas
+      Scene scene = new Scene(root, 1366, 728);
    
       scene.setOnKeyPressed(event -> pressedKeys.add(event.getCode()));
       scene.setOnKeyReleased(event -> pressedKeys.remove(event.getCode()));
    
-      AnimationTimer animationTimer = 
-         new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-               updateMovement();
-               zack.updatePosition(); // Update Zack's visual position
-            }
-         };
+      AnimationTimer animationTimer =
+              new AnimationTimer() {
+                 @Override
+                 public void handle(long now) {
+                 
+                    //get current tiles and mechanism
+                    tiles = ll.getRoomTiles(ll.getCurrentRoomNumber());
+                    mechanisms = ll.getRoomMechanisms(ll.getCurrentRoomNumber());
+                 
+                    //get the elapsed time since program started in seconds
+                    double elapsedTime = (now - startTime) / 1_000_000_000.0;
+                    c.setElapsedTime(elapsedTime);
+                 
+                    handleTime();
+                 
+                    scene.setOnMouseMoved(
+                       event -> {
+                          mouseX = (int) event.getX();
+                          mouseY = (int) event.getY();
+                       });
+                 
+                    if (inMenu) {
+                       updateMenu();
+                    } else if (paused) {
+                       updatePauseMenu();
+                    } else {
+                       updateMovement();
+                    }
+                    
+                    int currentRoomNumber = ll.getCurrentRoomNumber();
+                 
+                 
+                 // Check if the room number has changed
+                 
+                 
+                    if (!isLoading && currentRoomNumber != previousRoomNumber) {
+                    // Room has changed
+                       if (currentRoomNumber > previousRoomNumber) {
+                          System.out.println("Room increased: " + currentRoomNumber);
+                          zackPositionEnter(currentRoomNumber);
+                       } else if (currentRoomNumber < previousRoomNumber) {
+                          System.out.println("Room decreased: " + currentRoomNumber);
+                          zackPositionExit(currentRoomNumber);
+                       }
+                    
+                    // Update Zack's position
+                       zack.setX(INITIAL_ZACK_X);
+                       zack.setY(INITIAL_ZACK_Y);
+                    
+                       zack.setEndX(zack.getX() + 20);
+                       zack.setEndY(zack.getY() + 20);
+                    
+                    // Update previous room number
+                       previousRoomNumber = currentRoomNumber;
+                    } else if (isLoading) {
+                    // Reset loading flag after loading
+                       previousRoomNumber = currentRoomNumber;
+                    
+                       isLoading = false;
+                    }
+                 
+                    
+                 
+                    
+                    draw(); // Redraw the scene on each frame
+                    
+                    
+                 }
+              };
+   
+      startTime = System.nanoTime();
+      c = new Clock(startTime, 0);
+   
+      //store the start time of the system to use for math
       animationTimer.start();
    
-      primaryStage.setTitle("Tile Layout");
+      primaryStage.setTitle("Contraption Zack");
       primaryStage.setScene(scene);
       primaryStage.show();
+   }
+
+   private void drawTiles() {
+      // Loop over tiles and call drawMe
+      for (int i = 0; i < tiles.length; i++) {
+         for (int j = 0; j < tiles[i].length; j++) {
+            // Call Tile or Abyss draw
+            tiles[i][j].drawMe(gc);
+         }
+      }
+   }
+
+   // Method to draw the mechanisms in the level
+   public void drawMechanisms() {
+      // Loop over mechanisms and call
+      for (int i = 0; i < mechanisms.size(); i++) {
+         mechanisms.get(i).drawMe(gc);
+      }
+   }
+
+   private void draw() {
+      // Clear the canvas
+      gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+      
+   
+      if (inMenu) {
+         drawMenu();
+      } else if (paused) {
+         drawPauseMenu();
+      } else {
+         // Draw tiles and Zack
+         drawTiles();
+         drawMechanisms();
+         zack.drawMe(gc);
+      }
+      
+      gc.setFill(Color.WHITE);
+      gc.setFont(javafx.scene.text.Font.font(20));
+      gc.fillText("Mouse X: " + mouseX + ", Mouse Y: " + mouseY, 10, 30);
+   }
+
+   private void drawMenu() {
+      // Draw background color
+      gc.setFill(Color.BLACK);
+      gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+   
+      // Draw title
+      gc.setFill(Color.WHITE);
+      gc.setFont(javafx.scene.text.Font.font(40)); // Title font size
+      String title = "Contraption Zack";
+      double titleWidth = gc.getFont().getSize() * title.length() * 0.5; // Approximate width calculation
+      gc.fillText(title, (canvas.getWidth() - titleWidth) / 2, 100); // Center title
+   
+      // Draw menu options
+      String[] menuOptions = {"Start Game", "Exit Game"};
+      for (int i = 0; i < menuOptions.length; i++) {
+         gc.setFill(i == selectedOption ? Color.YELLOW : Color.WHITE); // Highlight selected option
+         double optionWidth = gc.getFont().getSize() * menuOptions[i].length() * 0.5; // Approximate width calculation
+         gc.fillText(menuOptions[i], (canvas.getWidth() - optionWidth) / 2, 200 + (i * 40)); // Center options
+      }
+   }
+
+   private void drawPauseMenu() {
+      gc.setFill(Color.BLACK);
+      gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+   
+      String[] pauseOptions = {"Resume", "Restart Area", "Restart Level", "Save", "Load", "Exit Game"};
+      for (int i = 0; i < pauseOptions.length; i++) {
+         gc.setFill(i == selectedPauseOption ? Color.YELLOW : Color.WHITE); // Highlight selected option
+         gc.fillText(pauseOptions[i], 350, 200 + i * 40); // Adjust y position
+      }
+   }
+
+   private void updateMenu() {
+      if (pressedKeys.contains(KeyCode.W)) {
+         if (selectedOption > 0) {
+            selectedOption--; // Move up the menu
+         }
+         pressedKeys.remove(KeyCode.W); // Prevent rapid movement
+      }
+      if (pressedKeys.contains(KeyCode.S)) {
+         if (selectedOption < 2) {
+            selectedOption++; // Move down the menu
+         }
+         pressedKeys.remove(KeyCode.S); // Prevent rapid movement
+      }
+   
+      if (pressedKeys.contains(KeyCode.ENTER)) {
+         // Only allow a single press to register
+         pressedKeys.remove(KeyCode.ENTER);
+      
+         switch (selectedOption) {
+            case 0: // Start Game
+               inMenu = false; // Start the game
+               ll.setCurrentRoomNumber(0);
+               tiles = ll.getRoomTiles(0); // Get the first room tiles
+               mechanisms = ll.getRoomMechanisms(0); // Load the mechanisms
+               System.out.println("Starting the game, loading first room.");
+               INITIAL_ZACK_X = 300; // Starting X position
+               INITIAL_ZACK_Y = 540;
+               break;
+         
+            case 1: // Exit Game
+               System.exit(0); // Exit the game
+               break;
+         }
+      }
+   }
+
+   private void updatePauseMenu() {
+      if (pressedKeys.contains(KeyCode.W)) {
+         if (selectedPauseOption > 0) {
+            selectedPauseOption--; // Move up the menu
+         }
+         pressedKeys.remove(KeyCode.W); // Prevent rapid movement
+      }
+      if (pressedKeys.contains(KeyCode.S)) {
+         if (selectedPauseOption < 5) { // Adjusted for 6 options
+            selectedPauseOption++; // Move down the menu
+         }
+         pressedKeys.remove(KeyCode.S); // Prevent rapid movement
+      }
+   
+      if (pressedKeys.contains(KeyCode.ENTER)) {
+         pressedKeys.remove(KeyCode.ENTER); // Only allow a single press to register
+      
+         switch (selectedPauseOption) {
+            case 0: // Resume
+               paused = false; // Exit the pause menu
+               break;
+            case 1: // Restart Area
+               paused = false;
+               // Reset Zack's position directly
+               zack.setX(INITIAL_ZACK_X);
+               zack.setY(INITIAL_ZACK_Y);
+               zack.setEndX(zack.getX() + 20);
+               zack.setEndY(zack.getY() + 20);
+               tiles = ll.getRoomTiles(ll.getCurrentRoomNumber()); // Restart current room
+               mechanisms = ll.getRoomMechanisms(ll.getCurrentRoomNumber()); // Load the mechanisms
+               System.out.println("Restarting current area.");
+               break;
+            case 2: // Restart Level
+               paused = false;
+               isLoading = true; // Set loading flag
+            
+               // Reset Zack's position directly
+               //zackPositionEnter(0);
+               ll.resetBoard();
+            
+               zack.setX(300);
+               zack.setY(540);
+               zack.setEndX(zack.getX() + 20);
+               zack.setEndY(zack.getY() + 20);
+            
+               tiles = ll.getRoomTiles(0); // Restart from room 0
+               mechanisms = ll.getRoomMechanisms(0); // Load the mechanisms
+               ll.setCurrentRoomNumber(0); // Reset room number
+               // Call resetLevel from LoadLevel
+            
+               System.out.println("Restarting level from room 0.");
+               break;
+            case 3: // Save
+               paused = false;
+            
+               savedLL = ll;
+               savedLL.setSavedRoom(ll.getCurrentRoomNumber());
+               
+               //savedRooms = ll.saveAllRoomsState();
+               savedZackY = zack.getY();
+               savedZackX = zack.getX();
+               System.out.println("Saving Game.");
+               break;
+            case 4: // Load
+               try {
+                  paused = false;
+                  isLoading = true; // Set loading flag
+                  ll = savedLL;
+                  zack.setX(savedZackX);
+                  zack.setY(savedZackY);
+               
+                  zack.setEndX(zack.getX() + 20);
+                  zack.setEndY(zack.getY() + 20);
+                  ll.setCurrentRoomNumber(savedLL.getSavedRoom());
+                  System.out.println(savedLL.getSavedRoom());
+               
+                  System.out.println("Loading Game.");
+               } catch (Exception e) {
+                  System.out.println("An error occurred while loading the game: " + e.getMessage());
+               }
+               break;
+         
+            default:
+               System.out.println("Invalid option.");
+               break;
+            case 5: // Exit Game
+               System.exit(0); // Exit the game
+               break;
+         }
+         
+         
+      }
    }
 
    private void updateMovement() {
@@ -80,48 +364,160 @@ public class Main extends Application {
       int deltaY = 0;
    
       if (pressedKeys.contains(KeyCode.W)) {
-         deltaY = -5; // Move up
+         deltaY = -1; // Move up
       }
       if (pressedKeys.contains(KeyCode.S)) {
-         deltaY = 5; // Move down
+         deltaY = 1; // Move down
       }
       if (pressedKeys.contains(KeyCode.A)) {
-         deltaX = -5; // Move left
+         deltaX = -1; // Move left
       }
       if (pressedKeys.contains(KeyCode.D)) {
-         deltaX = 5; // Move right
+         deltaX = 1; // Move right
       }
    
-      // Update Zack's position
-      //zack.setXPos(zack.getXPos() + deltaX);
-      zack.incrementY(deltaY);
-      zack.incrementX(deltaX);
-      
-     // System.out.println("[X-" + zack.getXPos() + " Y-"+ zack.getYPos()+ "]" );
+      // Zack handles movement
+      zack.move(deltaX, deltaY, tiles, mechanisms);
    
-      if(zack.getXPos() <= 0)
-      {
-         zack.setXPos(0);
+      // Check for pause input
+      if (pressedKeys.contains(KeyCode.ESCAPE)) {
+         paused = true; // Set the game to paused state
       }
-      if(zack.getXPos() >= 569)
+      
+   }
+
+   // Not being used
+   public void handle(long now) {
+      if (inMenu) {
+         updateMenu();
+      } else if (paused) {
+         updatePauseMenu(); // Update pause menu
+         drawPauseMenu(); // Draw pause menu
+      } else {
+         updateMovement();
+      }
+      draw(); // Redraw the scene on each frame
+   }
+
+
+   //time handling method that handles all time sensitive operation for mechanisms
+   public void handleTime()
+   {
+      ArrayList<Mechanism> timedMechanisms = ll.getTimedMechanisms();
+      //System.out.println("TIMED");
+      for(int i = 0; i <  timedMechanisms.size(); i++)
       {
-         zack.setXPos(569);
+         timedMechanisms.get(i).performTimedFunction();
       }
    
-      
-      if(zack.getYPos() <= 0)
-      {
-         zack.setYPos(0);
-      }
-      
-      if(zack.getYPos() >= 470 && zack.getXPos() <= 250)
-      {
-         zack.setYPos(470);
-      }
-      
-      if(zack.getYPos() >= 470 && zack.getXPos() >= 350)
-      {
-         zack.setYPos(470);
+   }
+
+   public void zackPositionExit(int number) {
+      switch (number) {
+         case 0:
+            INITIAL_ZACK_X = 350;
+            INITIAL_ZACK_Y = 250;
+            
+         
+            break;
+         case 1:
+            INITIAL_ZACK_X = 415;
+            INITIAL_ZACK_Y = 100;
+            break;
+         case 2:
+            INITIAL_ZACK_X = 260;
+            INITIAL_ZACK_Y = 270;
+            break;
+         case 3:
+            INITIAL_ZACK_X = 360;
+            INITIAL_ZACK_Y = 250;
+            break;
+         case 4:
+            INITIAL_ZACK_X = 4;
+            INITIAL_ZACK_Y = 0;
+            break;
+         case 5:
+            INITIAL_ZACK_X = 5;
+            INITIAL_ZACK_Y = 0;
+            break;
+         case 6:
+            INITIAL_ZACK_X = 6;
+            INITIAL_ZACK_Y = 0;
+            break;
+         case 7:
+            INITIAL_ZACK_X = 7;
+            INITIAL_ZACK_Y = 0;
+            break;
+         case 8:
+            INITIAL_ZACK_X = 8;
+            INITIAL_ZACK_Y = 0;
+            break;
+         case 9:
+            INITIAL_ZACK_X = 9;
+            INITIAL_ZACK_Y = 0;
+            break;
+         case 10:
+            INITIAL_ZACK_X = 10;
+            INITIAL_ZACK_Y = 0;
+            break;
+         default:
+                // Handle out-of-range case if needed
+            break;
       }
    }
+
+   public void zackPositionEnter(int number) {
+      switch (number) {
+         case 0:
+            INITIAL_ZACK_X = 300;
+            INITIAL_ZACK_Y = 540;
+            
+         
+            break;
+         case 1:
+            INITIAL_ZACK_X = 415;
+            INITIAL_ZACK_Y = 600;
+            break;
+         case 2:
+            INITIAL_ZACK_X = 350;
+            INITIAL_ZACK_Y = 520;
+            break;
+         case 3:
+            INITIAL_ZACK_X = 360;
+            INITIAL_ZACK_Y = 250;
+            break;
+         case 4:
+            INITIAL_ZACK_X = 230;
+            INITIAL_ZACK_Y = 440;
+            break;
+         case 5:
+            INITIAL_ZACK_X = 5;
+            INITIAL_ZACK_Y = 0;
+            break;
+         case 6:
+            INITIAL_ZACK_X = 6;
+            INITIAL_ZACK_Y = 0;
+            break;
+         case 7:
+            INITIAL_ZACK_X = 7;
+            INITIAL_ZACK_Y = 0;
+            break;
+         case 8:
+            INITIAL_ZACK_X = 8;
+            INITIAL_ZACK_Y = 0;
+            break;
+         case 9:
+            INITIAL_ZACK_X = 9;
+            INITIAL_ZACK_Y = 0;
+            break;
+         case 10:
+            INITIAL_ZACK_X = 10;
+            INITIAL_ZACK_Y = 0;
+            break;
+         default:
+                // Handle out-of-range case if needed
+            break;
+      }
+   }
+   
 }
