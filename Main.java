@@ -288,6 +288,8 @@ public class Main extends Application {
                // Reset Zack's position directly
                zack.setX(INITIAL_ZACK_X);
                zack.setY(INITIAL_ZACK_Y);
+               zack.setEndX(zack.getX() + 20);
+               zack.setEndY(zack.getY() + 20);
                tiles = ll.getRoomTiles(ll.getCurrentRoomNumber()); // Restart current room
                mechanisms = ll.getRoomMechanisms(ll.getCurrentRoomNumber()); // Load the mechanisms
                System.out.println("Restarting current area.");
@@ -424,8 +426,8 @@ public class Main extends Application {
             INITIAL_ZACK_Y = 270;
             break;
          case 3:
-            INITIAL_ZACK_X = 3;
-            INITIAL_ZACK_Y = 0;
+            INITIAL_ZACK_X = 360;
+            INITIAL_ZACK_Y = 250;
             break;
          case 4:
             INITIAL_ZACK_X = 4;
@@ -478,12 +480,12 @@ public class Main extends Application {
             INITIAL_ZACK_Y = 520;
             break;
          case 3:
-            INITIAL_ZACK_X = 3;
-            INITIAL_ZACK_Y = 0;
+            INITIAL_ZACK_X = 360;
+            INITIAL_ZACK_Y = 250;
             break;
          case 4:
-            INITIAL_ZACK_X = 4;
-            INITIAL_ZACK_Y = 0;
+            INITIAL_ZACK_X = 230;
+            INITIAL_ZACK_Y = 440;
             break;
          case 5:
             INITIAL_ZACK_X = 5;

@@ -67,7 +67,7 @@ public class LoadLevel
 
       //note -- this needs to be changed later when all levles exist
       //loop through each of the 10 rooms
-      for( int i = 0; i < 3; i++ )
+      for( int i = 0; i < 10; i++ )
       {
          //set index of arrayIn to return value of privateReadFile
          System.out.println("reading in file " + i);
