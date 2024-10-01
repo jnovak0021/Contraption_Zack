@@ -67,7 +67,7 @@ public class LoadLevel
 
       //note -- this needs to be changed later when all levles exist
       //loop through each of the 10 rooms
-      for( int i = 0; i < 3; i++ )
+      for( int i = 0; i < 10; i++ )
       {
          //set index of arrayIn to return value of privateReadFile
          System.out.println("reading in file " + i);
@@ -267,15 +267,21 @@ public class LoadLevel
             //timerdoor
             else if(parts[0].equals("6"))
             {
-               System.out.println(":L:L:L:L:L:L:L:L:L:L:L:L:L:L:L:L:L:L:L:");
-
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
                temp = new TimerDoor(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this);
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
                tempMechanismArray.add(temp);
                timedMechanisms.add(temp);
             }
-
+            //TimerButton
+            else if(parts[0].equals("7"))
+            {
+               //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
+               temp = new TimerButton(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this);
+               //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
+               tempMechanismArray.add(temp);
+               timedMechanisms.add(temp);
+            }
 
             System.out.println(tempMechanismArray.get(tempMechanismArray.size()-1));
             System.out.println("adding mechanism to \t" + Integer.parseInt(parts[8]));
