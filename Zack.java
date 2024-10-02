@@ -84,7 +84,7 @@ public class Zack extends GameObject {
                 return false;
             }
 
-            else if(current instanceof Spike && hit){
+            else if(current instanceof Spike && hit && current.isActive()){
                 System.out.println("SPIKE");
                 return true;
             }
