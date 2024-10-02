@@ -1,15 +1,18 @@
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.scene.*;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
+
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import java.util.*;
 import java.time.*;
 
@@ -288,17 +291,20 @@ public class Main extends Application {
                // Reset Zack's position directly
                zack.setX(INITIAL_ZACK_X);
                zack.setY(INITIAL_ZACK_Y);
+               zack.setEndX(zack.getX() + 20);
+               zack.setEndY(zack.getY() + 20);
+               ll.resetCurrentRoom();
                tiles = ll.getRoomTiles(ll.getCurrentRoomNumber()); // Restart current room
                mechanisms = ll.getRoomMechanisms(ll.getCurrentRoomNumber()); // Load the mechanisms
                System.out.println("Restarting current area.");
                break;
             case 2: // Restart Level
                paused = false;
-                              isLoading = true; // Set loading flag
-
+               isLoading = true; // Set loading flag
+            
                // Reset Zack's position directly
                //zackPositionEnter(0);
-               ll.resetLevel();
+               ll.resetBoard();
             
                zack.setX(300);
                zack.setY(540);
@@ -424,8 +430,8 @@ public class Main extends Application {
             INITIAL_ZACK_Y = 270;
             break;
          case 3:
-            INITIAL_ZACK_X = 3;
-            INITIAL_ZACK_Y = 0;
+            INITIAL_ZACK_X = 360;
+            INITIAL_ZACK_Y = 250;
             break;
          case 4:
             INITIAL_ZACK_X = 4;
@@ -478,12 +484,12 @@ public class Main extends Application {
             INITIAL_ZACK_Y = 520;
             break;
          case 3:
-            INITIAL_ZACK_X = 3;
-            INITIAL_ZACK_Y = 0;
+            INITIAL_ZACK_X = 360;
+            INITIAL_ZACK_Y = 250;
             break;
          case 4:
-            INITIAL_ZACK_X = 4;
-            INITIAL_ZACK_Y = 0;
+            INITIAL_ZACK_X = 230;
+            INITIAL_ZACK_Y = 440;
             break;
          case 5:
             INITIAL_ZACK_X = 5;
