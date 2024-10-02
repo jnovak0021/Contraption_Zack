@@ -36,9 +36,16 @@ public class Spike extends Mechanism
         gc.setFill(spikeColor);
 
         // Draw three spikes
-        drawSpike(gc, getX(), getEndY());
-        drawSpike(gc, getX()+27, getEndY());
-        drawSpike(gc, getX()+54, getEndY());
+        if(getProperty().equals("H")){ // Horizontal
+            drawSpike(gc, getX(), getEndY());
+            drawSpike(gc, getX()+27, getEndY());
+            drawSpike(gc, getX()+54, getEndY());
+        }
+        if(getProperty().equals("V")){//vertical
+            drawSpike(gc, getX(), getEndY());
+            drawSpike(gc, getX(), getEndY()+27);
+            drawSpike(gc, getX(), getEndY()+54);
+        }
     }
 
     // Method to draw a single spike as a triangle
