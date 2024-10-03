@@ -293,6 +293,7 @@ public class Main extends Application {
                zack.setY(INITIAL_ZACK_Y);
                zack.setEndX(zack.getX() + 20);
                zack.setEndY(zack.getY() + 20);
+               ll.resetCurrentRoom();
                tiles = ll.getRoomTiles(ll.getCurrentRoomNumber()); // Restart current room
                mechanisms = ll.getRoomMechanisms(ll.getCurrentRoomNumber()); // Load the mechanisms
                System.out.println("Restarting current area.");
