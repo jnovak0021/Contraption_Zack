@@ -106,37 +106,13 @@ public class Main extends Application {
                        updateMovement();
                     }
                     
-                    int currentRoomNumber = ll.getCurrentRoomNumber();
+                    //int currentRoomNumber = ll.getCurrentRoomNumber();
                  
                  
                  // Check if the room number has changed
                  
                  
-                    if (!isLoading && currentRoomNumber != previousRoomNumber) {
-                    // Room has changed
-                       if (currentRoomNumber > previousRoomNumber) {
-                          System.out.println("Room increased: " + currentRoomNumber);
-                          zackPositionEnter(currentRoomNumber);
-                       } else if (currentRoomNumber < previousRoomNumber) {
-                          System.out.println("Room decreased: " + currentRoomNumber);
-                          zackPositionExit(currentRoomNumber);
-                       }
                     
-                    // Update Zack's position
-                       zack.setX(INITIAL_ZACK_X);
-                       zack.setY(INITIAL_ZACK_Y);
-                    
-                       zack.setEndX(zack.getX() + 20);
-                       zack.setEndY(zack.getY() + 20);
-                    
-                    // Update previous room number
-                       previousRoomNumber = currentRoomNumber;
-                    } else if (isLoading) {
-                    // Reset loading flag after loading
-                       previousRoomNumber = currentRoomNumber;
-                    
-                       isLoading = false;
-                    }
                  
                     
                  
@@ -254,8 +230,11 @@ public class Main extends Application {
                tiles = ll.getRoomTiles(7); // Get the first room tiles
                mechanisms = ll.getRoomMechanisms(7); // Load the mechanisms
                System.out.println("Starting the game, loading first room.");
-               INITIAL_ZACK_X = 300; // Starting X position
-               INITIAL_ZACK_Y = 540;
+               zack.setX(300);
+               zack.setY(540);
+               zack.setEndX(zack.getX() + 20);
+               zack.setEndY(zack.getY() + 20);
+
                break;
          
             case 1: // Exit Game
@@ -300,6 +279,8 @@ public class Main extends Application {
                break;
             case 2: // Restart Level
                paused = false;
+               
+              
                isLoading = true; // Set loading flag
             
                // Reset Zack's position directly
@@ -413,112 +394,8 @@ public class Main extends Application {
    
    }
 
-   public void zackPositionExit(int number) {
-      switch (number) {
-         case 0:
-            INITIAL_ZACK_X = 350;
-            INITIAL_ZACK_Y = 250;
-            
-         
-            break;
-         case 1:
-            INITIAL_ZACK_X = 415;
-            INITIAL_ZACK_Y = 100;
-            break;
-         case 2:
-            INITIAL_ZACK_X = 260;
-            INITIAL_ZACK_Y = 270;
-            break;
-         case 3:
-            INITIAL_ZACK_X = 360;
-            INITIAL_ZACK_Y = 250;
-            break;
-         case 4:
-            INITIAL_ZACK_X = 4;
-            INITIAL_ZACK_Y = 0;
-            break;
-         case 5:
-            INITIAL_ZACK_X = 5;
-            INITIAL_ZACK_Y = 0;
-            break;
-         case 6:
-            INITIAL_ZACK_X = 6;
-            INITIAL_ZACK_Y = 0;
-            break;
-         case 7:
-            INITIAL_ZACK_X = 7;
-            INITIAL_ZACK_Y = 0;
-            break;
-         case 8:
-            INITIAL_ZACK_X = 8;
-            INITIAL_ZACK_Y = 0;
-            break;
-         case 9:
-            INITIAL_ZACK_X = 9;
-            INITIAL_ZACK_Y = 0;
-            break;
-         case 10:
-            INITIAL_ZACK_X = 10;
-            INITIAL_ZACK_Y = 0;
-            break;
-         default:
-                // Handle out-of-range case if needed
-            break;
-      }
-   }
 
-   public void zackPositionEnter(int number) {
-      switch (number) {
-         case 0:
-            INITIAL_ZACK_X = 300;
-            INITIAL_ZACK_Y = 540;
-            
-         
-            break;
-         case 1:
-            INITIAL_ZACK_X = 415;
-            INITIAL_ZACK_Y = 600;
-            break;
-         case 2:
-            INITIAL_ZACK_X = 350;
-            INITIAL_ZACK_Y = 520;
-            break;
-         case 3:
-            INITIAL_ZACK_X = 360;
-            INITIAL_ZACK_Y = 250;
-            break;
-         case 4:
-            INITIAL_ZACK_X = 230;
-            INITIAL_ZACK_Y = 440;
-            break;
-         case 5:
-            INITIAL_ZACK_X = 5;
-            INITIAL_ZACK_Y = 0;
-            break;
-         case 6:
-            INITIAL_ZACK_X = 6;
-            INITIAL_ZACK_Y = 0;
-            break;
-         case 7:
-            INITIAL_ZACK_X = 7;
-            INITIAL_ZACK_Y = 0;
-            break;
-         case 8:
-            INITIAL_ZACK_X = 8;
-            INITIAL_ZACK_Y = 0;
-            break;
-         case 9:
-            INITIAL_ZACK_X = 9;
-            INITIAL_ZACK_Y = 0;
-            break;
-         case 10:
-            INITIAL_ZACK_X = 10;
-            INITIAL_ZACK_Y = 0;
-            break;
-         default:
-                // Handle out-of-range case if needed
-            break;
-      }
-   }
+   
+   
    
 }
