@@ -63,7 +63,6 @@ public class Zack extends GameObject {
             
             //check if object is a jukebox and if it collides
             else if(current instanceof Jukebox && hit){
-                System.out.println("Juke");
                 return true;
             }
             
@@ -84,7 +83,7 @@ public class Zack extends GameObject {
                 return false;
             }
 
-            else if(current instanceof Spike && hit){
+            else if(current instanceof Spike && hit && current.isActive()){
                 System.out.println("SPIKE");
                 return true;
             }
