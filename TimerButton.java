@@ -54,9 +54,7 @@ public class TimerButton extends Mechanism
     public void performFunction(){
         activatedStartTime = getClock().getElapsedTime();
         ArrayList <Mechanism> mechs = ll.getAssociatedMechanisms(associatedMechanisms);
-        System.out.println("ACTIVATING\t" + activatedStartTime);
         for(int i=0; i < mechs.size(); i++){
-            System.out.print(mechs.get(i)+ " ");
             //dont activate other buttons
             if(!(mechs.get(i) instanceof TimerButton))
                 mechs.get(i).activate();//holy spirit activate
@@ -72,17 +70,11 @@ public class TimerButton extends Mechanism
         double elapsedTime = getClock().getElapsedTime();
 
         if (this.isActive()){}
-        else if((elapsedTime - activatedStartTime < 30) && activatedStartTime != 0)
-        {
-            System.out.println(elapsedTime + "\t-\t" + activatedStartTime +  "\t=\t" + (elapsedTime - activatedStartTime));
-
-        }
         else if((elapsedTime - activatedStartTime > 30) && activatedStartTime != 0)
         {
             ArrayList <Mechanism> mechs = ll.getAssociatedMechanisms(associatedMechanisms);
 
             for(int i=0; i < mechs.size(); i++){
-                System.out.print(mechs.get(i)+ " ");
                 //dont activate other buttons
                 if(!(mechs.get(i) instanceof TimerButton))
                     mechs.get(i).activate();//holy spirit activate
