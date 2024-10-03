@@ -40,9 +40,9 @@ public class Spike extends Mechanism
             drawSpike(gc, getX()+54, getEndY());
         }
         if(getProperty().equals("V")){//vertical
+            drawSpike(gc, getX(), getEndY()-57);
+            drawSpike(gc, getX(), getEndY()-27);
             drawSpike(gc, getX(), getEndY());
-            drawSpike(gc, getX(), getEndY()+27);
-            drawSpike(gc, getX(), getEndY()+54);
         }
     }
 
