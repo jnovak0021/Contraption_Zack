@@ -453,6 +453,30 @@ public class LoadLevel
    
       System.out.println("Game board has been reset.");
    }
+   
+   public void resetCurrentRoom() {
+    // Get the current room object
+    RoomObject currentRoom = rooms.get(currentRoomNumber);
+    
+    // Clear the current room's mechanisms
+    currentRoom.getRoomMechanismArray().clear();
+    
+    // Optionally, reset any other specific states related to the current room here
+    // For example, reset any specific game objects or state variables associated with this room
+    
+    // Re-read the current room data
+    String roomFileName = "room" + currentRoomNumber + ".txt";
+    RoomObject newRoom = privateReadFile(roomFileName);
+    
+    // Replace the current room with the new one
+    rooms.set(currentRoomNumber, newRoom);
+
+    // Optionally, reset the current room number if needed (not generally necessary)
+    // currentRoomNumber = currentRoomNumber; // This line is just for clarity, not needed
+
+    System.out.println("Current room " + currentRoomNumber + " has been reset.");
+}
+
 
 
 }

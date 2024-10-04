@@ -16,47 +16,56 @@ import java.util.*;
 //A button may be linked to a timer in some room
 public class Button extends Mechanism
 {
-    public Button(String property, boolean activated, int x, int y, int endX, int endY, Color myColor, int associatedMechanisms, LoadLevel ll)
-    {
-        super(property, activated, x, y, endX, endY, myColor, associatedMechanisms, ll);
-    }
-    
-        
-    public void drawMe(GraphicsContext gc){
+    private String property;
 
-        //draw a simple square
-        gc.setFill(getMyColor());
-        gc.fillRect(getX(),getY(), getWidth(), getLength());
+   public Button(String property, boolean activated, int x, int y, int endX, int endY, Color myColor, int associatedMechanisms, LoadLevel ll)
+   {
+      super(property, activated, x, y, endX, endY, myColor, associatedMechanisms, ll);
+      this.property = property;
+   }
+   
+   public String getProperty() {
+      return property;
+   }
 
-    }
+       
+   public void drawMe(GraphicsContext gc){
+   
+      //draw a simple square
+      gc.setFill(getMyColor());
+      gc.fillRect(getX(),getY(), getWidth(), getLength());
+   
+   }
 
-    public String toString()
-    {
-        return "Button{" +
-                "property='" + getProperty() + '\'' + // Adjust according to your propertgetY() type
-                "activate=" + isActive() +
-                ", x=" + getX() +
-                ", y=" + getY() +
-                ", endX=" + getEndX() +
-                ", endY=" + getEndY() +
-                ", color=" + getColor() +
-                '}';
+   public String toString()
+   {
+      return "Button{" +
+             "property='" + getProperty() + '\'' + // Adjust according to your propertgetY() type
+             "activate=" + isActive() +
+             ", x=" + getX() +
+             ", y=" + getY() +
+             ", endX=" + getEndX() +
+             ", endY=" + getEndY() +
+             ", color=" + getColor() +
+             '}';
+   
+   }
 
-    }
-
-    //this method will be called from zack, and will activate/deactivate the correct spikes
-    public void performFunction(){
-        ArrayList <Mechanism> mechs = ll.getAssociatedMechanisms(associatedMechanisms);
-
-        for(int i=0; i < mechs.size(); i++){
-            System.out.print(mechs.get(i)+ " ");
-            //dont activate other buttons
-            if(!(mechs.get(i) instanceof Button))
-                mechs.get(i).activate();//holy spirit activate
-        }
-        System.out.println();
-
-    }
+   //this method will be called from zack, and will activate/deactivate the correct spikes
+   public void performFunction(){
+      ArrayList <Mechanism> mechs = ll.getAssociatedMechanisms(associatedMechanisms);
+   
+      for(int i=0; i < mechs.size(); i++){
+         System.out.print(mechs.get(i)+ " ");
+         //dont activate other buttons
+         if(!(mechs.get(i) instanceof Button))
+            mechs.get(i).activate();//holy spirit activate
+      }
+      System.out.println();
+   
+   }
+   
+   
 }
 
 //get int associatedMechanisms

@@ -26,26 +26,36 @@ public class Spike extends Mechanism
         if(isActive()){
             drawSpikeTrap(gc,getMyColor());
         }
-        else
-            gc.clearRect(getX(), getEndY() - 20, 64, 20);
     }
     
     // Method to draw a spike trap with specified color
     private void drawSpikeTrap(GraphicsContext gc, Color spikeColor){
         // Set the color for the spikes
         gc.setFill(spikeColor);
-
+        
         // Draw three spikes
-        drawSpike(gc, getX(), getEndY());
-        drawSpike(gc, getX()+27, getEndY());
-        drawSpike(gc, getX()+54, getEndY());
+        if(getProperty().equals("H")){ // Horizontal
+            drawSpike(gc, getX(), getEndY());
+            drawSpike(gc, getX()+27, getEndY());
+            drawSpike(gc, getX()+54, getEndY());
+        }
+        if(getProperty().equals("V")){//vertical
+            drawSpike(gc, getX(), getEndY()-57);
+            drawSpike(gc, getX(), getEndY()-27);
+            drawSpike(gc, getX(), getEndY());
+        }
     }
 
     // Method to draw a single spike as a triangle
     private void drawSpike(GraphicsContext gc, double xOffset, double height){
         double[] xPoints = {xOffset, xOffset + 10, xOffset + 5};
         double[] yPoints = {height, height, height - 20};
-        gc.fillPolygon(xPoints, yPoints, 3);
+        if(isActive()){
+            gc.fillPolygon(xPoints, yPoints, 3);
+        }
+        else{
+            gc.strokePolygon(xPoints, yPoints, 3);
+        }
     }
 
     public String toString()

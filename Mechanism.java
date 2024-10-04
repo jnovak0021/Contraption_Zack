@@ -77,11 +77,7 @@ public abstract class Mechanism extends GameObject
    
    public void activate()
    {
-       if(this.activated){
-          this.activated = false;
-       }
-       else
-          this.activated = true;
+       activated = !activated;
    }
 
    public void setActivated(boolean b)
