@@ -104,6 +104,9 @@ Spring: 5
         dd: right reusable
 TimerDoor: 6
 TimerButton: 7
+Stanchion: 8
+    H: Horizontal
+    V: Vertical
 Button: B
 Wall: W
 Spike: S

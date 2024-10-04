@@ -55,8 +55,11 @@ public class Zack extends GameObject {
             System.out.println("WALL");
             return true;
          }
-      
-         //wall
+         //stanchion collision
+         if(current instanceof Stanchion && hit){
+            return true;
+         }
+
          // Door collision handling
          if (current instanceof Door && hit) {
             ((Mechanism) current).performFunction();
