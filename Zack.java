@@ -78,7 +78,7 @@ public class Zack extends GameObject {
             System.out.println("Juke");
             return true;
          }
-         
+         //button
          else if(current instanceof Button && hit){
             if(((Mechanism) current).isActive()){ //Button is not pressed
                ((Mechanism) current).activate();
@@ -86,6 +86,14 @@ public class Zack extends GameObject {
             }
             System.out.println("BUTTON");
             return false;
+         }
+         //wallswitch -- unlike the button, wall switch can be toggled on and off by interacting with it
+         else if(current instanceof WallSwitch && hit){
+            ((Mechanism) current).activate();
+            ((Mechanism) current).performFunction();
+            System.out.println("Wall Switch");
+            return true;
+
          }
          else if(current instanceof TimerButton && hit){
             if(((Mechanism) current).isActive()){ //Button is not pressed
@@ -98,7 +106,10 @@ public class Zack extends GameObject {
          
          else if(current instanceof Spike && hit){
             System.out.println("SPIKE");
-            return true;
+            if(current.isActive())
+               return true;
+            else
+               return false;
          }
          
          else if(current instanceof FloatingTile && hit){

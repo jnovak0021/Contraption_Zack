@@ -108,6 +108,7 @@ Stanchion: 8
     H: Horizontal
     V: Vertical
 TeslaCoil: 9
+WallSwitch: 10
 Button: B
 Wall: W
 Spike: S

@@ -16,13 +16,19 @@ import java.util.Set;
 
 public class Floor extends Tile
 {
-   public Floor(int x, int y, Color myColor)
+   public Floor(int x, int y, Color myColor, Color secondaryColor)
    {
-      super(x, y, x + width, y + length, myColor, true);
+      super(x, y, x + width, y + length, myColor, secondaryColor, true);
    }
 
+    public Floor(int x, int y, Color myColor)
+    {
+        super(x, y, x + width, y + length, myColor, true);
+    }
 
-    
+
+
+
     public String toString()
     {
       return "Floor:" + getX() + ":" + getY() + "\t" ;
@@ -39,7 +45,7 @@ public class Floor extends Tile
        gc.fillRect(getX(), getY(), 80, 80);
    
        // Set stroke color for the border
-       gc.setStroke(Color.BLACK);
+       gc.setStroke(getSecondaryColor());
        gc.setLineWidth(2); // Optional: set the border thickness
        // Draw the border rectangle
        gc.strokeRect(getX(), getY(), 80, 80);
