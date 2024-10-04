@@ -226,9 +226,9 @@ public class Main extends Application {
          switch (selectedOption) {
             case 0: // Start Game
                inMenu = false; // Start the game
-               ll.setCurrentRoomNumber(7);
-               tiles = ll.getRoomTiles(7); // Get the first room tiles
-               mechanisms = ll.getRoomMechanisms(7); // Load the mechanisms
+               ll.setCurrentRoomNumber(0);
+               tiles = ll.getRoomTiles(0); // Get the first room tiles
+               mechanisms = ll.getRoomMechanisms(0); // Load the mechanisms
                System.out.println("Starting the game, loading first room.");
                zack.setX(300);
                zack.setY(540);

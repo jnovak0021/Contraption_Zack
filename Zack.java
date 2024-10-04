@@ -146,7 +146,6 @@ public class Zack extends GameObject {
    }
 
 
-<<<<<<< HEAD
 
    //this is a collides method that can determine if any two game objects are currently overlapping
    //Zack will implement a different collides method that makes a small change to his poistion and 
@@ -250,35 +249,7 @@ public class Zack extends GameObject {
                   INITIAL_ZACK_X = 410;
                   INITIAL_ZACK_Y = 600;
                   break;
-=======
-            }
-            
-            //check if object is a jukebox and if it collides
-            else if(current instanceof Jukebox && hit){
-                return true;
-            }
-            
-            else if(current instanceof Button && hit){
-                if(((Mechanism) current).isActive()){ //Button is not pressed
-                    ((Mechanism) current).activate();
-                    ((Mechanism) current).performFunction();
-                }
-                System.out.println("BUTTON");
-                return false;
-            }
-            else if(current instanceof TimerButton && hit){
-                if(((Mechanism) current).isActive()){ //Button is not pressed
-                    ((Mechanism) current).activate();
-                    ((Mechanism) current).performFunction();
-                }
-                System.out.println("BUTTON");
-                return false;
-            }
 
-            else if(current instanceof Spike && hit && current.isActive()){
-                System.out.println("SPIKE");
-                return true;
->>>>>>> a9354fca51cf46e7720383fd51740d8d3816b9f1
             }
             break;
             
