@@ -74,7 +74,7 @@ public class Main extends Application {
       Pane root = new Pane(canvas); // Use Pane to hold the Canvas
       Scene scene = new Scene(root, 1366, 728);
    
-      scene.setOnKeyPressed(event -> pressedKeys.add(event.getCode()));
+      scene.setOnKeyPressed(event -> pressedKeys.add(event.getCode()));    
       scene.setOnKeyReleased(event -> pressedKeys.remove(event.getCode()));
    
       AnimationTimer animationTimer =
@@ -91,7 +91,7 @@ public class Main extends Application {
                     c.setElapsedTime(elapsedTime);
                  
                     handleTime();
-                 
+                     
                     scene.setOnMouseMoved(
                        event -> {
                           mouseX = (int) event.getX();

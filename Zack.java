@@ -261,8 +261,8 @@ public class Zack extends GameObject {
                //                   INITIAL_ZACK_Y = 100;
                   break;
                case 'B':
-                  INITIAL_ZACK_X = 415;
-                  INITIAL_ZACK_Y = 100;
+                  INITIAL_ZACK_X = 380;
+                  INITIAL_ZACK_Y = 520;
                   break;
             }
             break;
@@ -272,16 +272,53 @@ public class Zack extends GameObject {
                   INITIAL_ZACK_X = 260;
                   INITIAL_ZACK_Y = 270;
                   break;
+               case 'B':
+                  INITIAL_ZACK_X = 260;
+                  INITIAL_ZACK_Y = 270;
+                  break;
+               case 'C':
+                  INITIAL_ZACK_X = 230;
+                  INITIAL_ZACK_Y = 360;
+                  break;
             }
+            
             break;
          case 3:
             switch (door) {
                case 'A':
-                  INITIAL_ZACK_X = 360;
-                  INITIAL_ZACK_Y = 250;
+                  INITIAL_ZACK_X = 270;
+                  INITIAL_ZACK_Y = 190;
+                  break;
+                   case 'B':
+                  INITIAL_ZACK_X = 270;
+                  INITIAL_ZACK_Y = 190;
                   break;
             }
             break;
+         case 4:
+            switch (door) {
+               case 'A':
+                  INITIAL_ZACK_X = 230;
+                  INITIAL_ZACK_Y = 260;
+                  break;
+            }
+            break;
+         case 5:
+            switch (door) {
+               case 'A':
+                  INITIAL_ZACK_X = 270;
+                  INITIAL_ZACK_Y = 200;
+                  break;
+               case 'B':
+                  INITIAL_ZACK_X = 270;
+                  INITIAL_ZACK_Y = 200;
+                  break;
+            
+            
+            
+            }
+            break;
+      
         // Continue for other rooms...
          default:
             // Handle out-of-range case if needed
