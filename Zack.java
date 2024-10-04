@@ -56,12 +56,12 @@ public class Zack extends GameObject {
             return true;
          }
          //stanchion collision
-         if(current instanceof Stanchion && hit){
+        else if(current instanceof Stanchion && hit){
             return true;
          }
 
          // Door collision handling
-         if (current instanceof Door && hit) {
+         else if (current instanceof Door && hit) {
             ((Mechanism) current).performFunction();
             String doorProperty = current.getProperty(); // Assume this returns an int corresponding to the door number
             zackPositionDoor(doorProperty); // Set Zack's new position based on the door's property
@@ -127,6 +127,14 @@ public class Zack extends GameObject {
                   current.activate();
                return false;
             }
+         }
+         else if(current instanceof TeslaCoil && hit){
+            if(current.isActive())
+            {
+               return true;
+            }
+            else
+               return false;
          }
          //for all objects that Zack can collide with, call performFunction method
          else if(hit){
