@@ -114,7 +114,25 @@ public class Main extends Application {
                  
                     
                  
-                    
+                    scene.setOnMouseClicked(
+                       event -> {
+                       // Get the click coordinates and cast them to int
+                          int clickX = (int) event.getX();
+                          int clickY = (int) event.getY();
+                       
+                       // Set Zack's position to the clicked coordinates
+                          zack.setX(clickX);
+                          zack.setY(clickY);
+                       
+                       // Optionally adjust the end position if you have an animation or bounding box
+                          zack.setEndX(zack.getX() + 20); // Adjust as needed
+                          zack.setEndY(zack.getY() + 20); // Adjust as needed
+                       
+                       // Redraw the scene to reflect the new position
+                          draw();
+                       });
+                 
+                 
                  
                     
                     draw(); // Redraw the scene on each frame
@@ -167,6 +185,17 @@ public class Main extends Application {
          drawMechanisms();
          zack.drawMe(gc);
       }
+      
+      int currentRoomNumber = ll.getCurrentRoomNumber();
+        
+        // Set the fill color and font for the room number
+      gc.setFill(Color.WHITE);
+      gc.setFont(javafx.scene.text.Font.font(20));
+        
+        // Draw the room number in the top right corner
+      String roomNumberText = "Room: " + currentRoomNumber;
+      double textWidth = gc.getFont().getSize() * roomNumberText.length() * 0.5; // Approximate width
+      gc.fillText(roomNumberText, 100, 100); // Adjusted for top left position
       
       gc.setFill(Color.WHITE);
       gc.setFont(javafx.scene.text.Font.font(20));
@@ -226,7 +255,7 @@ public class Main extends Application {
          switch (selectedOption) {
             case 0: // Start Game
                inMenu = false; // Start the game
-               ll.setCurrentRoomNumber(7);
+               ll.setCurrentRoomNumber(0);
                tiles = ll.getRoomTiles(7); // Get the first room tiles
                mechanisms = ll.getRoomMechanisms(7); // Load the mechanisms
                System.out.println("Starting the game, loading first room.");
@@ -234,7 +263,7 @@ public class Main extends Application {
                zack.setY(540);
                zack.setEndX(zack.getX() + 20);
                zack.setEndY(zack.getY() + 20);
-
+            
                break;
          
             case 1: // Exit Game
