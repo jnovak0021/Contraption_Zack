@@ -11,3 +11,9 @@
 
 3:5A:true:560:160:640:240:blue:0
 3:5B:true:160:480:240:560:blue:0
+B:0:true:560:320:640:400:orange:50
+5:aa:false:480:480:560:560:grey:0
+5:dd:false:320:240:400:320:grey:0
+
+7:0:true:260:480:340:560:DARKSLATEGREY:51
+S:H:true:240:380:320:400:GRAY:51
