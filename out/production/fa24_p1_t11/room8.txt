@@ -11,4 +11,16 @@
 
 3:8A:true:160:240:240:320:blue:0
 3:8B:true:160:480:240:560:blue:0
-3:8C:true:560:160:240:320:blue:0
+3:8C:true:560:160:640:240:blue:0
+
+5:d:true:400:560:480:640:grey:81
+
+B:0:true:240:160:320:240:cornflowerblue:80
+
+S:V:true:300:400:320:480:cornflowerblue:80
+S:V:true:300:480:320:560:cornflowerblue:80
+S:V:true:300:560:320:640:cornflowerblue:80
+
+8:V:true:380:400:400:480:cornflowerblue:80
+8:V:true:380:480:400:560:cornflowerblue:80
+8:V:true:380:560:400:640:cornflowerblue:80
