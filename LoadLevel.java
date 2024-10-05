@@ -163,7 +163,7 @@ public class LoadLevel
                   if( currentIndex == 1)
                   {
                      //temp2d[i][j] = new Floor(i,j,c, true);
-                     temp2d[i][j] = new Floor(j*80, i*80, c);
+                     temp2d[i][j] = new Floor(j*80, i*80, primaryColor, secondaryColor);
                   }
                   //draw water
                   else if( currentIndex == 4)
@@ -290,6 +290,22 @@ public class LoadLevel
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
                tempMechanismArray.add(temp);
             }
+            //tesla coil
+            else if(parts[0].equals("9"))
+            {
+               //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
+               temp = new TeslaCoil(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this);
+               //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
+               tempMechanismArray.add(temp);
+            }
+            //wall switch
+            else if(parts[0].equals("10"))
+            {
+               //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
+               temp = new WallSwitch(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this);
+               //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
+               tempMechanismArray.add(temp);
+            }
          
             System.out.println(tempMechanismArray.get(tempMechanismArray.size()-1));
             System.out.println("adding mechanism to \t" + Integer.parseInt(parts[8]));
@@ -391,10 +407,45 @@ public class LoadLevel
          primaryColor = Color.rgb(227,227,227,1);
          secondaryColor = Color.rgb(60,60,60,1);
       }
-      if(currentRoomNumber == 1)
+      else if(currentRoomNumber == 1)
       {
          primaryColor = Color.rgb(232,231,231,1);
          secondaryColor = Color.rgb(0,0,0,1);
+      }
+      else if(currentRoomNumber == 2)
+      {
+         primaryColor = Color.rgb(110,110,110,1);
+         secondaryColor = primaryColor;
+      }
+      else if(currentRoomNumber == 3 || currentRoomNumber == 4)
+      {
+         primaryColor = Color.rgb(240,0,0, 1);
+         secondaryColor = primaryColor;
+      }
+      else if(currentRoomNumber == 5)
+      {
+         primaryColor = Color.rgb(60,60,60,1);
+         secondaryColor = primaryColor;
+      }
+      else if(currentRoomNumber == 6)
+      {
+         primaryColor = Color.rgb(90,90,90,1);
+         secondaryColor = primaryColor;
+      }
+      else if(currentRoomNumber == 7)
+      {
+         primaryColor = Color.rgb(100,100,100,1);
+         secondaryColor = primaryColor;
+      }
+      else if(currentRoomNumber == 8)
+      {
+         primaryColor = Color.rgb(100,100,100,1);
+         secondaryColor = primaryColor;
+      }
+      else if(currentRoomNumber == 9)
+      {
+         primaryColor = Color.rgb(50,50,50,1);
+         secondaryColor = primaryColor;
       }
    }
 

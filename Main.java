@@ -334,7 +334,7 @@ public class Main extends Application {
                savedLL.setTimedMechanisms(ll.getTimedMechanisms());
                savedLL.setRooms(ll.getRooms());
                savedLL.setSavedRoom(ll.getCurrentRoomNumber());
-               
+
                //savedRooms = ll.saveAllRoomsState();
                savedZackY = zack.getY();
                savedZackX = zack.getX();
