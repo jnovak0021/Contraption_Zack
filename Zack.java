@@ -55,8 +55,11 @@ public class Zack extends GameObject {
             System.out.println("WALL");
             return true;
          }
+         //stanchion collision
+         if(current instanceof Stanchion && hit){
+            return true;
+         }
       
-         //wall
          // Door collision handling
          if (current instanceof Door && hit) {
             ((Mechanism) current).performFunction();
@@ -137,14 +140,21 @@ public class Zack extends GameObject {
       //check
       for (int i = 0; i < tiles.length; i++){
          for (int j = 0; j < tiles[i].length; j++) {
-            if(overlap(tiles[i][j]) && tiles[i][j] instanceof Abyss)
+            if(overlap(tiles[i][j]) && (tiles[i][j] instanceof Abyss || tiles[i][j] instanceof Water))
                return true;
          } 
       }
    
       return false;
    }
-
+   
+   public void reset () {
+      setX(INITIAL_ZACK_X);
+      setY(INITIAL_ZACK_Y);
+      setEndX(INITIAL_ZACK_X +20);
+      setEndY(INITIAL_ZACK_Y +20);
+   
+   }
 
 
    //this is a collides method that can determine if any two game objects are currently overlapping
@@ -187,7 +197,7 @@ public class Zack extends GameObject {
       int dX = 0;
       int dY = 0;
       //if spring is to launch up
-      if(property.equals("w")) {
+      if(property.equals("w") || property.equals("ww")) {
          //make it so zack lands in middle of next tile
          //set zacks location to middle of two tiles to the left
          this.setY(((m.getY() + m.getEndY())/2) - 160);
@@ -196,7 +206,7 @@ public class Zack extends GameObject {
          this.setEndX(this.getX() + width);
       }
       //if spring is to launch down
-      else if(property.equals("s")) {
+      else if(property.equals("s") || property.equals("ss")) {
          //make it so zack lands in middle of next tile
          //set zacks location to middle of two tiles to the left
          this.setY(((m.getY() + m.getEndY())/2) + 140);
@@ -205,7 +215,7 @@ public class Zack extends GameObject {
          this.setEndX(this.getX() + width);
       }
       //if spring is to launch left
-      else if(property.equals("a")) {
+      else if(property.equals("a") || property.equals("aa")) {
          //make it so zack lands in middle of next tile
          //set zacks location to middle of two tiles to the left
          this.setX(((m.getX() + m.getEndX())/2) - 160);
@@ -269,12 +279,12 @@ public class Zack extends GameObject {
          case 2:
             switch (door) {
                case 'A':
-                  INITIAL_ZACK_X = 260;
-                  INITIAL_ZACK_Y = 270;
+                  INITIAL_ZACK_X = 390;
+                  INITIAL_ZACK_Y = 100;
                   break;
                case 'B':
-                  INITIAL_ZACK_X = 260;
-                  INITIAL_ZACK_Y = 270;
+                  INITIAL_ZACK_X = 590;
+                  INITIAL_ZACK_Y = 260;
                   break;
                case 'C':
                   INITIAL_ZACK_X = 230;
@@ -286,19 +296,28 @@ public class Zack extends GameObject {
          case 3:
             switch (door) {
                case 'A':
-                  INITIAL_ZACK_X = 270;
-                  INITIAL_ZACK_Y = 190;
+                  INITIAL_ZACK_X = 300;
+                  INITIAL_ZACK_Y = 210;
                   break;
-                   case 'B':
-                  INITIAL_ZACK_X = 270;
-                  INITIAL_ZACK_Y = 190;
+               case 'B':
+                  INITIAL_ZACK_X = 110;
+                  INITIAL_ZACK_Y = 510;
                   break;
+               case 'C':
+                  INITIAL_ZACK_X = 350;
+                  INITIAL_ZACK_Y = 520;
+                  break;
+            
             }
             break;
          case 4:
             switch (door) {
                case 'A':
                   INITIAL_ZACK_X = 230;
+                  INITIAL_ZACK_Y = 260;
+                  break;
+               case 'B':
+                  INITIAL_ZACK_X = 510;
                   INITIAL_ZACK_Y = 260;
                   break;
             }
@@ -310,14 +329,106 @@ public class Zack extends GameObject {
                   INITIAL_ZACK_Y = 200;
                   break;
                case 'B':
-                  INITIAL_ZACK_X = 270;
-                  INITIAL_ZACK_Y = 200;
+                  INITIAL_ZACK_X = 520;
+                  INITIAL_ZACK_Y = 500;
+                  break;
+               case 'C':
+                  INITIAL_ZACK_X = 520;
+                  INITIAL_ZACK_Y = 350;
                   break;
             
             
             
             }
             break;
+         case 6:
+            switch (door) {
+               case 'A':
+                  INITIAL_ZACK_X = 200;
+                  INITIAL_ZACK_Y = 430;
+                  break;
+               case 'B':
+                  INITIAL_ZACK_X = 260;
+                  INITIAL_ZACK_Y = 270;
+                  break;
+               case 'C':
+                  INITIAL_ZACK_X = 510;
+                  INITIAL_ZACK_Y = 520;
+                  break;
+                  case 'D':
+                  INITIAL_ZACK_X = 270;
+                  INITIAL_ZACK_Y = 530;
+                  break;
+            
+            
+            
+            }
+            break;
+      
+         case 7:
+            switch (door) {
+               case 'A':
+                  INITIAL_ZACK_X = 270;
+                  INITIAL_ZACK_Y = 260;
+                  break;
+               case 'B':
+                  INITIAL_ZACK_X = 510;
+                  INITIAL_ZACK_Y = 260;
+                  break;
+               case 'C':
+                  INITIAL_ZACK_X = 260;
+                  INITIAL_ZACK_Y = 510;
+                  break;
+                  case 'D':
+                  INITIAL_ZACK_X = 270;
+                  INITIAL_ZACK_Y = 270;
+                  break;
+            
+            
+            
+            }
+            break;
+         case 8:
+            switch (door) {
+               case 'A':
+                  INITIAL_ZACK_X = 520;
+                  INITIAL_ZACK_Y = 270;
+                  break;
+               case 'B':
+                  INITIAL_ZACK_X = 530;
+                  INITIAL_ZACK_Y = 510;
+                  break;
+               case 'C':
+                  INITIAL_ZACK_X = 520;
+                  INITIAL_ZACK_Y = 350;
+                  break;
+            
+            
+            
+            }
+            break;
+      
+         case 9:
+            switch (door) {
+               case 'A':
+                  INITIAL_ZACK_X = 270;
+                  INITIAL_ZACK_Y = 200;
+                  break;
+               case 'B':
+                  INITIAL_ZACK_X = 530;
+                  INITIAL_ZACK_Y = 510;
+                  break;
+               case 'C':
+                  INITIAL_ZACK_X = 520;
+                  INITIAL_ZACK_Y = 350;
+                  break;
+            
+            
+            
+            }
+            break;
+      
+      
       
         // Continue for other rooms...
          default:
@@ -328,59 +439,3 @@ public class Zack extends GameObject {
 
 }
 
-    /*
-    public void springMove(Mechanism m, String property) {
-        int step = 5;  // The incremental step size (5px per update)
-
-        // We wrap targetX and targetY in a final array so they can be referenced inside the lambda
-        final int[] targetX = { getX() };  // Zack's target X position
-        final int[] targetY = { getY() };  // Zack's target Y position
-
-        // Calculate target positions based on the direction ('w', 's', 'a', 'd')
-        if (property.equals("w")) {
-            targetY[0] = ((m.getY() + m.getEndY()) / 2) - 160;
-            targetX[0] = ((m.getX() + m.getEndX()) / 2);
-        } else if (property.equals("s")) {
-            targetY[0] = ((m.getY() + m.getEndY()) / 2) + 160;
-            targetX[0] = ((m.getX() + m.getEndX()) / 2);
-        } else if (property.equals("a")) {
-            targetX[0] = ((m.getX() + m.getEndX()) / 2) - 160;
-            targetY[0] = ((m.getY() + m.getEndY()) / 2);
-        } else if (property.equals("d")) {
-            targetX[0] = ((m.getX() + m.getEndX()) / 2) + 160;
-            targetY[0] = ((m.getY() + m.getEndY()) / 2);
-        }
-
-        // Create a new Timeline animation to move Zack incrementally
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1), event -> {
-            // Move Zack horizontally toward the target position
-            if (getX() < targetX[0]) {
-                incrementX(Math.min(step, targetX[0] - getX()));  // Move right
-            } else if (getX() > targetX[0]) {
-                incrementX(-Math.min(step, getX() - targetX[0])); // Move left
-            }
-
-            // Move Zack vertically toward the target position
-            if (getY() < targetY[0]) {
-                incrementY(Math.min(step, targetY[0] - getY()));  // Move down
-            } else if (getY() > targetY[0]) {
-                incrementY(-Math.min(step, getY() - targetY[0])); // Move up
-            }
-
-            // Update the end positions after each step
-            setEndX(getX() + width);
-            setEndY(getY() + length);
-
-            // Stop the Timeline when Zack reaches the destination
-            if (getX() == targetX[0] && getY() == targetY[0]) {
-                timeline.stop();  // Stop the timeline directly
-            }
-        }));
-
-        // Set the animation to repeat until Zack reaches the target
-        timeline.setCycleCount(Timeline.INDEFINITE);
-
-        // Start the timeline
-        timeline.play();
-    }
-    */
