@@ -62,7 +62,7 @@ public class Main extends Application {
 
    @Override
    public void start(Stage primaryStage) {
-      canvas = new Canvas(1368, 728);
+      canvas = new Canvas(728, 728);
       gc = canvas.getGraphicsContext2D();
    
       ll = new LoadLevel();
@@ -72,9 +72,9 @@ public class Main extends Application {
    
    
       Pane root = new Pane(canvas); // Use Pane to hold the Canvas
-      Scene scene = new Scene(root, 1366, 728);
+      Scene scene = new Scene(root, 728, 728);
    
-      scene.setOnKeyPressed(event -> pressedKeys.add(event.getCode()));
+      scene.setOnKeyPressed(event -> pressedKeys.add(event.getCode()));    
       scene.setOnKeyReleased(event -> pressedKeys.remove(event.getCode()));
    
       AnimationTimer animationTimer =
@@ -91,7 +91,7 @@ public class Main extends Application {
                     c.setElapsedTime(elapsedTime);
                  
                     handleTime();
-                 
+                     
                     scene.setOnMouseMoved(
                        event -> {
                           mouseX = (int) event.getX();
@@ -256,7 +256,7 @@ public class Main extends Application {
             case 0: // Start Game
                inMenu = false; // Start the game
                ll.setCurrentRoomNumber(0);
-
+            
                tiles = ll.getRoomTiles(0); // Get the first room tiles
                mechanisms = ll.getRoomMechanisms(0); // Load the mechanisms
                System.out.println("Starting the game, loading first room.");
@@ -298,10 +298,7 @@ public class Main extends Application {
             case 1: // Restart Area
                paused = false;
                // Reset Zack's position directly
-               zack.setX(INITIAL_ZACK_X);
-               zack.setY(INITIAL_ZACK_Y);
-               zack.setEndX(zack.getX() + 20);
-               zack.setEndY(zack.getY() + 20);
+               zack.reset();
                ll.resetCurrentRoom();
                tiles = ll.getRoomTiles(ll.getCurrentRoomNumber()); // Restart current room
                mechanisms = ll.getRoomMechanisms(ll.getCurrentRoomNumber()); // Load the mechanisms
@@ -333,6 +330,9 @@ public class Main extends Application {
                paused = false;
             
                savedLL = ll;
+               savedLL.setAssociatedMechanisms(ll.getAssociatedMechanisms());
+               savedLL.setTimedMechanisms(ll.getTimedMechanisms());
+               savedLL.setRooms(ll.getRooms());
                savedLL.setSavedRoom(ll.getCurrentRoomNumber());
 
                //savedRooms = ll.saveAllRoomsState();
@@ -345,9 +345,13 @@ public class Main extends Application {
                   paused = false;
                   isLoading = true; // Set loading flag
                   ll = savedLL;
+                  ll.setAssociatedMechanisms(savedLL.getAssociatedMechanisms());
+                  ll.setTimedMechanisms(savedLL.getTimedMechanisms());
+                  ll.setRooms(savedLL.getRooms());
+               
                   zack.setX(savedZackX);
                   zack.setY(savedZackY);
-               
+                  //ll.resetCurrentRoom();
                   zack.setEndX(zack.getX() + 20);
                   zack.setEndY(zack.getY() + 20);
                   ll.setCurrentRoomNumber(savedLL.getSavedRoom());

@@ -375,10 +375,7 @@ public class LoadLevel
    }
 
    //returns all mechanisms that have a time component
-   public ArrayList<Mechanism> getTimedMechanisms()
-   {
-      return timedMechanisms;
-   }
+   
 
 
    //print out the whole game board
@@ -515,26 +512,57 @@ public class LoadLevel
    
    public void resetCurrentRoom() {
     // Get the current room object
-    RoomObject currentRoom = rooms.get(currentRoomNumber);
+      RoomObject currentRoom = rooms.get(currentRoomNumber);
     
     // Clear the current room's mechanisms
-    currentRoom.getRoomMechanismArray().clear();
+      currentRoom.getRoomMechanismArray().clear();
     
     // Optionally, reset any other specific states related to the current room here
     // For example, reset any specific game objects or state variables associated with this room
     
     // Re-read the current room data
-    String roomFileName = "room" + currentRoomNumber + ".txt";
-    RoomObject newRoom = privateReadFile(roomFileName);
+      String roomFileName = "room" + currentRoomNumber + ".txt";
+      RoomObject newRoom = privateReadFile(roomFileName);
     
     // Replace the current room with the new one
-    rooms.set(currentRoomNumber, newRoom);
-
+      rooms.set(currentRoomNumber, newRoom);
+   
     // Optionally, reset the current room number if needed (not generally necessary)
     // currentRoomNumber = currentRoomNumber; // This line is just for clarity, not needed
+   
+      System.out.println("Current room " + currentRoomNumber + " has been reset.");
+   }
+// Assuming this code is in the class where these variables are declared
 
-    System.out.println("Current room " + currentRoomNumber + " has been reset.");
-}
+// Getter for associatedMechanisms
+   public ArrayList<Mechanism>[] getAssociatedMechanisms() {
+      return associatedMechanisms;
+   }
+
+// Setter for associatedMechanisms
+   public void setAssociatedMechanisms(ArrayList<Mechanism>[] associatedMechanisms) {
+      this.associatedMechanisms = associatedMechanisms;
+   }
+
+// Getter for timedMechanisms
+   public ArrayList<Mechanism> getTimedMechanisms() {
+      return timedMechanisms;
+   }
+
+// Setter for timedMechanisms
+   public void setTimedMechanisms(ArrayList<Mechanism> timedMechanisms) {
+      this.timedMechanisms = timedMechanisms;
+   }
+
+// Getter for rooms
+   public ArrayList<RoomObject> getRooms() {
+      return rooms;
+   }
+
+// Setter for rooms
+   public void setRooms(ArrayList<RoomObject> rooms) {
+      this.rooms = rooms;
+   }
 
 
 

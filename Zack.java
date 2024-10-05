@@ -59,7 +59,7 @@ public class Zack extends GameObject {
         else if(current instanceof Stanchion && hit){
             return true;
          }
-
+      
          // Door collision handling
          else if (current instanceof Door && hit) {
             ((Mechanism) current).performFunction();
@@ -166,7 +166,14 @@ public class Zack extends GameObject {
    
       return false;
    }
-
+   
+   public void reset () {
+      setX(INITIAL_ZACK_X);
+      setY(INITIAL_ZACK_Y);
+      setEndX(INITIAL_ZACK_X +20);
+      setEndY(INITIAL_ZACK_Y +20);
+   
+   }
 
 
    //this is a collides method that can determine if any two game objects are currently overlapping
@@ -283,27 +290,165 @@ public class Zack extends GameObject {
                //                   INITIAL_ZACK_Y = 100;
                   break;
                case 'B':
-                  INITIAL_ZACK_X = 415;
-                  INITIAL_ZACK_Y = 100;
+                  INITIAL_ZACK_X = 380;
+                  INITIAL_ZACK_Y = 520;
                   break;
             }
             break;
          case 2:
             switch (door) {
                case 'A':
-                  INITIAL_ZACK_X = 260;
-                  INITIAL_ZACK_Y = 270;
+                  INITIAL_ZACK_X = 390;
+                  INITIAL_ZACK_Y = 100;
+                  break;
+               case 'B':
+                  INITIAL_ZACK_X = 590;
+                  INITIAL_ZACK_Y = 260;
+                  break;
+               case 'C':
+                  INITIAL_ZACK_X = 230;
+                  INITIAL_ZACK_Y = 360;
                   break;
             }
+            
             break;
          case 3:
             switch (door) {
                case 'A':
-                  INITIAL_ZACK_X = 360;
-                  INITIAL_ZACK_Y = 250;
+                  INITIAL_ZACK_X = 300;
+                  INITIAL_ZACK_Y = 210;
+                  break;
+               case 'B':
+                  INITIAL_ZACK_X = 110;
+                  INITIAL_ZACK_Y = 510;
+                  break;
+               case 'C':
+                  INITIAL_ZACK_X = 350;
+                  INITIAL_ZACK_Y = 520;
+                  break;
+            
+            }
+            break;
+         case 4:
+            switch (door) {
+               case 'A':
+                  INITIAL_ZACK_X = 230;
+                  INITIAL_ZACK_Y = 260;
+                  break;
+               case 'B':
+                  INITIAL_ZACK_X = 510;
+                  INITIAL_ZACK_Y = 260;
                   break;
             }
             break;
+         case 5:
+            switch (door) {
+               case 'A':
+                  INITIAL_ZACK_X = 270;
+                  INITIAL_ZACK_Y = 200;
+                  break;
+               case 'B':
+                  INITIAL_ZACK_X = 520;
+                  INITIAL_ZACK_Y = 500;
+                  break;
+               case 'C':
+                  INITIAL_ZACK_X = 520;
+                  INITIAL_ZACK_Y = 350;
+                  break;
+            
+            
+            
+            }
+            break;
+         case 6:
+            switch (door) {
+               case 'A':
+                  INITIAL_ZACK_X = 200;
+                  INITIAL_ZACK_Y = 430;
+                  break;
+               case 'B':
+                  INITIAL_ZACK_X = 260;
+                  INITIAL_ZACK_Y = 270;
+                  break;
+               case 'C':
+                  INITIAL_ZACK_X = 510;
+                  INITIAL_ZACK_Y = 520;
+                  break;
+                  case 'D':
+                  INITIAL_ZACK_X = 270;
+                  INITIAL_ZACK_Y = 530;
+                  break;
+            
+            
+            
+            }
+            break;
+      
+         case 7:
+            switch (door) {
+               case 'A':
+                  INITIAL_ZACK_X = 270;
+                  INITIAL_ZACK_Y = 260;
+                  break;
+               case 'B':
+                  INITIAL_ZACK_X = 510;
+                  INITIAL_ZACK_Y = 260;
+                  break;
+               case 'C':
+                  INITIAL_ZACK_X = 260;
+                  INITIAL_ZACK_Y = 510;
+                  break;
+                  case 'D':
+                  INITIAL_ZACK_X = 270;
+                  INITIAL_ZACK_Y = 270;
+                  break;
+            
+            
+            
+            }
+            break;
+         case 8:
+            switch (door) {
+               case 'A':
+                  INITIAL_ZACK_X = 520;
+                  INITIAL_ZACK_Y = 270;
+                  break;
+               case 'B':
+                  INITIAL_ZACK_X = 530;
+                  INITIAL_ZACK_Y = 510;
+                  break;
+               case 'C':
+                  INITIAL_ZACK_X = 520;
+                  INITIAL_ZACK_Y = 350;
+                  break;
+            
+            
+            
+            }
+            break;
+      
+         case 9:
+            switch (door) {
+               case 'A':
+                  INITIAL_ZACK_X = 270;
+                  INITIAL_ZACK_Y = 200;
+                  break;
+               case 'B':
+                  INITIAL_ZACK_X = 530;
+                  INITIAL_ZACK_Y = 510;
+                  break;
+               case 'C':
+                  INITIAL_ZACK_X = 520;
+                  INITIAL_ZACK_Y = 350;
+                  break;
+            
+            
+            
+            }
+            break;
+      
+      
+      
         // Continue for other rooms...
          default:
             // Handle out-of-range case if needed
