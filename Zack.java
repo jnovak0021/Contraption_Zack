@@ -89,8 +89,8 @@ public class Zack extends GameObject {
          }
          //wallswitch -- unlike the button, wall switch can be toggled on and off by interacting with it
          else if(current instanceof WallSwitch && hit){
-            ((Mechanism) current).activate();
-            ((Mechanism) current).performFunction();
+
+            ((Mechanism) current).performTimedFunction();
             System.out.println("Wall Switch");
             return true;
 
