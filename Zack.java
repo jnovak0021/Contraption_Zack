@@ -19,7 +19,7 @@ public class Zack extends GameObject {
    }
 
     // This method is constantly called from Main{}
-   public void move(int dX, int dY, Tile[][] tiles, ArrayList<Mechanism> mechs) {
+   public void move(int dX, int dY, Tile[][] tiles, ArrayList<Mechanism> mechs, ArrayList <Item> items) {
       int adjustedDX = (int) dX;
       int adjustedDY = (int) dY;
       this.tiles = tiles;
@@ -27,6 +27,12 @@ public class Zack extends GameObject {
    
       incrementX(adjustedDX);
       incrementY(adjustedDY);
+      
+      //check for items on ground
+      for (int i = 0; i < items.size(); i++){
+         if(overlap(items.get(i)))
+             items.get(i).collect();
+      }
    
         // If there is a collision, revert changes
       if (collides(tiles, mechs)) {
@@ -38,7 +44,6 @@ public class Zack extends GameObject {
     // Internal to Zack
    private boolean collides(Tile[][] tiles, ArrayList <Mechanism> mechs)
    {
-   
       for (int i = 0; i < mechs.size(); i++){
          Mechanism current = mechs.get(i);
          boolean hit = overlap(current);

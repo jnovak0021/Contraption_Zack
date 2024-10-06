@@ -31,38 +31,39 @@ public class OtherItem extends Item
    }
  
     public void drawMe(GraphicsContext gc){
-         switch(type){
-             
-             case "PipeWrench":
-             gc.setFill(Color.GRAY);
-             gc.fillRect(getX(),getY(), getEndX()- getX(), getEndY()-getY());
-             
-                 break;
-             
-             case "Spring":
-             gc.setFill(Color.GRAY);
-             gc.fillRect(getX(),getY(), getEndX()- getX(), getEndY()-getY());
-                 break;
-             
-             case "Wrench":
-             gc.setFill(Color.GRAY);
-             gc.fillRect(getX(),getY(), getEndX()- getX(), getEndY()-getY());
-                 break;
-             
-             case "TapeMeasure":
-             gc.setFill(Color.GRAY);
-             gc.fillRect(getX(),getY(), getEndX()- getX(), getEndY()-getY());
-                 break;
-             
-             case "Pipe":
-             gc.setFill(Color.GRAY);
-             gc.fillRect(getX(),getY(), getEndX()- getX(), getEndY()-getY());
-                 break;
-             
-             default:
-                 break;
+         if(!isCollected()){
+            switch(type){
+                
+                case "PipeWrench":
+                gc.setFill(Color.GRAY);
+                gc.fillRect(getX(),getY(), getEndX()- getX(), getEndY()-getY());
+                
+                    break;
+                
+                case "Spring":
+                gc.setFill(Color.GRAY);
+                gc.fillRect(getX(),getY(), getEndX()- getX(), getEndY()-getY());
+                    break;
+                
+                case "Wrench":
+                gc.setFill(Color.GRAY);
+                gc.fillRect(getX(),getY(), getEndX()- getX(), getEndY()-getY());
+                    break;
+                
+                case "TapeMeasure":
+                gc.setFill(Color.GRAY);
+                gc.fillRect(getX(),getY(), getEndX()- getX(), getEndY()-getY());
+                    break;
+                
+                case "Pipe":
+                gc.setFill(Color.GRAY);
+                gc.fillRect(getX(),getY(), getEndX()- getX(), getEndY()-getY());
+                    break;
+                
+                default:
+                    break;
+            }
          }
-         
          
    }
 

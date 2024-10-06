@@ -391,7 +391,7 @@ public class Main extends Application {
       }
    
       // Zack handles movement
-      zack.move(deltaX, deltaY, tiles, mechanisms);
+      zack.move(deltaX, deltaY, tiles, mechanisms, gameItems);
    
       // Check for pause input
       if (pressedKeys.contains(KeyCode.ESCAPE)) {
