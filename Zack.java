@@ -14,8 +14,9 @@ public class Zack extends GameObject {
    private Tile[][] tiles;
    private ArrayList<Mechanism> mechs;
    private int INITIAL_ZACK_X; // Starting X position
-   private int INITIAL_ZACK_Y; // Starting Y position
+   private int INITIAL_ZACK_Y; // Starting Y
 
+   //gameItems.isCollected
 
 
    public Zack(int x, int y, Color myColor) {
@@ -171,6 +172,12 @@ public class Zack extends GameObject {
                      incrementY(10);
                }
             }
+         }
+         //screw
+         else if(current instanceof Screw && hit /* && hasScrewDriver*/){
+            ((Mechanism) current).performFunction();
+            //System.out.println("Wall Switch");
+            return true;
          }
          //for all objects that Zack can collide with, call performFunction method
          else if(hit){

@@ -9,24 +9,28 @@
 0 0 1 1 1 1 4 1 0
 0 0 0 0 0 0 0 0 0
 
+W:0:true:160:382:400:398:grey:0
+
 3:8A:true:160:240:240:320:blue:0
 3:8B:true:160:480:240:560:blue:0
 3:8C:true:560:160:640:240:blue:0
 
-5:d:true:400:560:480:640:grey:80
-10:0:false:200:380:280:400:grey:81
+5:d:true:400:560:480:640:grey:81
+10:0:false:200:390:280:410:grey:81
+11:0:false:320:390:400:410:grey:81
 
-B:0:true:240:160:320:240:cornflowerblue:80
+
+B:0:true:240:160:320:240:cornflowerblue:81
 
 
-S:V:true:300:400:320:480:cornflowerblue:80
-S:V:true:300:480:320:560:cornflowerblue:80
-S:V:true:300:560:320:640:cornflowerblue:80
+S:V:true:300:400:320:480:cornflowerblue:81
+S:V:true:300:480:320:560:cornflowerblue:81
+S:V:true:300:560:320:640:cornflowerblue:81
 
 8:V:true:380:400:400:480:grey:0
 8:V:true:380:480:400:560:grey:0
 8:V:true:380:560:400:640:grey:0
 
-W:0:true:160:380:400:180:grey:0
+
 
 T:down:false:560:400:640:560:tan:81
