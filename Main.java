@@ -23,6 +23,7 @@ public class Main extends Application {
    private LoadLevel ll;
    private Tile[][] tiles;
    private ArrayList<Mechanism> mechanisms;
+   private ArrayList<Item> gameItems;
    private Canvas canvas;
    private GraphicsContext gc;
    private int selectedPauseOption = 0; // Track the selected pause menu option
@@ -85,6 +86,7 @@ public class Main extends Application {
                     //get current tiles and mechanism
                     tiles = ll.getRoomTiles(ll.getCurrentRoomNumber());
                     mechanisms = ll.getRoomMechanisms(ll.getCurrentRoomNumber());
+                    gameItems = ll.getRoomItems(ll.getCurrentRoomNumber());
                  
                     //get the elapsed time since program started in seconds
                     double elapsedTime = (now - startTime) / 1_000_000_000.0;
@@ -169,6 +171,14 @@ public class Main extends Application {
          mechanisms.get(i).drawMe(gc);
       }
    }
+   
+   // Method to draw the items in the level
+   public void drawItems() {
+      // Loop over mechanisms and call
+      for (int i = 0; i < gameItems.size(); i++) {
+         gameItems.get(i).drawMe(gc);
+      }
+   }
 
    private void draw() {
       // Clear the canvas
@@ -183,6 +193,7 @@ public class Main extends Application {
          // Draw tiles and Zack
          drawTiles();
          drawMechanisms();
+         drawItems();
          zack.drawMe(gc);
       }
       

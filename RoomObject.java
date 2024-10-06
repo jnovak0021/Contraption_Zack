@@ -19,6 +19,7 @@ public class RoomObject
     private Tile [][] gameBoard2d;
     //arraylist of GameObjects that represnt things such as buttons...
     private ArrayList<Mechanism> mechanismArray;
+    private ArrayList<Item> itemArray;
 
 
 
@@ -37,12 +38,24 @@ public class RoomObject
     {
         return mechanismArray;
     }
+    
+    public ArrayList<Item> getRoomItemArray()
+    {
+        return itemArray;
+    }
 
     //mutator
     public void setRoomMechanismArray(ArrayList<Mechanism> mechanismArray)
     {
         this.mechanismArray = mechanismArray;
     }
+    
+    public void setRoomItemArray(ArrayList<Item> itemArray)
+    {
+        this.itemArray = itemArray;
+    }
+    
+    
 
     //to string
     public String toString()
