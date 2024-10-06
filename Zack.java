@@ -148,6 +148,30 @@ public class Zack extends GameObject {
          else if(current instanceof Pulley && hit){
             return true;
          }
+         //treadmill
+         else if(current instanceof Treadmill && hit)
+         {
+            if(!(current.isActive()))
+               return true;
+            else {
+               //need to figure out a way to determine if zack is above or below the treadmill object
+               //if he is below and getProperty() is "UP"
+               if (getY() >= current.getEndY() && current.getProperty().equals("UP")) {
+                  incrementY(-10);
+               }
+               //if he is above and getProperty() is "DOWN" need to accelerate zack speed downward
+               else if (getEndY() <= current.getY() && current.getProperty().equals("DOWN")) {
+                  incrementY(10);
+               }
+               //if he is between -- move speeed up or down by 10 based on getProperty
+               else {
+                  if (current.getProperty().equals("UP"))
+                     incrementY(-10);
+                  else if (current.getProperty().equals("DOWN"))
+                     incrementY(10);
+               }
+            }
+         }
          //for all objects that Zack can collide with, call performFunction method
          else if(hit){
             System.out.println("HIT CODE");
@@ -243,6 +267,7 @@ public class Zack extends GameObject {
          this.setY(((m.getY() + m.getEndY())/2));
          this.setEndY(this.getY() + length);
       }
+
       //if spring is to launch right
       else{
          //make it so zack lands in middle of next tile
@@ -251,6 +276,9 @@ public class Zack extends GameObject {
          this.setEndX(this.getX() + width);
          this.setY(((m.getY() + m.getEndY())/2));
          this.setEndY(this.getY() + length);
+
+         //
+
       }
    }
 

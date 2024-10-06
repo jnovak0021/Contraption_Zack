@@ -327,13 +327,21 @@ public class LoadLevel
                temp = null;
             }
             
+            else if(parts[0].equals("T"))
+            {
+               //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
+               temp = new Treadmill(parts[1], Boolean.parseBoolean(parts[2]),Integer.parseInt(parts[3]),Integer.parseInt(parts[4]),Integer.parseInt(parts[5]),Integer.parseInt(parts[6]), Color.web(parts[7]),Integer.parseInt(parts[8]), this);
+               //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
+               tempMechanismArray.add(temp);
+            }
+               
             if(temp != null){
                System.out.println(tempMechanismArray.get(tempMechanismArray.size()-1));
                System.out.println("adding mechanism to \t" + Integer.parseInt(parts[8]));
             
                //add mechanism to its correct index in associatedMechanisms
                associatedMechanisms[Integer.parseInt(parts[8])].add(temp);
-           }
+            }
          }
          System.out.println(tempMechanismArray.get(0).toString());
       

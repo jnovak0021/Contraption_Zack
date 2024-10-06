@@ -115,6 +115,7 @@ Spike: S
     H: Horizontal
     V: Vertical
 Pulley: P
+TreadMill: T
 
 
 

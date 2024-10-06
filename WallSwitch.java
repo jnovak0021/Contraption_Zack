@@ -97,13 +97,46 @@ public class WallSwitch extends Mechanism
 
         ArrayList <Mechanism> mechs = ll.getAssociatedMechanisms(associatedMechanisms);
 
-        if(getAssociatedMechanisms() == 71 || getAssociatedMechanisms() == 81)
+        if(getAssociatedMechanisms() == 71)
         {
             for(int i=0; i < mechs.size(); i++){
                 System.out.print(mechs.get(i)+ " ");
                 //dont activate other buttons
                 if(!(mechs.get(i) instanceof WallSwitch))
                     mechs.get(i).setActivated(this.isActive());//holy spirit activate
+            }
+
+        }
+        //screw must be activated for anything else to work in this room
+        else if(getAssociatedMechanisms() == 81) {
+            boolean screw = true;  //store the state of the screw
+            //loop over to see if the screw was inserted - if so, activate objects
+            for (int i = 0; i < mechs.size(); i++) {
+                /*if(mechs.get(i) instanceof Screw && mechs.get(i).isActive())
+                {
+                    screw = true;
+                }
+                */
+            }
+            //only activate if screw is activated
+            //if the mechanism is a treadmill set it so that if this isActive, the treadmill goes north and if not active treadmill goes south
+            for (int i = 0; i < mechs.size(); i++) {
+                //dont activate other buttons
+                if (!(mechs.get(i) instanceof WallSwitch))
+                {
+                    mechs.get(i).setActivated(screw);
+                }
+                //only activate/alter if screw is activated
+                if(mechs.get(i) instanceof Treadmill && screw)
+                {
+                    //if this isActive set property to UP
+                    if(this.isActive())
+                        mechs.get(i).setProperty("UP");
+                    //else set property to DOWN
+                    else
+                        mechs.get(i).setProperty("DOWN");
+                }
+
             }
 
         }
