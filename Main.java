@@ -306,24 +306,21 @@ public class Main extends Application {
                break;
             case 2: // Restart Level
                paused = false;
-               
-              
                isLoading = true; // Set loading flag
-            
+
+               //reset all objects in LoadLevel
+               ll.resetLevel();
+               tiles = ll.getRoomTiles(0); // Restart from room 0
+               mechanisms = ll.getRoomMechanisms(0); // Load the mechanisms
                // Reset Zack's position directly
-               //zackPositionEnter(0);
-               ll.resetBoard();
-            
+
+
                zack.setX(300);
                zack.setY(540);
                zack.setEndX(zack.getX() + 20);
                zack.setEndY(zack.getY() + 20);
-            
-               tiles = ll.getRoomTiles(0); // Restart from room 0
-               mechanisms = ll.getRoomMechanisms(0); // Load the mechanisms
-               ll.setCurrentRoomNumber(0); // Reset room number
-               // Call resetLevel from LoadLevel
-            
+
+
                System.out.println("Restarting level from room 0.");
                break;
             case 3: // Save

@@ -46,13 +46,16 @@ public class LoadLevel
    public LoadLevel()
    {
       associatedMechanisms = new ArrayList[100];  //may need to up intial capacity
+
       timedMechanisms = new ArrayList<Mechanism>();
+
+
       for(int i = 0; i < associatedMechanisms.length; i++)
       {
          associatedMechanisms[i] = new ArrayList<Mechanism>();
       }
    
-      System.out.println("size: " +associatedMechanisms.length);
+      //System.out.println("size: " +associatedMechanisms.length);
    
       rooms = new ArrayList<RoomObject>();
       //call readFile method to load the data into the level
@@ -70,7 +73,7 @@ public class LoadLevel
       for( int i = 0; i < 10; i++ )
       {
          //set index of arrayIn to return value of privateReadFile
-         System.out.println("reading in file " + i);
+         //System.out.println("reading in file " + i);
       
          //get room color
          setRoomColor();
@@ -189,7 +192,7 @@ public class LoadLevel
             //temp variables
             char property;
             int x, y, endX, endY;
-            System.out.println("\n\n");
+            //System.out.println("\n\n");
             //split up string read in by colons
             String[] parts = mechanismStr.split(":");
             Mechanism temp = null;
@@ -197,7 +200,7 @@ public class LoadLevel
          
             //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
          
-            System.out.println("part 0 \"" + parts[0] + "\"");
+            //System.out.println("part 0 \"" + parts[0] + "\"");
          
             //if statement to determine which mechanism
             //Door
@@ -331,14 +334,14 @@ public class LoadLevel
                tempMechanismArray.add(temp);
             }
          
-            System.out.println(tempMechanismArray.get(tempMechanismArray.size()-1));
-            System.out.println("adding mechanism to \t" + Integer.parseInt(parts[8]));
+            //System.out.println(tempMechanismArray.get(tempMechanismArray.size()-1));
+            //System.out.println("adding mechanism to \t" + Integer.parseInt(parts[8]));
          
             //add mechanism to its correct index in associatedMechanisms
             associatedMechanisms[Integer.parseInt(parts[8])].add(temp);
          
          }
-         System.out.println(tempMechanismArray.get(0).toString());
+         //System.out.println(tempMechanismArray.get(0).toString());
       
          //set member variables of Roomobject
          tempRoomObject.setGameBoard2d(temp2d);
@@ -347,14 +350,7 @@ public class LoadLevel
          //close scanner
          scanner.close();
       
-         /*
-         System.out.println("\n\nMechs 1 \n\n\n");
-      
-         for(int i=0; i < associatedMechanisms[1].size(); i++){
-            System.out.println(associatedMechanisms[1].get(i));
-         }
-         System.out.println("\n\nMechs 1 end \n\n\n");
-          */
+
       
       }
       catch( FileNotFoundException e)
@@ -398,7 +394,37 @@ public class LoadLevel
       return associatedMechanisms[i];
    }
 
-   //returns all mechanisms that have a time component
+   // Getter for associatedMechanisms
+   public ArrayList<Mechanism>[] getAssociatedMechanisms() {
+      return associatedMechanisms;
+   }
+
+   // Setter for associatedMechanisms
+   public void setAssociatedMechanisms(ArrayList<Mechanism>[] associatedMechanisms) {
+      this.associatedMechanisms = associatedMechanisms;
+   }
+
+   // Getter for timedMechanisms
+   public ArrayList<Mechanism> getTimedMechanisms() {
+      return timedMechanisms;
+   }
+
+   // Setter for timedMechanisms
+   public void setTimedMechanisms(ArrayList<Mechanism> timedMechanisms) {
+      this.timedMechanisms = timedMechanisms;
+   }
+
+   // Getter for rooms
+   public ArrayList<RoomObject> getRooms() {
+      return rooms;
+   }
+
+   // Setter for rooms
+   public void setRooms(ArrayList<RoomObject> rooms) {
+      this.rooms = rooms;
+   }
+
+
    
 
 
@@ -414,15 +440,7 @@ public class LoadLevel
    }
 
 
-   /*
-   colors
-   room 1
-      60 60 60
-      227 227 227
-   room 2
-      231 231 231
 
-   */
    //select the color of the tiles based off roomNumber
    public void setRoomColor()
    {
@@ -474,12 +492,27 @@ public class LoadLevel
    }
 
 
+
+
+   /*
+   Reset Functionality
+
+    */
+
    //method to reset all game data -- i.e reread it in
    public void resetLevel()
    {
+      //reset room to zero
+      currentRoomNumber = 0;
+
+      //remove all objects
+      resetBoard();
+
       //call readfile again
       readFile();
    }
+
+
 
 
    public int getSavedRoom() {
@@ -512,7 +545,8 @@ public class LoadLevel
       // Reprint the rooms to show the loaded state
       printGame();
    }
-   
+
+   //method to reset the mechanism objects of the game
    public void resetBoard() {
     // Clear the existing rooms and mechanisms
       rooms.clear();
@@ -522,11 +556,10 @@ public class LoadLevel
             mechanisms.clear();
          }
       }
-   
-    // Reinitialize the room data
+      //Reinitialize the room data
       readFile();
    
-    // Reset the current room number to the starting point
+      //Reset the current room number to the starting point
    
       currentRoomNumber = 0;
       setRoomColor();
@@ -555,37 +588,6 @@ public class LoadLevel
     // currentRoomNumber = currentRoomNumber; // This line is just for clarity, not needed
    
       System.out.println("Current room " + currentRoomNumber + " has been reset.");
-   }
-// Assuming this code is in the class where these variables are declared
-
-// Getter for associatedMechanisms
-   public ArrayList<Mechanism>[] getAssociatedMechanisms() {
-      return associatedMechanisms;
-   }
-
-// Setter for associatedMechanisms
-   public void setAssociatedMechanisms(ArrayList<Mechanism>[] associatedMechanisms) {
-      this.associatedMechanisms = associatedMechanisms;
-   }
-
-// Getter for timedMechanisms
-   public ArrayList<Mechanism> getTimedMechanisms() {
-      return timedMechanisms;
-   }
-
-// Setter for timedMechanisms
-   public void setTimedMechanisms(ArrayList<Mechanism> timedMechanisms) {
-      this.timedMechanisms = timedMechanisms;
-   }
-
-// Getter for rooms
-   public ArrayList<RoomObject> getRooms() {
-      return rooms;
-   }
-
-// Setter for rooms
-   public void setRooms(ArrayList<RoomObject> rooms) {
-      this.rooms = rooms;
    }
 
 

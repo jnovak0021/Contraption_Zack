@@ -30,9 +30,18 @@ public class Button extends Mechanism
 
        
    public void drawMe(GraphicsContext gc){
-   
+
+      double opacity = 1;
+
+      if(!isActive()){
+         opacity = .5;
+      }
+      else {
+         opacity = 1;
+      }
+      Color colorWithOpacity = new Color(getMyColor().getRed(), getMyColor().getGreen(), getMyColor().getBlue(), opacity); // Adjust the alpha value (0.5 for 50% opacity)
+      gc.setFill(colorWithOpacity); // Now set the modified color with opacity
       //draw a simple square
-      gc.setFill(getMyColor());
       gc.fillRect(getX(),getY(), getWidth(), getLength());
    
    }
