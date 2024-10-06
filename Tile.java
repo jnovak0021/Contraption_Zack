@@ -22,7 +22,13 @@ public abstract class Tile extends GameObject
    //size across all tiles
    static protected int length = 80;
    static protected int width = 80;
+   private Color secondaryColor;
    
+    //constructor for tile to have multiple colors
+    public Tile(int x, int y, int endX, int endY, Color myColor, Color secondaryColor, boolean traverseable)
+    {
+        super(x, y, endX, endY, myColor);
+    }
     //new constructor
     public Tile(int x, int y, int endX, int endY, Color myColor, boolean traverseable)
     {
@@ -32,6 +38,16 @@ public abstract class Tile extends GameObject
     public boolean collides(int xIn, int yIn) {
       return ((xIn >= getX() && xIn <= getEndX()) && (yIn  >= getY() && yIn  <= getEndY()) && (xIn <= getEndX() && xIn >= getX()));
 
+    }
+    //accessor and mutator for the secondary Color
+    public void setSecondaryColor(Color secondaryColor)
+    {
+        this.secondaryColor = secondaryColor;
+    }
+
+    public Color getSecondaryColor()
+    {
+        return secondaryColor;
     }
 
     public boolean isTraversable(){

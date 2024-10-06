@@ -20,7 +20,7 @@ public class TimerDoor extends Mechanism {
         }
         else
         {
-            gc.clearRect(getX(), getY(), getEndX() - getX(), getEndY() - getY());
+            gc.strokeRect(getX(), getY(), getEndX() - getX(), getEndY() - getY());
         }
 
     }
