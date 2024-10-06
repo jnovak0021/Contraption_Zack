@@ -69,7 +69,7 @@ public class Main extends Application {
       ll = new LoadLevel();
       tiles = null; // Initially set to null until the game starts
       zack = new Zack(INITIAL_ZACK_X, INITIAL_ZACK_Y, Color.BLUE); // Initial position and color
-   
+      gameItems = new ArrayList<Item>();
    
    
       Pane root = new Pane(canvas); // Use Pane to hold the Canvas
@@ -173,10 +173,13 @@ public class Main extends Application {
    }
    
    // Method to draw the items in the level
+
    public void drawItems() {
-      // Loop over mechanisms and call
-      for (int i = 0; i < gameItems.size(); i++) {
-         gameItems.get(i).drawMe(gc);
+      // Loop over mechanisms and call'
+      if(gameItems.size() != 0) {
+         for (int i = 0; i < gameItems.size(); i++) {
+            gameItems.get(i).drawMe(gc);
+         }
       }
    }
 
@@ -193,7 +196,8 @@ public class Main extends Application {
          // Draw tiles and Zack
          drawTiles();
          drawMechanisms();
-         drawItems();
+         if(gameItems.size() != 0)
+            drawItems();
          zack.drawMe(gc);
       }
       
@@ -336,13 +340,15 @@ public class Main extends Application {
                break;
             case 3: // Save
                paused = false;
-            
+
+               savedLL.saveGame(ll);
+               /*
                savedLL = ll;
                savedLL.setAssociatedMechanisms(ll.getAssociatedMechanisms());
                savedLL.setTimedMechanisms(ll.getTimedMechanisms());
                savedLL.setRooms(ll.getRooms());
                savedLL.setSavedRoom(ll.getCurrentRoomNumber());
-
+               */
                //savedRooms = ll.saveAllRoomsState();
                savedZackY = zack.getY();
                savedZackX = zack.getX();
@@ -352,18 +358,21 @@ public class Main extends Application {
                try {
                   paused = false;
                   isLoading = true; // Set loading flag
+                  /*
                   ll = savedLL;
                   ll.setAssociatedMechanisms(savedLL.getAssociatedMechanisms());
                   ll.setTimedMechanisms(savedLL.getTimedMechanisms());
                   ll.setRooms(savedLL.getRooms());
-               
+                  ll.setCurrentRoomNumber(savedLL.getSavedRoom());
+
+                  */
+                  ll.loadGame(savedLL);
                   zack.setX(savedZackX);
                   zack.setY(savedZackY);
                   //ll.resetCurrentRoom();
                   zack.setEndX(zack.getX() + 20);
                   zack.setEndY(zack.getY() + 20);
-                  ll.setCurrentRoomNumber(savedLL.getSavedRoom());
-                  System.out.println(savedLL.getSavedRoom());
+                  //System.out.println(savedLL.getSavedRoom());
                
                   System.out.println("Loading Game.");
                } catch (Exception e) {

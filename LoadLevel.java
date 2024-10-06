@@ -3,6 +3,8 @@ import java.io.FileNotFoundException;
 import java.lang.reflect.Array;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Timer;
+
 import javafx.scene.paint.Color;
 
 import javax.imageio.stream.MemoryCacheImageInputStream;
@@ -325,6 +327,7 @@ public class LoadLevel
 
             //Item: Screwdriver
             else if(parts[0].equals("Screwdriver")){
+               System.out.println("ADDING SCREWDIVER");
                //<startx>:<starty>:<associativeNumber>
                tempItemArray.add(new Screwdriver(Integer.parseInt(parts[1]),Integer.parseInt(parts[2]), Integer.parseInt(parts[3]), this));
                temp = null;
@@ -618,7 +621,189 @@ public class LoadLevel
    public ArrayList<Item> getGameItems() {
       return gameItems;
    }
-   
+
+
+   /*
+
+      private ArrayList<Mechanism> [] associatedMechanisms;
+
+      private ArrayList<Item> gameItems;
+      //store all mechanisms that have a time component in this array for easier handling
+      private ArrayList<Mechanism> timedMechanisms;
+
+      //list of RoomObject that is read in using privateReadFile
+      private ArrayList<RoomObject> rooms;
+
+    */
+
+   public void saveGame(LoadLevel ll)
+   {
+
+      //set currentRoomNumber
+      currentRoomNumber = ll.getCurrentRoomNumber();
+
+      //clear timed mechanisms
+      timedMechanisms.clear();
+
+      //clear rooms
+      rooms.clear();
+
+      gameItems.clear();
+
+      //clear game items
+      for(int i = 0; i < \)
+
+      //clear associatedMechanisms
+      for(int i = 0; i < getAssociatedMechanisms().length; i++)
+      {
+         getAssociatedMechanisms()[i].clear();
+      }
+
+
+      //store rooms
+
+
+
+      //loop over rooms
+      for(int i = 0; i < ll.getRooms().size(); i++)
+      {
+         //create a new Room object and set room.get(i) to it
+         RoomObject tempRoomObject = new RoomObject();
+
+         //set tiles
+         tempRoomObject.setGameBoard2d(ll.getRoomTiles(i));
+
+
+         //set Mechanism
+         ArrayList<Mechanism> tempMechanisms;
+
+         //loop over ll.getRoomMechanisms
+         for(int j = 0; j <  ll.getRoomMechanisms(i).size(); j++)
+         {
+
+            Mechanism m = ll.getRoomMechanisms(i).get(j);
+            String property = m.getProperty();
+            boolean isActive = m.isActive();
+            int x = m.getX();
+            int y = m.getY();
+            int endX = m.getEndX();
+            int endY = m.getEndY();
+            Color c = m.getMyColor();
+            int associatedMechanisms = m.getAssociatedMechanisms();
+
+            ArrayList<Mechanism>tempMechanismArray = new ArrayList<Mechanism>();
+            Mechanism temp = null;
+            //if statement to determine which mechanism
+            //Door
+            if(m instanceof Door){
+               temp = new Door(property, isActive,x,y,endX,endY, c, associatedMechanisms, this);
+               tempMechanismArray.add(temp);
+            }
+
+            //juke box
+            else if(m instanceof Jukebox){
+               temp = new Jukebox(property, isActive,x,y,endX,endY, c, associatedMechanisms, this);
+               tempMechanismArray.add(temp);
+            }
+
+            //Wall
+            else if(m instanceof Wall){
+               temp = new Wall(property, isActive,x,y,endX,endY, c, associatedMechanisms, this);
+               tempMechanismArray.add(temp);
+            }
+
+            //floatingTile
+            else if(m instanceof FloatingTile){
+               temp = new FloatingTile(property, isActive,x,y,endX,endY, c, associatedMechanisms, this);
+               tempMechanismArray.add(temp);
+            }
+
+            //spike
+            else if(m instanceof Spike){
+               temp = new Spike(property, isActive,x,y,endX,endY, c, associatedMechanisms, this);
+               tempMechanismArray.add(temp);
+            }
+
+            //button
+            else if(m instanceof Button){
+               temp = new Button(property, isActive,x,y,endX,endY, c, associatedMechanisms, this);
+               tempMechanismArray.add(temp);
+            }
+            //spring
+            else if(m instanceof Spring){
+               temp = new Spike(property, isActive,x,y,endX,endY, c, associatedMechanisms, this);
+               tempMechanismArray.add(temp);
+            }
+            //timerdoor
+            else if(m instanceof TimerDoor){
+               temp = new TimerDoor(property, isActive,x,y,endX,endY, c, associatedMechanisms, this);
+               tempMechanismArray.add(temp);
+               timedMechanisms.add(temp);
+            }
+            //TimerButton
+            else if(m instanceof TimerButton){
+               temp = new TimerButton(property, isActive,x,y,endX,endY, c, associatedMechanisms, this);
+               tempMechanismArray.add(temp);
+               timedMechanisms.add(temp);
+            }
+            //stanchion
+            else if(m instanceof Stanchion){
+               temp = new Stanchion(property, isActive,x,y,endX,endY, c, associatedMechanisms, this);
+               tempMechanismArray.add(temp);
+            }
+            //tesla coil
+            else if(m instanceof TeslaCoil){
+               temp = new TeslaCoil(property, isActive,x,y,endX,endY, c, associatedMechanisms, this);
+               tempMechanismArray.add(temp);
+            }
+            //wall switch
+            else if(m instanceof WallSwitch){
+               temp = new WallSwitch(property, isActive,x,y,endX,endY, c, associatedMechanisms, this);
+               tempMechanismArray.add(temp);
+            }
+            //pulley
+            else if(m instanceof Pulley){
+               temp = new WallSwitch(property, isActive,x,y,endX,endY, c, associatedMechanisms, this);
+               tempMechanismArray.add(temp);
+            }
+
+            //treadmill
+            else if(m instanceof Treadmill){
+               temp = new Treadmill(property, isActive,x,y,endX,endY, c, associatedMechanisms, this);
+               tempMechanismArray.add(temp);
+            }
+
+            //screw
+            else if(m instanceof Screw){
+               temp = new Screw(property, isActive,x,y,endX,endY, c, associatedMechanisms, this);
+               tempMechanismArray.add(temp);
+            }
+
+            getAssociatedMechanisms()[associatedMechanisms] = (tempMechanismArray);
+
+            //set member variables of Roomobject
+            tempRoomObject.setRoomMechanismArray(tempMechanismArray);
+            //tempRoomObject.setRoomItemArray(tempItemArray);
+         }
+         rooms.add(i,tempRoomObject);
+
+      }
+   }
+
+   public void loadGame(LoadLevel ll)
+   {
+      //store the current room
+      currentRoomNumber = ll.getCurrentRoomNumber();
+      setAssociatedMechanisms(ll.getAssociatedMechanisms());
+      //private ArrayList<Item> gameItems;
+
+      gameItems = ll.getGameItems();
+      gameItems.add(new Screwdriver(100,100,1,this));
+
+      setTimedMechanisms(ll.getTimedMechanisms());
+
+      setRooms(ll.getRooms());
+   }
 }
 
 
