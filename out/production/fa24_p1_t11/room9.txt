@@ -12,8 +12,15 @@
 3:9A:true:160:240:240:320:blue:0
 3:9B:true:560:480:640:560:blue:0
 
-B:0:true:360:280:440:360:cornflowerblue:90
+B:0:false:360:280:440:360:cornflowerblue:90
 S:H:true:400:460:480:480:cornflowerblue:90
+
+10:0:false:600:400:620:460:grey:90
+10:0:false:600:320:620:400:grey:90
+10:0:false:600:240:620:320:grey:90
+
+P:0:false:200:180:620:240:tan:90
+
 
 W:0:true:160:160:640:180:DARKSLATEGREY:0
 W:0:true:620:160:640:480:DARKSLATEGREY:0

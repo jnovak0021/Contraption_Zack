@@ -52,7 +52,6 @@ public class Zack extends GameObject {
          
          //check if the current object is a wall and if it collides
          if(current instanceof Wall && hit ) {
-            System.out.println("WALL");
             return true;
          }
          //stanchion collision
@@ -62,20 +61,25 @@ public class Zack extends GameObject {
       
          // Door collision handling
          else if (current instanceof Door && hit) {
-            ((Mechanism) current).performFunction();
-            String doorProperty = current.getProperty(); // Assume this returns an int corresponding to the door number
-            zackPositionDoor(doorProperty); // Set Zack's new position based on the door's property
-            setX(INITIAL_ZACK_X);
-            setY(INITIAL_ZACK_Y);
-            setEndX(INITIAL_ZACK_X +20);
-            setEndY(INITIAL_ZACK_Y +20);
+            if(!current.isActive())
+            {
+               return false;
+            }
+            else {
+               ((Mechanism) current).performFunction();
+               String doorProperty = current.getProperty(); // Assume this returns an int corresponding to the door number
+               zackPositionDoor(doorProperty); // Set Zack's new position based on the door's property
+               setX(INITIAL_ZACK_X);
+               setY(INITIAL_ZACK_Y);
+               setEndX(INITIAL_ZACK_X + 20);
+               setEndY(INITIAL_ZACK_Y + 20);
+            }
          
          }
          
          
          //check if object is a jukebox and if it collides
          else if(current instanceof Jukebox && hit){
-            System.out.println("Juke");
             return true;
          }
          //button
@@ -84,14 +88,13 @@ public class Zack extends GameObject {
                ((Mechanism) current).activate();
                ((Mechanism) current).performFunction();
             }
-            System.out.println("BUTTON");
             return false;
          }
          //wallswitch -- unlike the button, wall switch can be toggled on and off by interacting with it
          else if(current instanceof WallSwitch && hit){
-            ((Mechanism) current).activate();
-            ((Mechanism) current).performFunction();
-            System.out.println("Wall Switch");
+
+            ((Mechanism) current).performTimedFunction();
+            //System.out.println("Wall Switch");
             return true;
 
          }
@@ -100,20 +103,14 @@ public class Zack extends GameObject {
                ((Mechanism) current).activate();
                ((Mechanism) current).performFunction();
             }
-            System.out.println("BUTTON");
             return false;
          }
          
-         else if(current instanceof Spike && hit){
-            System.out.println("SPIKE");
-            if(current.isActive())
-               return true;
-            else
-               return false;
+         else if(current instanceof Spike && hit && current.isActive()){
+            return true;
          }
          
          else if(current instanceof FloatingTile && hit){
-            System.out.println("FLOAT TILE");
             return false;
          }
          //TimerDoor - if active, return true
@@ -146,6 +143,10 @@ public class Zack extends GameObject {
             }
             else
                return false;
+         }
+         //pulley
+         else if(current instanceof Pulley && hit){
+            return true;
          }
          //for all objects that Zack can collide with, call performFunction method
          else if(hit){
@@ -275,8 +276,8 @@ public class Zack extends GameObject {
          case 0:
             switch (door) {
                case 'A':
-                  INITIAL_ZACK_X = 410;
-                  INITIAL_ZACK_Y = 600;
+                  INITIAL_ZACK_X = 400;
+                  INITIAL_ZACK_Y = 680;
                   break;
             }
             break;
@@ -418,8 +419,8 @@ public class Zack extends GameObject {
                   INITIAL_ZACK_Y = 510;
                   break;
                case 'C':
-                  INITIAL_ZACK_X = 520;
-                  INITIAL_ZACK_Y = 350;
+                  INITIAL_ZACK_X = 260;
+                  INITIAL_ZACK_Y = 270;
                   break;
             
             

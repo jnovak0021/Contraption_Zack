@@ -29,10 +29,12 @@ public class Main extends Application {
    private long startTime;  //store the start time of the system for math
    private double elapsedTime;
 
-   private ArrayList<RoomObject> savedRooms;
+   //private ArrayList<RoomObject> savedRooms;
    private int savedZackY;
    private int savedZackX;
    private LoadLevel savedLL = new LoadLevel();
+   private ArrayList<RoomObject> savedRooms = new ArrayList<>(); // Initialize here
+
 
 
    private boolean inMenu = true; // Track if we're in the main menu
@@ -329,12 +331,12 @@ public class Main extends Application {
             case 3: // Save
                paused = false;
             
-               savedLL = ll;
-               savedLL.setAssociatedMechanisms(ll.getAssociatedMechanisms());
-               savedLL.setTimedMechanisms(ll.getTimedMechanisms());
-               savedLL.setRooms(ll.getRooms());
-               savedLL.setSavedRoom(ll.getCurrentRoomNumber());
-
+               // savedLL = ll;
+            //                savedLL.setAssociatedMechanisms(ll.getAssociatedMechanisms());
+            //                savedLL.setTimedMechanisms(ll.getTimedMechanisms());
+            //                savedLL.setRooms(ll.getRooms());
+            //                savedLL.setSavedRoom(ll.getCurrentRoomNumber());
+               savedRooms = ll.saveAllRoomsState(); // Save the current room states
                //savedRooms = ll.saveAllRoomsState();
                savedZackY = zack.getY();
                savedZackX = zack.getX();
@@ -344,18 +346,18 @@ public class Main extends Application {
                try {
                   paused = false;
                   isLoading = true; // Set loading flag
-                  ll = savedLL;
-                  ll.setAssociatedMechanisms(savedLL.getAssociatedMechanisms());
-                  ll.setTimedMechanisms(savedLL.getTimedMechanisms());
-                  ll.setRooms(savedLL.getRooms());
-               
+               //    ll = savedLL;
+               //                   ll.setAssociatedMechanisms(savedLL.getAssociatedMechanisms());
+               //                   ll.setTimedMechanisms(savedLL.getTimedMechanisms());
+               //                   ll.setRooms(savedLL.getRooms());
+                  ll.loadState(savedRooms);
                   zack.setX(savedZackX);
                   zack.setY(savedZackY);
                   //ll.resetCurrentRoom();
                   zack.setEndX(zack.getX() + 20);
                   zack.setEndY(zack.getY() + 20);
-                  ll.setCurrentRoomNumber(savedLL.getSavedRoom());
-                  System.out.println(savedLL.getSavedRoom());
+                //  ll.setCurrentRoomNumber(savedLL.getSavedRoom());
+                //  System.out.println(savedLL.getSavedRoom());
                
                   System.out.println("Loading Game.");
                } catch (Exception e) {

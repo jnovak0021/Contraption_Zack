@@ -35,7 +35,6 @@ public class TeslaCoil extends Mechanism
 
         // IF TESLA COIL IS ACTIVE, DRAW POLES AS YELLOW
         if (isActive()) {
-            //getClock().
             gc.setFill(Color.YELLOW);
         } else {
             gc.setFill(Color.GRAY);
