@@ -109,6 +109,7 @@ Stanchion: 8
     V: Vertical
 TeslaCoil: 9
 WallSwitch: 10
+Screw: 11
 Button: B
 Wall: W
 Spike: S

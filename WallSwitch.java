@@ -109,23 +109,18 @@ public class WallSwitch extends Mechanism
         }
         //screw must be activated for anything else to work in this room
         else if(getAssociatedMechanisms() == 81) {
-            boolean screw = true;  //store the state of the screw
+            boolean screw = false;  //store the state of the screw
             //loop over to see if the screw was inserted - if so, activate objects
             for (int i = 0; i < mechs.size(); i++) {
-                /*if(mechs.get(i) instanceof Screw && mechs.get(i).isActive())
+                if(mechs.get(i) instanceof Screw && mechs.get(i).isActive())
                 {
                     screw = true;
                 }
-                */
+
             }
             //only activate if screw is activated
             //if the mechanism is a treadmill set it so that if this isActive, the treadmill goes north and if not active treadmill goes south
             for (int i = 0; i < mechs.size(); i++) {
-                //dont activate other buttons
-                if (!(mechs.get(i) instanceof WallSwitch))
-                {
-                    mechs.get(i).setActivated(screw);
-                }
                 //only activate/alter if screw is activated
                 if(mechs.get(i) instanceof Treadmill && screw)
                 {

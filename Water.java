@@ -10,6 +10,7 @@ public class Water extends Tile {
     private double speed = 1; // Speed of the downward movement
     private Color color; // Color of the water
 
+
     // Constructor that matches the expected signature
     public Water(int x, int y, Color myColor) {
         super(x, y, x + TILE_WIDTH, y + TILE_HEIGHT, myColor, false);
@@ -45,6 +46,7 @@ public class Water extends Tile {
                 yOffsets[i] = -TILE_HEIGHT; // Move back to the top
             }
         }
+
 
         // Draw the black rectangle at the specified coordinates
         gc.setFill(Color.BLACK);

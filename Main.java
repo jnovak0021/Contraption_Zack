@@ -23,6 +23,7 @@ public class Main extends Application {
    private LoadLevel ll;
    private Tile[][] tiles;
    private ArrayList<Mechanism> mechanisms;
+   private ArrayList<Item> gameItems;
    private Canvas canvas;
    private GraphicsContext gc;
    private int selectedPauseOption = 0; // Track the selected pause menu option
@@ -89,8 +90,9 @@ public class Main extends Application {
                     // Get current tiles and mechanism
                     tiles = ll.getRoomTiles(ll.getCurrentRoomNumber());
                     mechanisms = ll.getRoomMechanisms(ll.getCurrentRoomNumber());
-
-                    // Get the elapsed time since program started in seconds
+                    gameItems = ll.getRoomItems(ll.getCurrentRoomNumber());
+                 
+                    //get the elapsed time since program started in seconds
                     double elapsedTime = (now - startTime) / 1_000_000_000.0;
                     c.setElapsedTime(elapsedTime);
 
@@ -159,6 +161,14 @@ public class Main extends Application {
          mechanisms.get(i).drawMe(gc);
       }
    }
+   
+   // Method to draw the items in the level
+   public void drawItems() {
+      // Loop over mechanisms and call
+      for (int i = 0; i < gameItems.size(); i++) {
+         gameItems.get(i).drawMe(gc);
+      }
+   }
 
    private void draw() {
       // Clear the canvas
@@ -173,6 +183,7 @@ public class Main extends Application {
          // Draw tiles and Zack
          drawTiles();
          drawMechanisms();
+         drawItems();
          zack.drawMe(gc);
       }
       
@@ -296,24 +307,21 @@ public class Main extends Application {
                break;
             case 2: // Restart Level
                paused = false;
-               
-              
                isLoading = true; // Set loading flag
-            
+
+               //reset all objects in LoadLevel
+               ll.resetLevel();
+               tiles = ll.getRoomTiles(0); // Restart from room 0
+               mechanisms = ll.getRoomMechanisms(0); // Load the mechanisms
                // Reset Zack's position directly
-               //zackPositionEnter(0);
-               ll.resetBoard();
-            
+
+
                zack.setX(300);
                zack.setY(540);
                zack.setEndX(zack.getX() + 20);
                zack.setEndY(zack.getY() + 20);
-            
-               tiles = ll.getRoomTiles(0); // Restart from room 0
-               mechanisms = ll.getRoomMechanisms(0); // Load the mechanisms
-               ll.setCurrentRoomNumber(0); // Reset room number
-               // Call resetLevel from LoadLevel
-            
+
+
                System.out.println("Restarting level from room 0.");
                break;
             case 3: // Save

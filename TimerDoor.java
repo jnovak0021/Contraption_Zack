@@ -46,7 +46,7 @@ public class TimerDoor extends Mechanism {
       if (!paused) {
          paused = true;
          pausedTime = getClock().getElapsedTime(); // Record the time when paused
-         //System.out.println(getProperty() + " paused");
+         System.out.println(getProperty() + " paused");
       }
    }
 
@@ -54,7 +54,7 @@ public class TimerDoor extends Mechanism {
    public void resumeTimer() {
                paused = false;
          // Optionally handle resuming logic if needed
-         //System.out.println(getProperty() + " resumed");
+         System.out.println(getProperty() + " resumed");
       
    }
 

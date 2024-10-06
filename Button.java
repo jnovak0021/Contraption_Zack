@@ -30,9 +30,18 @@ public class Button extends Mechanism
 
        
    public void drawMe(GraphicsContext gc){
-   
+
+      double opacity = 1;
+
+      if(!isActive()){
+         opacity = .5;
+      }
+      else {
+         opacity = 1;
+      }
+      Color colorWithOpacity = new Color(getMyColor().getRed(), getMyColor().getGreen(), getMyColor().getBlue(), opacity); // Adjust the alpha value (0.5 for 50% opacity)
+      gc.setFill(colorWithOpacity); // Now set the modified color with opacity
       //draw a simple square
-      gc.setFill(getMyColor());
       gc.fillRect(getX(),getY(), getWidth(), getLength());
    
    }
@@ -54,14 +63,24 @@ public class Button extends Mechanism
    //this method will be called from zack, and will activate/deactivate the correct spikes
    public void performFunction(){
       ArrayList <Mechanism> mechs = ll.getAssociatedMechanisms(associatedMechanisms);
-   
-      for(int i=0; i < mechs.size(); i++){
-         System.out.print(mechs.get(i)+ " ");
-         //dont activate other buttons
-         if(!(mechs.get(i) instanceof Button) && !(mechs.get(i) instanceof WallSwitch)&& !(mechs.get(i) instanceof Pulley))
-            mechs.get(i).activate();//holy spirit activate
+
+      if(getAssociatedMechanisms() == 81)
+      {
+         for(int i=0; i < mechs.size(); i++){
+            //dont activate other buttons
+            if(!(mechs.get(i) instanceof Button) && !(mechs.get(i) instanceof WallSwitch) && !(mechs.get(i) instanceof Treadmill) && !(mechs.get(i) instanceof Screw) && !(mechs.get(i) instanceof Spring))
+               mechs.get(i).activate();//holy spirit activate
+         }
+
       }
-      System.out.println();
+      else {
+         for (int i = 0; i < mechs.size(); i++) {
+
+            //dont activate other buttons
+            if (!(mechs.get(i) instanceof Button)  && !(mechs.get(i) instanceof Pulley))
+               mechs.get(i).activate();//holy spirit activate
+         }
+      }
    
    }
    

@@ -14,6 +14,7 @@ public class RoomObject {
     private Tile[][] gameBoard2d;
     // arraylist of GameObjects that represent things such as buttons...
     private ArrayList<Mechanism> mechanismArray;
+    private ArrayList<Item> itemArray;
 
     // Accessors and mutators for gameBoard2d variables
     public Tile[][] getGameBoard2d() {
@@ -28,11 +29,23 @@ public class RoomObject {
     public ArrayList<Mechanism> getRoomMechanismArray() {
         return mechanismArray;
     }
+    
+    public ArrayList<Item> getRoomItemArray()
+    {
+        return itemArray;
+    }
 
     // Mutator
     public void setRoomMechanismArray(ArrayList<Mechanism> mechanismArray) {
         this.mechanismArray = mechanismArray;
     }
+    
+    public void setRoomItemArray(ArrayList<Item> itemArray)
+    {
+        this.itemArray = itemArray;
+    }
+    
+    
 
     // Clone the mechanismArray
     public ArrayList<Mechanism> cloneMechanismArray() {
