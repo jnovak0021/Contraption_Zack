@@ -58,8 +58,18 @@ public class LoadLevel
       //call readFile method to load the data into the level
       readFile();
    }
+   public ArrayList<RoomObject> cloneRooms() {
+      ArrayList<RoomObject> clonedRooms = new ArrayList<>();
+      for (RoomObject room : rooms) {
+         RoomObject clonedRoom = new RoomObject();
+         clonedRoom.setGameBoard2d(room.getGameBoard2d()); // Shallow copy of the tile array (if you need deep copy, clone the Tile objects)
+         clonedRoom.setRoomMechanismArray(room.cloneMechanismArray()); // Clone the mechanism array
+         clonedRooms.add(clonedRoom);
+      }
+      return clonedRooms;
+   }
 
-
+    
    //method to read in each room level
    //for loop that calls privatereadFileMethod for each room in level 1
    public void readFile()
