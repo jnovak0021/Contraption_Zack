@@ -28,7 +28,7 @@ public class Spike extends Mechanism
       }
    }
    
-   @Override
+   //@Override
   public Mechanism copy() {
         return new Spike(getProperty(), isActive(), getX(), getY(), getEndX(), getEndY(), getMyColor(), getAssociatedMechanisms(), getLL());
     }

@@ -339,6 +339,13 @@ public class LoadLevel
                tempItemArray.add(new Screwdriver(Integer.parseInt(parts[1]),Integer.parseInt(parts[2]), Integer.parseInt(parts[3]), this));
                temp = null;
             }
+            
+            //Item: Other
+            else if(parts[0].equals("OtherItem")){
+               //<startx>:<starty>:<associativeNumber>
+               tempItemArray.add(new OtherItem(parts[1], Integer.parseInt(parts[2]),Integer.parseInt(parts[3]), Integer.parseInt(parts[4]), Integer.parseInt(parts[5]), Integer.parseInt(parts[6]), this));
+               temp = null;
+            }
 
             //treadmill
             else if(parts[0].equals("T"))
