@@ -39,6 +39,13 @@ public class Zack extends GameObject {
    private boolean collides(Tile[][] tiles, ArrayList <Mechanism> mechs)
    {
    
+       //check
+      for (int i = 0; i < tiles.length; i++){
+         for (int j = 0; j < tiles[i].length; j++) {
+            if(overlap(tiles[i][j]) && (tiles[i][j] instanceof Abyss || tiles[i][j] instanceof Water))
+               return true;
+         } 
+      }
       for (int i = 0; i < mechs.size(); i++){
          Mechanism current = mechs.get(i);
          boolean hit = overlap(current);
@@ -192,13 +199,7 @@ public class Zack extends GameObject {
       
       }
    
-      //check
-      for (int i = 0; i < tiles.length; i++){
-         for (int j = 0; j < tiles[i].length; j++) {
-            if(overlap(tiles[i][j]) && (tiles[i][j] instanceof Abyss || tiles[i][j] instanceof Water))
-               return true;
-         } 
-      }
+  
       
       int leftBorder1 = 430;   // First left border
       int rightBorder1 = 500;  // First right border
