@@ -52,3 +52,5 @@ W:0:true:460:400:480:500:grey:0
 7:0:true:480:340:560:420:cornflowerblue:21
 7:0:true:560:340:640:420:purple:23
 7:0:true:560:480:640:560:yellow:20
+
+Screwdriver:480:200:7

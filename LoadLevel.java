@@ -33,6 +33,8 @@ public class LoadLevel
    private int savedRoom = 0;
    //associative array for the mechanisms -- 2d arraylist of Mechanisms where each index is a different associative number
    private ArrayList<Mechanism> [] associatedMechanisms;
+   
+   private ArrayList<Item> gameItems;
    //store all mechanisms that have a time component in this array for easier handling
    private ArrayList<Mechanism> timedMechanisms;
 
@@ -46,6 +48,8 @@ public class LoadLevel
    public LoadLevel()
    {
       associatedMechanisms = new ArrayList[100];  //may need to up intial capacity
+
+      gameItems = new ArrayList<Item>();
 
       timedMechanisms = new ArrayList<Mechanism>();
 
@@ -104,6 +108,7 @@ public class LoadLevel
    
       //temp ArrayList of GameObjects
       ArrayList <Mechanism> tempMechanismArray = new ArrayList<Mechanism>();
+      ArrayList <Item> tempItemArray = new ArrayList<Item>();
    
    
       try   //FileNotFoundException
@@ -317,6 +322,14 @@ public class LoadLevel
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
                tempMechanismArray.add(temp);
             }
+
+            //Item: Screwdriver
+            else if(parts[0].equals("Screwdriver")){
+               //<startx>:<starty>:<associativeNumber>
+               tempItemArray.add(new Screwdriver(Integer.parseInt(parts[1]),Integer.parseInt(parts[2]), Integer.parseInt(parts[3]), this));
+               temp = null;
+            }
+
             //treadmill
             else if(parts[0].equals("T"))
             {
@@ -325,6 +338,7 @@ public class LoadLevel
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
                tempMechanismArray.add(temp);
             }
+
             //screw
             else if(parts[0].equals("11"))
             {
@@ -333,19 +347,23 @@ public class LoadLevel
                //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
                tempMechanismArray.add(temp);
             }
-         
-            //System.out.println(tempMechanismArray.get(tempMechanismArray.size()-1));
-            //System.out.println("adding mechanism to \t" + Integer.parseInt(parts[8]));
-         
-            //add mechanism to its correct index in associatedMechanisms
-            associatedMechanisms[Integer.parseInt(parts[8])].add(temp);
-         
+
+
+            if(temp != null){
+               //System.out.println(tempMechanismArray.get(tempMechanismArray.size()-1));
+               //System.out.println("adding mechanism to \t" + Integer.parseInt(parts[8]));
+            
+               //add mechanism to its correct index in associatedMechanisms
+               associatedMechanisms[Integer.parseInt(parts[8])].add(temp);
+            }
+
          }
          //System.out.println(tempMechanismArray.get(0).toString());
       
          //set member variables of Roomobject
          tempRoomObject.setGameBoard2d(temp2d);
          tempRoomObject.setRoomMechanismArray(tempMechanismArray);
+         tempRoomObject.setRoomItemArray(tempItemArray);
       
          //close scanner
          scanner.close();
@@ -385,6 +403,12 @@ public class LoadLevel
    public ArrayList<Mechanism> getRoomMechanisms(int roomNumber)
    {
       return rooms.get(roomNumber).getRoomMechanismArray();
+   }
+   
+   //method to return all of the items across the entire game
+   public ArrayList<Item> getRoomItems(int roomNumber)
+   {
+      return rooms.get(roomNumber).getRoomItemArray();
    }
 
    //to get all the mechanisms that are associated with a Mechanism
@@ -590,8 +614,11 @@ public class LoadLevel
       System.out.println("Current room " + currentRoomNumber + " has been reset.");
    }
 
-
-
+   // Getter for associatedMechanisms
+   public ArrayList<Item> getGameItems() {
+      return gameItems;
+   }
+   
 }
 
 
