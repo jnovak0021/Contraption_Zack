@@ -92,17 +92,39 @@ public class WallSwitch extends Mechanism
     }
 
     //this method will be called from zack, and will activate/deactivate the correct spikes
+    //perform different function based on what associated array it is apart of. If it is from room 7, or 8 set the other objects in the arrraylist to its value
     public void performFunction(){
-
 
         ArrayList <Mechanism> mechs = ll.getAssociatedMechanisms(associatedMechanisms);
 
-        for(int i=0; i < mechs.size(); i++){
-            System.out.print(mechs.get(i)+ " ");
-            //dont activate other buttons
-            if(!(mechs.get(i) instanceof WallSwitch))
-                mechs.get(i).setActivated(this.isActive());//holy spirit activate
+        if(getAssociatedMechanisms() == 71 || getAssociatedMechanisms() == 81)
+        {
+            for(int i=0; i < mechs.size(); i++){
+                System.out.print(mechs.get(i)+ " ");
+                //dont activate other buttons
+                if(!(mechs.get(i) instanceof WallSwitch))
+                    mechs.get(i).setActivated(this.isActive());//holy spirit activate
+            }
+
         }
-        System.out.println();
+        //check if all wall switches are active, if they are, activate all other objects
+        else if(getAssociatedMechanisms() == 90) {
+            boolean allActive = true;
+            for(int i=0; i < mechs.size(); i++) {
+                //if it is a wallMechanism and it is not active, set to false
+                if(mechs.get(i) instanceof WallSwitch && !(mechs.get(i).isActive()))
+                {
+                    allActive = false;
+                }
+            }
+            System.out.println(allActive);
+            //loop over and set all objects that arent WallSwitch to value of allActive
+            for(int i=0; i < mechs.size(); i++) {
+                if(!(mechs.get(i) instanceof WallSwitch) && !(mechs.get(i) instanceof Spike))
+                {
+                    mechs.get(i).setActivated(allActive);
+                }
+            }
+        }
     }
 }

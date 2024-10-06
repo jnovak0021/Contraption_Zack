@@ -62,13 +62,19 @@ public class Zack extends GameObject {
       
          // Door collision handling
          else if (current instanceof Door && hit) {
-            ((Mechanism) current).performFunction();
-            String doorProperty = current.getProperty(); // Assume this returns an int corresponding to the door number
-            zackPositionDoor(doorProperty); // Set Zack's new position based on the door's property
-            setX(INITIAL_ZACK_X);
-            setY(INITIAL_ZACK_Y);
-            setEndX(INITIAL_ZACK_X +20);
-            setEndY(INITIAL_ZACK_Y +20);
+            if(!current.isActive())
+            {
+               return false;
+            }
+            else {
+               ((Mechanism) current).performFunction();
+               String doorProperty = current.getProperty(); // Assume this returns an int corresponding to the door number
+               zackPositionDoor(doorProperty); // Set Zack's new position based on the door's property
+               setX(INITIAL_ZACK_X);
+               setY(INITIAL_ZACK_Y);
+               setEndX(INITIAL_ZACK_X + 20);
+               setEndY(INITIAL_ZACK_Y + 20);
+            }
          
          }
          
@@ -91,7 +97,7 @@ public class Zack extends GameObject {
          else if(current instanceof WallSwitch && hit){
 
             ((Mechanism) current).performTimedFunction();
-            System.out.println("Wall Switch");
+            //System.out.println("Wall Switch");
             return true;
 
          }
@@ -146,6 +152,10 @@ public class Zack extends GameObject {
             }
             else
                return false;
+         }
+         //pulley
+         else if(current instanceof Pulley && hit){
+            return true;
          }
          //for all objects that Zack can collide with, call performFunction method
          else if(hit){
@@ -275,8 +285,8 @@ public class Zack extends GameObject {
          case 0:
             switch (door) {
                case 'A':
-                  INITIAL_ZACK_X = 410;
-                  INITIAL_ZACK_Y = 600;
+                  INITIAL_ZACK_X = 400;
+                  INITIAL_ZACK_Y = 680;
                   break;
             }
             break;

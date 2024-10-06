@@ -114,6 +114,7 @@ Wall: W
 Spike: S
     H: Horizontal
     V: Vertical
+Pulley: P
 
 
 

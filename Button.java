@@ -58,7 +58,7 @@ public class Button extends Mechanism
       for(int i=0; i < mechs.size(); i++){
          System.out.print(mechs.get(i)+ " ");
          //dont activate other buttons
-         if(!(mechs.get(i) instanceof Button))
+         if(!(mechs.get(i) instanceof Button) && !(mechs.get(i) instanceof WallSwitch)&& !(mechs.get(i) instanceof Pulley))
             mechs.get(i).activate();//holy spirit activate
       }
       System.out.println();
