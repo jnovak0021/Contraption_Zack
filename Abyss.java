@@ -21,7 +21,7 @@ public class Abyss extends Tile
    
    public String toString()
    {
-      return "Abyss:" + getX() + ":" + getY() + "\t" ;
+      return "0";
    }
 
 

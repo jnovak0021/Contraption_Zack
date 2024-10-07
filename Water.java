@@ -1,73 +1,70 @@
 import javafx.animation.AnimationTimer;
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Random;
-
-
-//Floors are tiles that Zack can walk on.
-//Their color depending on what the theme of the room is
-
-public class Water extends Tile
-{
-    public Water(int x, int y, Color myColor)
-    {
-        super(x, y, x + width, y + length, myColor, false);
-    }
+public class Water extends Tile {
+    private static final int TILE_WIDTH = 80; // Width of each rectangle
+    private static final int TILE_HEIGHT = 80; // Height of each rectangle
+    private static final int NUMBER_OF_RECTANGLES = 4; // Number of rectangles
+    private double[] yOffsets; // Y offsets for each rectangle
+    private double speed = 1; // Speed of the downward movement
+    private Color color; // Color of the water
 
 
+    // Constructor that matches the expected signature
+    public Water(int x, int y, Color myColor) {
+        super(x, y, x + TILE_WIDTH, y + TILE_HEIGHT, myColor, false);
+        this.color = myColor; // Set the color
+        yOffsets = new double[NUMBER_OF_RECTANGLES];
 
-    public String toString()
-    {
-        return "Water";
-
-    }
-    public void drawMe(GraphicsContext gc)
-    {
-        // Print position information (uncomment if needed)
-        // System.out.print(" [x-" + getX() + " y-" + getY() + "]");
-
-        // Set fill color for the tile
-        gc.setFill(getMyColor());
-        // Draw the main tile rectangle
-        gc.fillRect(getX(), getY(), getEndX() - getX(), getEndY() - getY());
-
-        // Set stroke color for the border
-        gc.setStroke(Color.BLACK);
-        gc.setLineWidth(2); // Optional: set the border thickness
-        // Draw the border rectangle
-        gc.strokeRect(getX(), getY(), getEndX() - getX(), getEndY() - getY());
-
-        // Set up the random number generator
-        Random random = new Random();
-        double largeRectHeight = getEndY() - getY();
-        double smallRectHeight = largeRectHeight / 40.0;
-
-        for (int i = 0; i < 20; i++) {
-            // Generate random x and y coordinates for the top-left corner of the small rectangle
-            double randX = getX() + random.nextDouble() * (getEndX() - getX());
-            double randY = getY() + random.nextDouble() * (largeRectHeight - smallRectHeight);
-
-            // Generate random width that fits within the larger rectangle's width
-            double maxWidth = getEndX() - randX;
-            double randWidth = random.nextDouble() * maxWidth;
-
-            // Set random color for each small rectangle
-            gc.setFill(new Color(random.nextDouble(), random.nextDouble(), random.nextDouble(), 1.0));
-
-            // Draw the small rectangle
-            gc.fillRect(randX, randY, randWidth, smallRectHeight);
+        // Initialize yOffsets to start just above the visible area
+        for (int i = 0; i < NUMBER_OF_RECTANGLES; i++) {
+            yOffsets[i] = -TILE_HEIGHT + (i * (TILE_HEIGHT / NUMBER_OF_RECTANGLES)); // Start just above
         }
     }
 
+    @Override
+    public String toString() {
+        return "4";
+    }
 
+    public void drawMe(GraphicsContext gc) {
+        // Clear the previous drawing
+        gc.clearRect(getX(), getY(), TILE_WIDTH, TILE_HEIGHT);
+
+        // Draw rectangles in shades of blue
+        for (int i = 0; i < NUMBER_OF_RECTANGLES; i++) {
+            Color shade = color.interpolate(Color.LIGHTBLUE, (double) i / (NUMBER_OF_RECTANGLES - 1));
+            gc.setFill(shade);
+            gc.fillRect(getX(), getY() + yOffsets[i], TILE_WIDTH, TILE_HEIGHT);
+
+            // Update the position for the next frame
+            yOffsets[i] += speed;
+
+            // Reset the position if it goes off the screen
+            if (yOffsets[i] > TILE_HEIGHT) {
+                yOffsets[i] = -TILE_HEIGHT; // Move back to the top
+            }
+        }
+
+
+        // Draw the black rectangle at the specified coordinates
+        gc.setFill(Color.BLACK);
+        gc.fillRect(390, 70, 90, 89); // Coordinates and dimensions (width: 90, height: 89)
+
+        // Optionally draw the border
+        gc.setStroke(Color.BLACK);
+        gc.setLineWidth(2);
+        gc.strokeRect(getX(), getY(), TILE_WIDTH, TILE_HEIGHT);
+    }
+
+    public void startAnimation(GraphicsContext gc) {
+        AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                drawMe(gc); // Redraw the water tile
+            }
+        };
+        timer.start(); // Start the animation timer
+    }
 }
-

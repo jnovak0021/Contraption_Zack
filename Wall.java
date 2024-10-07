@@ -35,18 +35,10 @@ public class Wall extends Mechanism
 
     public String toString()
     {
-        return "Wall{" +
-                "property='" + getProperty() + '\'' + // Adjust according to your propertgetY() type
-                "activate=" + isActive() +
-                ", x=" + getX() +
-                ", y=" + getY() +
-                ", endX=" + getEndX() +
-                ", endY=" + getEndY() +
-                ", color=" + getColor() +
-                '}';
+        return ("W:" + getProperty() + ":" + isActive() + ":" + getX() + ":" + getY() + ":" + getEndX() + ":" + getEndY() + ":" + getMyColor() + ":" + associatedMechanisms);
+        //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
 
     }
-    
     public void performFunction(){
        //no function
     }

@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.Timer;
 
 import javafx.scene.paint.Color;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.List;
 
 import javax.imageio.stream.MemoryCacheImageInputStream;
 
@@ -30,6 +34,9 @@ as well as an arraylist that contains the GameBbjects that are stored in each le
 */
 public class LoadLevel
 {
+
+   //boolean to determi if we are are save/load or if this is new
+   private boolean saved = false;
    //store the current room
    private int currentRoomNumber = 0;
    private int savedRoom = 0;
@@ -67,24 +74,67 @@ public class LoadLevel
       //call readFile method to load the data into the level
       readFile();
    }
+   public LoadLevel(boolean b)
+   {
+      saved = b;
+      associatedMechanisms = new ArrayList[100];  //may need to up intial capacity
+
+      gameItems = new ArrayList<Item>();
+
+      timedMechanisms = new ArrayList<Mechanism>();
 
 
+      for(int i = 0; i < associatedMechanisms.length; i++)
+      {
+         associatedMechanisms[i] = new ArrayList<Mechanism>();
+      }
+
+      //System.out.println("size: " +associatedMechanisms.length);
+
+      rooms = new ArrayList<RoomObject>();
+      //call readFile method to load the data into the level
+      readFile();
+   }
+   public ArrayList<RoomObject> cloneRooms() {
+      ArrayList<RoomObject> clonedRooms = new ArrayList<>();
+      for (RoomObject room : rooms) {
+         RoomObject clonedRoom = new RoomObject();
+         clonedRoom.setGameBoard2d(room.getGameBoard2d()); // Shallow copy of the tile array (if you need deep copy, clone the Tile objects)
+         clonedRoom.setRoomMechanismArray(room.cloneMechanismArray()); // Clone the mechanism array
+         clonedRooms.add(clonedRoom);
+      }
+      return clonedRooms;
+   }
+
+    
    //method to read in each room level
    //for loop that calls privatereadFileMethod for each room in level 1
    public void readFile()
    {
-   
+
       //note -- this needs to be changed later when all levles exist
       //loop through each of the 10 rooms
-      for( int i = 0; i < 10; i++ )
+      for( int l = 0; l < 10; l++ )
       {
          //set index of arrayIn to return value of privateReadFile
          //System.out.println("reading in file " + i);
-      
+
+
+
          //get room color
          setRoomColor();
-         rooms.add(privateReadFile("room" + i + ".txt"));
-      
+         String filePrefix = "room";
+         //save or load
+         if(saved)
+         {
+            rooms.add(privateReadFile("saveroom" + l + ".txt"));
+         }
+         else {
+            rooms.add(privateReadFile("room" + l + ".txt"));
+
+         }
+
+
          currentRoomNumber++; //increment currentRoomNUmber for specifics on color
       }
       //reset currentRoomNumber
@@ -332,6 +382,13 @@ public class LoadLevel
                tempItemArray.add(new Screwdriver(Integer.parseInt(parts[1]),Integer.parseInt(parts[2]), Integer.parseInt(parts[3]), this));
                temp = null;
             }
+            
+            //Item: Other
+            else if(parts[0].equals("OtherItem")){
+               //<startx>:<starty>:<associativeNumber>
+               //tempItemArray.add(new OtherItem(parts[1], Integer.parseInt(parts[2]),Integer.parseInt(parts[3]), Integer.parseInt(parts[4]), Integer.parseInt(parts[5]), Integer.parseInt(parts[6]), this));
+               temp = null;
+            }
 
             //treadmill
             else if(parts[0].equals("T"))
@@ -395,6 +452,12 @@ public class LoadLevel
       this.currentRoomNumber = currentRoomNumber;
    
    }
+
+   public void setSaved(boolean b)
+   {
+      saved = b;
+   }
+
 
    //method to take in a level at index i and to
    public Tile[][] getRoomTiles(int i)
@@ -648,10 +711,10 @@ public class LoadLevel
       //clear rooms
       rooms.clear();
 
-      gameItems.clear();
+
 
       //clear game items
-      for(int i = 0; i < \)
+      //for(int i = 0; i < \)
 
       //clear associatedMechanisms
       for(int i = 0; i < getAssociatedMechanisms().length; i++)
@@ -667,6 +730,7 @@ public class LoadLevel
       //loop over rooms
       for(int i = 0; i < ll.getRooms().size(); i++)
       {
+         System.out.println("Saving room\t" + i);
          //create a new Room object and set room.get(i) to it
          RoomObject tempRoomObject = new RoomObject();
 
@@ -675,7 +739,21 @@ public class LoadLevel
 
 
          //set Mechanism
-         ArrayList<Mechanism> tempMechanisms;
+         ArrayList<Mechanism>tempMechanismArray = new ArrayList<Mechanism>();
+         ArrayList<Item> tempGameItem = new ArrayList<Item>();
+
+
+         //loop over items
+         for(int j = 0; j < ll.getRoomItems(i).size(); j ++)
+         {
+            Item tempItem = ll.getRoomItems(i).get(j);
+            //Item: Screwdriver
+            if(tempItem instanceof Screwdriver){
+               System.out.println("ADDING SCREWDIVER IN SAVE");
+               //int x, int y, int roomStored, LoadLevel ll)
+               tempGameItem.add(new Screwdriver(tempItem.getX(),tempItem.getY(), i , this));
+            }
+         }
 
          //loop over ll.getRoomMechanisms
          for(int j = 0; j <  ll.getRoomMechanisms(i).size(); j++)
@@ -691,7 +769,9 @@ public class LoadLevel
             Color c = m.getMyColor();
             int associatedMechanisms = m.getAssociatedMechanisms();
 
-            ArrayList<Mechanism>tempMechanismArray = new ArrayList<Mechanism>();
+
+
+
             Mechanism temp = null;
             //if statement to determine which mechanism
             //Door
@@ -778,15 +858,28 @@ public class LoadLevel
                temp = new Screw(property, isActive,x,y,endX,endY, c, associatedMechanisms, this);
                tempMechanismArray.add(temp);
             }
+            System.out.print(temp  + "\t" + temp.getAssociatedMechanisms() + "\n");
 
-            getAssociatedMechanisms()[associatedMechanisms] = (tempMechanismArray);
+            getAssociatedMechanisms()[temp.getAssociatedMechanisms()] = (tempMechanismArray);
 
             //set member variables of Roomobject
             tempRoomObject.setRoomMechanismArray(tempMechanismArray);
             //tempRoomObject.setRoomItemArray(tempItemArray);
          }
-         rooms.add(i,tempRoomObject);
+         tempRoomObject.setRoomMechanismArray(tempMechanismArray);
+         tempRoomObject.setRoomItemArray(tempGameItem);
 
+         rooms.add(tempRoomObject);
+         System.out.println("\n\n\n");
+
+      }
+   }
+
+   public void saveString()
+   {
+      for(int i = 0; i < rooms.size(); i++)
+      {
+         System.out.println(rooms.get(i).toString());
       }
    }
 
@@ -798,12 +891,30 @@ public class LoadLevel
       //private ArrayList<Item> gameItems;
 
       gameItems = ll.getGameItems();
-      gameItems.add(new Screwdriver(100,100,1,this));
 
       setTimedMechanisms(ll.getTimedMechanisms());
 
       setRooms(ll.getRooms());
    }
+
+
+
+   // Method to write each RoomObject's content to a file
+   public void writeToFile() {
+      for (int i = 0; i < rooms.size(); i++) {
+         RoomObject room = rooms.get(i);
+         String fileName = "saveroom" + i + ".txt";
+
+         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            writer.write(room.toString()); // Using RoomObject's toString method to write all room details
+            writer.newLine();
+            System.out.println("Room " + i + " successfully saved to " + fileName);
+         } catch (IOException e) {
+            System.err.println("Error writing room " + i + " to file: " + e.getMessage());
+         }
+      }
+   }
+
 }
 
 

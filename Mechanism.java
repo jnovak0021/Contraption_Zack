@@ -49,6 +49,16 @@ public abstract class Mechanism extends GameObject
       this.associatedMechanisms = associatedMechanisms;
       this.traversable = traversable;
    }
+   
+   @Override
+   protected Mechanism clone() {
+      try {
+         return (Mechanism) super.clone();
+      } catch (CloneNotSupportedException e) {
+         throw new AssertionError(); // Can't happen
+      }
+   }
+
 
    //get set traversable
    public void setTraversable(boolean traversable)
@@ -77,7 +87,7 @@ public abstract class Mechanism extends GameObject
    
    public void activate()
    {
-       activated = !activated;
+      activated = !activated;
    }
 
    public void setActivated(boolean b)
