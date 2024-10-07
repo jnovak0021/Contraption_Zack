@@ -29,9 +29,11 @@ public class Screwdriver extends Item
 
  
    public void drawMe(GraphicsContext gc){
-      //draw a simple square
-         gc.setFill(Color.BLUE);
-         gc.fillRect(getX(),getY(), width, length);
+       if(!isCollected()){
+           //draw a simple square
+           gc.setFill(Color.BLUE);
+           gc.fillRect(getX(),getY(), width, length);
+       }
    }
 
 }

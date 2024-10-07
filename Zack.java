@@ -19,7 +19,7 @@ public class Zack extends GameObject {
    }
 
     // This method is constantly called from Main{}
-   public void move(int dX, int dY, Tile[][] tiles, ArrayList<Mechanism> mechs) {
+   public void move(int dX, int dY, Tile[][] tiles, ArrayList<Mechanism> mechs, ArrayList <Item> items) {
       int adjustedDX = (int) dX;
       int adjustedDY = (int) dY;
       this.tiles = tiles;
@@ -27,6 +27,12 @@ public class Zack extends GameObject {
    
       incrementX(adjustedDX);
       incrementY(adjustedDY);
+      
+      //check for items on ground
+      for (int i = 0; i < items.size(); i++){
+         if(overlap(items.get(i)))
+            items.get(i).collect();
+      }
    
         // If there is a collision, revert changes
       if (collides(tiles, mechs)) {
@@ -36,36 +42,26 @@ public class Zack extends GameObject {
    }
 
     // Internal to Zack
-   private boolean collides(Tile[][] tiles, ArrayList <Mechanism> mechs)
-   {
-   
-       //check
-      for (int i = 0; i < tiles.length; i++){
-         for (int j = 0; j < tiles[i].length; j++) {
-            if(overlap(tiles[i][j]) && (tiles[i][j] instanceof Abyss || tiles[i][j] instanceof Water))
-               return true;
-         } 
-      }
-      for (int i = 0; i < mechs.size(); i++){
+   private boolean collides(Tile[][] tiles, ArrayList<Mechanism> mechs) {
+      for (int i = 0; i < mechs.size(); i++) {
          Mechanism current = mechs.get(i);
          boolean hit = overlap(current);
-         
-         //check if the current object is a wall and if it collides
-         if(current instanceof Wall && hit ) {
+        
+        // Check if the current object is a wall and if it collides
+         if (current instanceof Wall && hit) {
             return true;
          }
-         //stanchion collision
-         else if(current instanceof Stanchion && hit){
+        
+        // Stanchion collision
+         if (current instanceof Stanchion && hit) {
             return true;
          }
-         
-         // Door collision handling
-         else if (current instanceof Door && hit) {
-            if(!current.isActive())
-            {
+        
+        // Door collision handling
+         if (current instanceof Door && hit) {
+            if (!current.isActive()) {
                return false;
-            }
-            else {
+            } else {
                ((Mechanism) current).performFunction();
                String doorProperty = current.getProperty(); // Assume this returns an int corresponding to the door number
                zackPositionDoor(doorProperty); // Set Zack's new position based on the door's property
@@ -74,157 +70,158 @@ public class Zack extends GameObject {
                setEndX(INITIAL_ZACK_X + 20);
                setEndY(INITIAL_ZACK_Y + 20);
             }
-         
          }
-         
-         
-         //check if object is a jukebox and if it collides
-         else if(current instanceof Jukebox && hit){
+        
+        // Check if object is a jukebox and if it collides
+         if (current instanceof Jukebox && hit) {
             return true;
          }
-         //button
-         else if(current instanceof Button && hit){
-            if(((Mechanism) current).isActive()){ //Button is not pressed
+        
+        // Button
+         if (current instanceof Button && hit) {
+            if (((Mechanism) current).isActive()) { // Button is not pressed
                ((Mechanism) current).activate();
                ((Mechanism) current).performFunction();
             }
             return false;
          }
-         //wallswitch -- unlike the button, wall switch can be toggled on and off by interacting with it
-         else if(current instanceof WallSwitch && hit){
-         
+        
+        // Wall switch
+         if (current instanceof WallSwitch && hit) {
             ((Mechanism) current).performTimedFunction();
-            //System.out.println("Wall Switch");
             return true;
-         
          }
-         else if(current instanceof TimerButton && hit){
-            if(((Mechanism) current).isActive()){ //Button is not pressed
+        
+        // Timer button
+         if (current instanceof TimerButton && hit) {
+            if (((Mechanism) current).isActive()) { // Button is not pressed
                ((Mechanism) current).activate();
                ((Mechanism) current).performFunction();
             }
             return false;
          }
-         
-         else if(current instanceof Spike && hit && current.isActive()){
+        
+        // Spike
+         if (current instanceof Spike && hit && current.isActive()) {
             return true;
          }
-         
-         else if(current instanceof FloatingTile && hit){
+        
+        // Floating tile
+         if (current instanceof FloatingTile && hit) {
             return false;
          }
-         //TimerDoor - if active, return true
-         else if(current instanceof TimerDoor && hit){
+        
+        // Timer door
+         if (current instanceof TimerDoor && hit) {
             System.out.println("TimerDoor");
-            if(((Mechanism)current).isActive()){
-            
-               
+            if (((Mechanism) current).isActive()) {
                return true;
-            }
-            else{
+            } else {
                ArrayList<Mechanism> Amechs = ll.getTimedMechanisms();
                for (Mechanism mechanism : Amechs) {
                   if (mechanism instanceof TimerDoor) {
                      ((TimerDoor) mechanism).pauseTimer(); // Resume the TimerDoor
-                  //System.out.println("Resumed TimerDoor: " + mechanism.getProperty());
                   }
                }
-            
                return false;
             }
          }
-         
-         //spring collision
-         else if(current instanceof Spring && hit) {
+        
+        // Spring collision
+         if (current instanceof Spring && hit) {
             System.out.println("Spring");
-            if(current.isActive())
+            if (current.isActive()) {
                return true;
-            else {
+            } else {
                springMove(current, current.getProperty());
-            
-               //if spring is not a reusbale spring (aa,ww,dd,ss), activate it so that it will not be usable
-               if(!(current.getProperty().equals("ww") || current.getProperty().equals("aa") || current.getProperty().equals("ss") || current.getProperty().equals("dd")))
+                // If spring is not a reusable spring, activate it so that it will not be usable
+               if (!(current.getProperty().equals("ww") || current.getProperty().equals("aa") ||
+                      current.getProperty().equals("ss") || current.getProperty().equals("dd"))) {
                   current.activate();
+               }
                return false;
             }
          }
-         else if(current instanceof TeslaCoil && hit){
-            if(current.isActive())
-            {
+        
+        // Tesla coil
+         if (current instanceof TeslaCoil && hit) {
+            if (current.isActive()) {
                return true;
-            }
-            else
+            } else {
                return false;
+            }
          }
-         //pulley
-         else if(current instanceof Pulley && hit){
+        
+        // Pulley
+         if (current instanceof Pulley && hit) {
             return true;
          }
-         //treadmill
-         else if(current instanceof Treadmill && hit)
-         {
-            if(!(current.isActive()))
+        
+        // Treadmill
+         if (current instanceof Treadmill && hit) {
+            if (!(current.isActive())) {
                return true;
-            else {
-               //need to figure out a way to determine if zack is above or below the treadmill object
-               //if he is below and getProperty() is "UP"
+            } else {
+                // Determine if Zack is above or below the treadmill object
                if (getY() >= current.getEndY() && current.getProperty().equals("UP")) {
                   incrementY(-10);
-               }
-               //if he is above and getProperty() is "DOWN" need to accelerate zack speed downward
-               else if (getEndY() <= current.getY() && current.getProperty().equals("DOWN")) {
+               } else if (getEndY() <= current.getY() && current.getProperty().equals("DOWN")) {
                   incrementY(10);
-               }
-               //if he is between -- move speeed up or down by 10 based on getProperty
-               else {
-                  if (current.getProperty().equals("UP"))
+               } else {
+                  if (current.getProperty().equals("UP")) {
                      incrementY(-10);
-                  else if (current.getProperty().equals("DOWN"))
+                  } else if (current.getProperty().equals("DOWN")) {
                      incrementY(10);
+                  }
                }
             }
          }
-         //screw
-         else if(current instanceof Screw && hit /* && hasScrewDriver*/){
+        
+        // Screw
+         if (current instanceof Screw && hit) {
             ((Mechanism) current).performFunction();
-            //System.out.println("Wall Switch");
             return true;
          }
-         //for all objects that Zack can collide with, call performFunction method
-         else if(hit){
+        
+        // For all objects that Zack can collide with, call performFunction method
+         if (hit) {
             System.out.println("HIT CODE");
-            mechs.get(i).performFunction(); //set that the mechanism is being collided with
+            mechs.get(i).performFunction(); // Set that the mechanism is being collided with
          }
-      
-      
       }
    
-  
-      
+    // Check tiles
+      for (int i = 0; i < tiles.length; i++) {
+         for (int j = 0; j < tiles[i].length; j++) {
+            if (overlap(tiles[i][j]) && (tiles[i][j] instanceof Abyss || tiles[i][j] instanceof Water)) {
+               return true;
+            }
+         }
+      }
+   
       int leftBorder1 = 430;   // First left border
       int rightBorder1 = 500;  // First right border
       int leftBorder2 = 298;   // Second left border
       int rightBorder2 = 343;  // Second right border
-   // Adjust as needed
+    // Adjust as needed
    
-   // Inside your movement or collision handling method
+    // Inside your movement or collision handling method
       boolean isWithinBorders = (getX() >= leftBorder1 && getX() <= rightBorder1) ||
-                          (getX() >= leftBorder2 && getX() <= rightBorder2);
+                              (getX() >= leftBorder2 && getX() <= rightBorder2);
    
       if (!isWithinBorders) {
-      // Zack is within one of the defined borders, resume TimerDoors
+        // Zack is within one of the defined borders, resume TimerDoors
          ArrayList<Mechanism> Amechs = ll.getTimedMechanisms();
          for (Mechanism mechanism : Amechs) {
             if (mechanism instanceof TimerDoor) {
                ((TimerDoor) mechanism).resumeTimer(); // Resume the TimerDoor
-               //System.out.println("Resumed TimerDoor: " + mechanism.getProperty());
             }
          }
       }
    
-   
       return false;
-   }       
+   }
+      
          
  
    public void reset() {

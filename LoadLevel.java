@@ -339,6 +339,13 @@ public class LoadLevel
                tempItemArray.add(new Screwdriver(Integer.parseInt(parts[1]),Integer.parseInt(parts[2]), Integer.parseInt(parts[3]), this));
                temp = null;
             }
+            
+            //Item: Other
+            else if(parts[0].equals("OtherItem")){
+               //<startx>:<starty>:<associativeNumber>
+               tempItemArray.add(new OtherItem(parts[1], Integer.parseInt(parts[2]),Integer.parseInt(parts[3]), Integer.parseInt(parts[4]), Integer.parseInt(parts[5]), Integer.parseInt(parts[6]), this));
+               temp = null;
+            }
 
             //treadmill
             else if(parts[0].equals("T"))
@@ -614,12 +621,10 @@ public class LoadLevel
     // Re-read the current room data
       String roomFileName = "room" + currentRoomNumber + ".txt";
       RoomObject newRoom = privateReadFile(roomFileName);
-    
+      setRoomColor();
     // Replace the current room with the new one
       rooms.set(currentRoomNumber, newRoom);
    
-    // Optionally, reset the current room number if needed (not generally necessary)
-    // currentRoomNumber = currentRoomNumber; // This line is just for clarity, not needed
    
       System.out.println("Current room " + currentRoomNumber + " has been reset.");
    }

@@ -55,7 +55,7 @@ public abstract class Mechanism extends GameObject
       try {
          return (Mechanism) super.clone();
       } catch (CloneNotSupportedException e) {
-         throw new AssertionError(); // Can’t happen
+         throw new AssertionError(); // Can't happen
       }
    }
 
