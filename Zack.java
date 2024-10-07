@@ -411,8 +411,8 @@ public class Zack extends GameObject {
                   INITIAL_ZACK_Y = 260;
                   break;
                case 'C':
-                  INITIAL_ZACK_X = 260;
-                  INITIAL_ZACK_Y = 510;
+                  INITIAL_ZACK_X = 216;
+                  INITIAL_ZACK_Y = 444;
                   break;
                case 'D':
                   INITIAL_ZACK_X = 270;

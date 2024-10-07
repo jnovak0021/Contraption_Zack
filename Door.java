@@ -116,7 +116,7 @@ public class Door extends Mechanism
             getLL().setCurrentRoomNumber(8);
             break;
          case "9B":
-            getLL().setCurrentRoomNumber(9);
+            getLL().setCurrentRoomNumber(10);
             break;
       
       
