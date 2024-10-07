@@ -58,8 +58,8 @@ public class RoomObject {
 
     // toString
     public String toString() {
-        StringBuilder temp = new StringBuilder("Room:\n");
-        temp.append("tile\n");
+        StringBuilder temp = new StringBuilder(gameBoard2d.length +" " +  gameBoard2d[0].length + "\n");
+
         for (int i = 0; i < gameBoard2d.length; i++) {
             for (int j = 0; j < gameBoard2d[i].length; j++) {
                 temp.append(gameBoard2d[i][j]).append(" ");
@@ -70,9 +70,13 @@ public class RoomObject {
 
         // Print mechanism array
         for (Mechanism mechanism : mechanismArray) {
-            temp.append(mechanism.toString()).append(" ");
+            temp.append(mechanism.toString()).append("\n");
         }
         temp.append("\n");
+
+        for (Item item : itemArray) {
+            temp.append(item.toString()).append("\n");
+        }
         return temp.toString();
     }
 }

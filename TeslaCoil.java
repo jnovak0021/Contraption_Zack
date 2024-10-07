@@ -70,18 +70,12 @@ public class TeslaCoil extends Mechanism {
         }.start();
     }
 
-    public String toString() {
-        return "Wall{" +
-                "property='" + getProperty() + '\'' +
-                "activate=" + isActive() +
-                ", x=" + getX() +
-                ", y=" + getY() +
-                ", endX=" + getEndX() +
-                ", endY=" + getEndY() +
-                ", color=" + getColor() +
-                '}';
-    }
+    public String toString()
+    {
+        return ("9:" + getProperty() + ":" + isActive() + ":" + getX() + ":" + getY() + ":" + getEndX() + ":" + getEndY() + ":" + getMyColor() + ":" + associatedMechanisms);
+        //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
 
+    }
     public void performFunction() {
         // no function
     }

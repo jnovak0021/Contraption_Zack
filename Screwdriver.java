@@ -34,6 +34,12 @@ public class Screwdriver extends Item
            gc.setFill(Color.BLUE);
            gc.fillRect(getX(),getY(), width, length);
        }
+
+   }
+   @Override
+   public String toString()
+   {
+       return ("ScrewDriver:" + getX() + ":" + getY() + ":" + getRoomStored());
    }
 
 }

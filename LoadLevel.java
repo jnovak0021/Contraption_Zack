@@ -3,7 +3,13 @@ import java.io.FileNotFoundException;
 import java.lang.reflect.Array;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Timer;
+
 import javafx.scene.paint.Color;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.List;
 
 import javax.imageio.stream.MemoryCacheImageInputStream;
 
@@ -28,6 +34,9 @@ as well as an arraylist that contains the GameBbjects that are stored in each le
 */
 public class LoadLevel
 {
+
+   //boolean to determi if we are are save/load or if this is new
+   private boolean saved = false;
    //store the current room
    private int currentRoomNumber = 0;
    private int savedRoom = 0;
@@ -65,6 +74,27 @@ public class LoadLevel
       //call readFile method to load the data into the level
       readFile();
    }
+   public LoadLevel(boolean b)
+   {
+      saved = b;
+      associatedMechanisms = new ArrayList[100];  //may need to up intial capacity
+
+      gameItems = new ArrayList<Item>();
+
+      timedMechanisms = new ArrayList<Mechanism>();
+
+
+      for(int i = 0; i < associatedMechanisms.length; i++)
+      {
+         associatedMechanisms[i] = new ArrayList<Mechanism>();
+      }
+
+      //System.out.println("size: " +associatedMechanisms.length);
+
+      rooms = new ArrayList<RoomObject>();
+      //call readFile method to load the data into the level
+      readFile();
+   }
    public ArrayList<RoomObject> cloneRooms() {
       ArrayList<RoomObject> clonedRooms = new ArrayList<>();
       for (RoomObject room : rooms) {
@@ -81,18 +111,30 @@ public class LoadLevel
    //for loop that calls privatereadFileMethod for each room in level 1
    public void readFile()
    {
-   
+
       //note -- this needs to be changed later when all levles exist
       //loop through each of the 10 rooms
-      for( int i = 0; i < 10; i++ )
+      for( int l = 0; l < 10; l++ )
       {
          //set index of arrayIn to return value of privateReadFile
          //System.out.println("reading in file " + i);
-      
+
+
+
          //get room color
          setRoomColor();
-         rooms.add(privateReadFile("room" + i + ".txt"));
-      
+         String filePrefix = "room";
+         //save or load
+         if(saved)
+         {
+            rooms.add(privateReadFile("saveroom" + l + ".txt"));
+         }
+         else {
+            rooms.add(privateReadFile("room" + l + ".txt"));
+
+         }
+
+
          currentRoomNumber++; //increment currentRoomNUmber for specifics on color
       }
       //reset currentRoomNumber
@@ -335,6 +377,7 @@ public class LoadLevel
 
             //Item: Screwdriver
             else if(parts[0].equals("Screwdriver")){
+               System.out.println("ADDING SCREWDIVER");
                //<startx>:<starty>:<associativeNumber>
                tempItemArray.add(new Screwdriver(Integer.parseInt(parts[1]),Integer.parseInt(parts[2]), Integer.parseInt(parts[3]), this));
                temp = null;
@@ -343,7 +386,7 @@ public class LoadLevel
             //Item: Other
             else if(parts[0].equals("OtherItem")){
                //<startx>:<starty>:<associativeNumber>
-               tempItemArray.add(new OtherItem(parts[1], Integer.parseInt(parts[2]),Integer.parseInt(parts[3]), Integer.parseInt(parts[4]), Integer.parseInt(parts[5]), Integer.parseInt(parts[6]), this));
+               //tempItemArray.add(new OtherItem(parts[1], Integer.parseInt(parts[2]),Integer.parseInt(parts[3]), Integer.parseInt(parts[4]), Integer.parseInt(parts[5]), Integer.parseInt(parts[6]), this));
                temp = null;
             }
 
@@ -409,6 +452,12 @@ public class LoadLevel
       this.currentRoomNumber = currentRoomNumber;
    
    }
+
+   public void setSaved(boolean b)
+   {
+      saved = b;
+   }
+
 
    //method to take in a level at index i and to
    public Tile[][] getRoomTiles(int i)
@@ -621,10 +670,12 @@ public class LoadLevel
     // Re-read the current room data
       String roomFileName = "room" + currentRoomNumber + ".txt";
       RoomObject newRoom = privateReadFile(roomFileName);
-      setRoomColor();
+    
     // Replace the current room with the new one
       rooms.set(currentRoomNumber, newRoom);
    
+    // Optionally, reset the current room number if needed (not generally necessary)
+    // currentRoomNumber = currentRoomNumber; // This line is just for clarity, not needed
    
       System.out.println("Current room " + currentRoomNumber + " has been reset.");
    }
@@ -633,7 +684,237 @@ public class LoadLevel
    public ArrayList<Item> getGameItems() {
       return gameItems;
    }
-   
+
+
+   /*
+
+      private ArrayList<Mechanism> [] associatedMechanisms;
+
+      private ArrayList<Item> gameItems;
+      //store all mechanisms that have a time component in this array for easier handling
+      private ArrayList<Mechanism> timedMechanisms;
+
+      //list of RoomObject that is read in using privateReadFile
+      private ArrayList<RoomObject> rooms;
+
+    */
+
+   public void saveGame(LoadLevel ll)
+   {
+
+      //set currentRoomNumber
+      currentRoomNumber = ll.getCurrentRoomNumber();
+
+      //clear timed mechanisms
+      timedMechanisms.clear();
+
+      //clear rooms
+      rooms.clear();
+
+
+
+      //clear game items
+      //for(int i = 0; i < \)
+
+      //clear associatedMechanisms
+      for(int i = 0; i < getAssociatedMechanisms().length; i++)
+      {
+         getAssociatedMechanisms()[i].clear();
+      }
+
+
+      //store rooms
+
+
+
+      //loop over rooms
+      for(int i = 0; i < ll.getRooms().size(); i++)
+      {
+         System.out.println("Saving room\t" + i);
+         //create a new Room object and set room.get(i) to it
+         RoomObject tempRoomObject = new RoomObject();
+
+         //set tiles
+         tempRoomObject.setGameBoard2d(ll.getRoomTiles(i));
+
+
+         //set Mechanism
+         ArrayList<Mechanism>tempMechanismArray = new ArrayList<Mechanism>();
+         ArrayList<Item> tempGameItem = new ArrayList<Item>();
+
+
+         //loop over items
+         for(int j = 0; j < ll.getRoomItems(i).size(); j ++)
+         {
+            Item tempItem = ll.getRoomItems(i).get(j);
+            //Item: Screwdriver
+            if(tempItem instanceof Screwdriver){
+               System.out.println("ADDING SCREWDIVER IN SAVE");
+               //int x, int y, int roomStored, LoadLevel ll)
+               tempGameItem.add(new Screwdriver(tempItem.getX(),tempItem.getY(), i , this));
+            }
+         }
+
+         //loop over ll.getRoomMechanisms
+         for(int j = 0; j <  ll.getRoomMechanisms(i).size(); j++)
+         {
+
+            Mechanism m = ll.getRoomMechanisms(i).get(j);
+            String property = m.getProperty();
+            boolean isActive = m.isActive();
+            int x = m.getX();
+            int y = m.getY();
+            int endX = m.getEndX();
+            int endY = m.getEndY();
+            Color c = m.getMyColor();
+            int associatedMechanisms = m.getAssociatedMechanisms();
+
+
+
+
+            Mechanism temp = null;
+            //if statement to determine which mechanism
+            //Door
+            if(m instanceof Door){
+               temp = new Door(property, isActive,x,y,endX,endY, c, associatedMechanisms, this);
+               tempMechanismArray.add(temp);
+            }
+
+            //juke box
+            else if(m instanceof Jukebox){
+               temp = new Jukebox(property, isActive,x,y,endX,endY, c, associatedMechanisms, this);
+               tempMechanismArray.add(temp);
+            }
+
+            //Wall
+            else if(m instanceof Wall){
+               temp = new Wall(property, isActive,x,y,endX,endY, c, associatedMechanisms, this);
+               tempMechanismArray.add(temp);
+            }
+
+            //floatingTile
+            else if(m instanceof FloatingTile){
+               temp = new FloatingTile(property, isActive,x,y,endX,endY, c, associatedMechanisms, this);
+               tempMechanismArray.add(temp);
+            }
+
+            //spike
+            else if(m instanceof Spike){
+               temp = new Spike(property, isActive,x,y,endX,endY, c, associatedMechanisms, this);
+               tempMechanismArray.add(temp);
+            }
+
+            //button
+            else if(m instanceof Button){
+               temp = new Button(property, isActive,x,y,endX,endY, c, associatedMechanisms, this);
+               tempMechanismArray.add(temp);
+            }
+            //spring
+            else if(m instanceof Spring){
+               temp = new Spike(property, isActive,x,y,endX,endY, c, associatedMechanisms, this);
+               tempMechanismArray.add(temp);
+            }
+            //timerdoor
+            else if(m instanceof TimerDoor){
+               temp = new TimerDoor(property, isActive,x,y,endX,endY, c, associatedMechanisms, this);
+               tempMechanismArray.add(temp);
+               timedMechanisms.add(temp);
+            }
+            //TimerButton
+            else if(m instanceof TimerButton){
+               temp = new TimerButton(property, isActive,x,y,endX,endY, c, associatedMechanisms, this);
+               tempMechanismArray.add(temp);
+               timedMechanisms.add(temp);
+            }
+            //stanchion
+            else if(m instanceof Stanchion){
+               temp = new Stanchion(property, isActive,x,y,endX,endY, c, associatedMechanisms, this);
+               tempMechanismArray.add(temp);
+            }
+            //tesla coil
+            else if(m instanceof TeslaCoil){
+               temp = new TeslaCoil(property, isActive,x,y,endX,endY, c, associatedMechanisms, this);
+               tempMechanismArray.add(temp);
+            }
+            //wall switch
+            else if(m instanceof WallSwitch){
+               temp = new WallSwitch(property, isActive,x,y,endX,endY, c, associatedMechanisms, this);
+               tempMechanismArray.add(temp);
+            }
+            //pulley
+            else if(m instanceof Pulley){
+               temp = new WallSwitch(property, isActive,x,y,endX,endY, c, associatedMechanisms, this);
+               tempMechanismArray.add(temp);
+            }
+
+            //treadmill
+            else if(m instanceof Treadmill){
+               temp = new Treadmill(property, isActive,x,y,endX,endY, c, associatedMechanisms, this);
+               tempMechanismArray.add(temp);
+            }
+
+            //screw
+            else if(m instanceof Screw){
+               temp = new Screw(property, isActive,x,y,endX,endY, c, associatedMechanisms, this);
+               tempMechanismArray.add(temp);
+            }
+            System.out.print(temp  + "\t" + temp.getAssociatedMechanisms() + "\n");
+
+            getAssociatedMechanisms()[temp.getAssociatedMechanisms()] = (tempMechanismArray);
+
+            //set member variables of Roomobject
+            tempRoomObject.setRoomMechanismArray(tempMechanismArray);
+            //tempRoomObject.setRoomItemArray(tempItemArray);
+         }
+         tempRoomObject.setRoomMechanismArray(tempMechanismArray);
+         tempRoomObject.setRoomItemArray(tempGameItem);
+
+         rooms.add(tempRoomObject);
+         System.out.println("\n\n\n");
+
+      }
+   }
+
+   public void saveString()
+   {
+      for(int i = 0; i < rooms.size(); i++)
+      {
+         System.out.println(rooms.get(i).toString());
+      }
+   }
+
+   public void loadGame(LoadLevel ll)
+   {
+      //store the current room
+      currentRoomNumber = ll.getCurrentRoomNumber();
+      setAssociatedMechanisms(ll.getAssociatedMechanisms());
+      //private ArrayList<Item> gameItems;
+
+      gameItems = ll.getGameItems();
+
+      setTimedMechanisms(ll.getTimedMechanisms());
+
+      setRooms(ll.getRooms());
+   }
+
+
+
+   // Method to write each RoomObject's content to a file
+   public void writeToFile() {
+      for (int i = 0; i < rooms.size(); i++) {
+         RoomObject room = rooms.get(i);
+         String fileName = "saveroom" + i + ".txt";
+
+         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            writer.write(room.toString()); // Using RoomObject's toString method to write all room details
+            writer.newLine();
+            System.out.println("Room " + i + " successfully saved to " + fileName);
+         } catch (IOException e) {
+            System.err.println("Error writing room " + i + " to file: " + e.getMessage());
+         }
+      }
+   }
+
 }
 
 

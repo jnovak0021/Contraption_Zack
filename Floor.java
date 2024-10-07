@@ -31,7 +31,7 @@ public class Floor extends Tile
 
     public String toString()
     {
-      return "Floor:" + getX() + ":" + getY() + "\t" ;
+      return "1";
 
    }   
    public void drawMe(GraphicsContext gc) 

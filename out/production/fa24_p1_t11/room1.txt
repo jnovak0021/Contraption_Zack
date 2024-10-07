@@ -44,3 +44,4 @@ B:0:true:520:200:600:280:blue:4
 5:a:false:320:560:400:640:brown:0
 5:d:false:400:561:480:640:brown:0
 
+Screwdriver:480:200:7

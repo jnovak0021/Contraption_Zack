@@ -25,7 +25,7 @@ public class Water extends Tile {
 
     @Override
     public String toString() {
-        return "Water";
+        return "4";
     }
 
     public void drawMe(GraphicsContext gc) {

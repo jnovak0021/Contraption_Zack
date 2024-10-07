@@ -62,19 +62,14 @@ public class Spike extends Mechanism
       }
    }
 
-   public String toString()
-   {
-      return "Spike{" +
-             "property='" + getProperty() + '\'' + // Adjust according to your propertgetY() type
-             "activate=" + isActive() +
-             ", x=" + getX() +
-             ", y=" + getY() +
-             ", endX=" + getEndX() +
-             ", endY=" + getEndY() +
-             ", color=" + getColor() +
-             '}';
-   
-   }
+
+
+    public String toString()
+    {
+        return ("S:" + getProperty() + ":" + isActive() + ":" + getX() + ":" + getY() + ":" + getEndX() + ":" + getEndY() + ":" + getMyColor() + ":" + associatedMechanisms);
+        //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
+
+    }
 
    //do nothing for spike
    public void performFunction(){

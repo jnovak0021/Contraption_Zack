@@ -33,7 +33,7 @@ public class Main extends Application {
    //private ArrayList<RoomObject> savedRooms;
    private int savedZackY;
    private int savedZackX;
-   private LoadLevel savedLL = new LoadLevel();
+   private int savedRoomNumber = 0;
    private ArrayList<RoomObject> savedRooms = new ArrayList<>(); // Initialize here
 
 
@@ -65,85 +65,87 @@ public class Main extends Application {
 
    @Override
    public void start(Stage primaryStage) {
-      canvas = new Canvas(728, 728);
-      gc = canvas.getGraphicsContext2D();
-   
-      ll = new LoadLevel();
-      tiles = null; // Initially set to null until the game starts
-      zack = new Zack(INITIAL_ZACK_X, INITIAL_ZACK_Y, Color.BLUE, ll); // Initial position and color
-   
+
+    canvas = new Canvas(728, 728);
+    gc = canvas.getGraphicsContext2D();
+
+    ll = new LoadLevel();
+    tiles = null; // Initially set to null until the game starts
+    zack = new Zack(INITIAL_ZACK_X, INITIAL_ZACK_Y, Color.BLUE, ll); // Initial position and color
+
     // Create a Water tile instance
-      Water waterTile = new Water(50, 50, Color.BLUE); // Example position and color
-      waterTile.startAnimation(gc); // Start the animation for the water tile
-   
-      Pane root = new Pane(canvas); // Use Pane to hold the Canvas
-      Scene scene = new Scene(root, 728, 728);
-   
-      scene.setOnKeyPressed(event -> pressedKeys.add(event.getCode()));
-      scene.setOnKeyReleased(event -> pressedKeys.remove(event.getCode()));
-   
-      AnimationTimer animationTimer =
+    Water waterTile = new Water(50, 50, Color.BLUE); // Example position and color
+    waterTile.startAnimation(gc); // Start the animation for the water tile
+
+    Pane root = new Pane(canvas); // Use Pane to hold the Canvas
+    Scene scene = new Scene(root, 728, 728);
+
+    scene.setOnKeyPressed(event -> pressedKeys.add(event.getCode()));
+    scene.setOnKeyReleased(event -> pressedKeys.remove(event.getCode()));
+
+    AnimationTimer animationTimer =
             new AnimationTimer() {
-               @Override
+                @Override
                 public void handle(long now) {
-               
+
                     // Get current tiles and mechanism
-                  tiles = ll.getRoomTiles(ll.getCurrentRoomNumber());
-                  mechanisms = ll.getRoomMechanisms(ll.getCurrentRoomNumber());
-                  gameItems = ll.getRoomItems(ll.getCurrentRoomNumber());
+
+                    tiles = ll.getRoomTiles(ll.getCurrentRoomNumber());
+                    mechanisms = ll.getRoomMechanisms(ll.getCurrentRoomNumber());
+                    gameItems = ll.getRoomItems(ll.getCurrentRoomNumber());
                  
                     //get the elapsed time since program started in seconds
-                  double elapsedTime = (now - startTime) / 1_000_000_000.0;
-                  c.setElapsedTime(elapsedTime);
-               
-                  handleTime();
-               
-                  scene.setOnMouseMoved(
+                    double elapsedTime = (now - startTime) / 1_000_000_000.0;
+                    c.setElapsedTime(elapsedTime);
+
+                    handleTime();
+
+                    scene.setOnMouseMoved(
                             event -> {
-                               mouseX = (int) event.getX();
-                               mouseY = (int) event.getY();
+                                mouseX = (int) event.getX();
+                                mouseY = (int) event.getY();
                             });
-               
-                  if (inMenu) {
-                     updateMenu();
-                  } else if (paused) {
-                     updatePauseMenu();
-                  } else {
-                     updateMovement();
-                  }
-               
-                  scene.setOnMouseClicked(
+
+                    if (inMenu) {
+                        updateMenu();
+                    } else if (paused) {
+                        updatePauseMenu();
+                    } else {
+                        updateMovement();
+                    }
+
+                    scene.setOnMouseClicked(
                             event -> {
                                 // Get the click coordinates and cast them to int
-                               int clickX = (int) event.getX();
-                               int clickY = (int) event.getY();
-                            
+                                int clickX = (int) event.getX();
+                                int clickY = (int) event.getY();
+
                                 // Set Zack's position to the clicked coordinates
-                               zack.setX(clickX);
-                               zack.setY(clickY);
-                            
+                                zack.setX(clickX);
+                                zack.setY(clickY);
+
                                 // Optionally adjust the end position if you have an animation or bounding box
-                               zack.setEndX(zack.getX() + 20); // Adjust as needed
-                               zack.setEndY(zack.getY() + 20); // Adjust as needed
-                            
+                                zack.setEndX(zack.getX() + 20); // Adjust as needed
+                                zack.setEndY(zack.getY() + 20); // Adjust as needed
+
                                 // Redraw the scene to reflect the new position
-                               draw();
+                                draw();
                             });
-               
-                  draw(); // Redraw the scene on each frame
-               }
+
+                    draw(); // Redraw the scene on each frame
+                }
             };
-   
-      startTime = System.nanoTime();
-      c = new Clock(startTime, 0);
-   
+
+    startTime = System.nanoTime();
+    c = new Clock(startTime, 0);
+
     // Store the start time of the system to use for math
-      animationTimer.start();
-   
-      primaryStage.setTitle("Contraption Zack");
-      primaryStage.setScene(scene);
-      primaryStage.show();
-   }
+    animationTimer.start();
+
+    primaryStage.setTitle("Contraption Zack");
+    primaryStage.setScene(scene);
+    primaryStage.show();
+}
    private void drawTiles() {
       // Loop over tiles and call drawMe
       for (int i = 0; i < tiles.length; i++) {
@@ -163,10 +165,13 @@ public class Main extends Application {
    }
    
    // Method to draw the items in the level
+
    public void drawItems() {
-      // Loop over mechanisms and call
-      for (int i = 0; i < gameItems.size(); i++) {
-         gameItems.get(i).drawMe(gc);
+      // Loop over mechanisms and call'
+      if(gameItems.size() != 0) {
+         for (int i = 0; i < gameItems.size(); i++) {
+            gameItems.get(i).drawMe(gc);
+         }
       }
    }
 
@@ -183,7 +188,8 @@ public class Main extends Application {
          // Draw tiles and Zack
          drawTiles();
          drawMechanisms();
-         drawItems();
+         if(gameItems.size() != 0)
+            drawItems();
          zack.drawMe(gc);
       }
       
@@ -301,50 +307,34 @@ public class Main extends Application {
                // Reset Zack's position directly
                zack.reset();
                ll.resetCurrentRoom();
-                              ll.resetCurrentRoom();
-
                tiles = ll.getRoomTiles(ll.getCurrentRoomNumber()); // Restart current room
                mechanisms = ll.getRoomMechanisms(ll.getCurrentRoomNumber()); // Load the mechanisms
-               ll.setRoomColor();
-            
-               if(ll.getCurrentRoomNumber() == 0)
-               {
-                  zack.setX(300);
-                  zack.setY(540);
-                  zack.setEndX(zack.getX() + 20);
-                  zack.setEndY(zack.getY() + 20);
-               }
                System.out.println("Restarting current area.");
-               break;   
-               
+               break;
             case 2: // Restart Level
                paused = false;
                isLoading = true; // Set loading flag
-            
+
                //reset all objects in LoadLevel
                ll.resetLevel();
                tiles = ll.getRoomTiles(0); // Restart from room 0
                mechanisms = ll.getRoomMechanisms(0); // Load the mechanisms
                // Reset Zack's position directly
-            
-            
+
+
                zack.setX(300);
                zack.setY(540);
                zack.setEndX(zack.getX() + 20);
                zack.setEndY(zack.getY() + 20);
-            
-            
+
+
                System.out.println("Restarting level from room 0.");
                break;
             case 3: // Save
                paused = false;
-            
-               // savedLL = ll;
-            //                savedLL.setAssociatedMechanisms(ll.getAssociatedMechanisms());
-            //                savedLL.setTimedMechanisms(ll.getTimedMechanisms());
-            //                savedLL.setRooms(ll.getRooms());
-            //                savedLL.setSavedRoom(ll.getCurrentRoomNumber());
-               savedRooms = ll.cloneRooms(); // Save the current room states
+               savedRoomNumber = ll.getCurrentRoomNumber();
+               ll.writeToFile();
+
                //savedRooms = ll.saveAllRoomsState();
                savedZackY = zack.getY();
                savedZackX = zack.getX();
@@ -354,18 +344,19 @@ public class Main extends Application {
                try {
                   paused = false;
                   isLoading = true; // Set loading flag
-               //    ll = savedLL;
-               //                   ll.setAssociatedMechanisms(savedLL.getAssociatedMechanisms());
-               //                   ll.setTimedMechanisms(savedLL.getTimedMechanisms());
-               //                   ll.setRooms(savedLL.getRooms());
-                  ll.loadState(savedRooms);
+                  ll = new LoadLevel(true);
+                  ll.setSaved(true);
+                  ll.setCurrentRoomNumber(savedRoomNumber);
+                  tiles = ll.getRoomTiles(savedRoomNumber); // Restart from room 0
+                  mechanisms = ll.getRoomMechanisms(savedRoomNumber); // Load the mechanisms
+
+                  System.out.println("Current room after load: " + ll.getCurrentRoomNumber());
+
                   zack.setX(savedZackX);
                   zack.setY(savedZackY);
-                  //ll.resetCurrentRoom();
                   zack.setEndX(zack.getX() + 20);
                   zack.setEndY(zack.getY() + 20);
-                //  ll.setCurrentRoomNumber(savedLL.getSavedRoom());
-                //  System.out.println(savedLL.getSavedRoom());
+
                
                   System.out.println("Loading Game.");
                } catch (Exception e) {
