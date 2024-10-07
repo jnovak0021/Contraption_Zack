@@ -17,97 +17,87 @@ import java.util.*;
 public class Screw extends Mechanism
 {
     //store the start time
-    private double activatedStartTime;
+   private double activatedStartTime;
 
-    public Screw(String property, boolean activated, int x, int y, int endX, int endY, Color myColor, int associatedMechanisms, LoadLevel ll)
-    {
-        super(property, activated, x, y, endX, endY, myColor, associatedMechanisms, ll);
-    }
+   public Screw(String property, boolean activated, int x, int y, int endX, int endY, Color myColor, int associatedMechanisms, LoadLevel ll)
+   {
+      super(property, activated, x, y, endX, endY, myColor, associatedMechanisms, ll);
+   }
 
 
-    public void drawMe(GraphicsContext gc) {
-        int width = getEndX() - getX();
-        int height = getEndY() - getY();
+   public void drawMe(GraphicsContext gc) {
+      double screwWidth = 20;
+      double screwHeight = getEndY() - getY(); // Use the existing height from properties
+      double headDiameter = 30;
+      double threadHeight = 10;
+   
+    // Set color for the screw body based on activation state
+      if (isActive()) {
+         gc.setFill(Color.GREENYELLOW); // Active color
+      } else {
+         gc.setFill(Color.RED); // Inactive color
+      }
+   
+    // Draw the screw body (rectangle)
+      gc.fillRect(getX(), getY(), screwWidth, screwHeight);
+   
+    // Draw the screw head (circle)
+      gc.setFill(Color.DARKGRAY);
+      gc.fillOval(getX() - (headDiameter - screwWidth) / 2, getY() - headDiameter / 2, headDiameter, headDiameter);
+   
+    // Draw the threads (lines)
+      gc.setStroke(Color.BLACK);
+      gc.setLineWidth(2);
+    
+      for (int i = 0; i < screwHeight / threadHeight; i++) {
+         double threadY = getY() + i * threadHeight;
+         gc.strokeLine(getX(), threadY, getX() + screwWidth, threadY);
+      }
+   }
 
-        // Set background color based on activation state
-        if (isActive()) {
-            gc.setFill(Color.GREENYELLOW);
-        } else {
-            gc.setFill(Color.RED);
-        }
-
-        // Draw the background rectangle
-        gc.fillRect(getX(), getY(), width, height);
-
-        // Draw the border
-        gc.setStroke(Color.BLACK);
-        gc.strokeRect(getX(), getY(), width, height);
-
-        // Draw the binary number
-        gc.setFill(Color.BLACK);
-        gc.setFont(javafx.scene.text.Font.font(height * 0.6)); // Adjust font size based on height
-        String binaryNumber = isActive() ? "1" : "0";
-
-        // Calculate text position to center it
-        javafx.scene.text.Text text = new javafx.scene.text.Text(binaryNumber);
-        text.setFont(gc.getFont());
-        double textWidth = text.getLayoutBounds().getWidth();
-        double textHeight = text.getLayoutBounds().getHeight();
-        double textX = getX() + (width - textWidth) / 2;
-        double textY = getY() + (height + textHeight) / 2;
-
-        gc.fillText(binaryNumber, textX, textY);
-    }
-
-    public String toString()
-    {
-        return "Button{" +
-                "property='" + getProperty() + '\'' + // Adjust according to your propertgetY() type
-                "activate=" + isActive() +
-                ", x=" + getX() +
-                ", y=" + getY() +
-                ", endX=" + getEndX() +
-                ", endY=" + getEndY() +
-                ", color=" + getColor() +
-                '}';
-    }
+   public String toString()
+   {
+      return ("11:" + getProperty() + ":" + isActive() + ":" + getX() + ":" + getY() + ":" + getEndX() + ":" + getEndY() + ":" + getMyColor() + ":" + associatedMechanisms);
+        //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
+   
+   }
 
 
 
-    @Override
+   @Override
     public void performTimedFunction() {
-
-        if(activatedStartTime == 0) {
-            activatedStartTime = getClock().getElapsedTime();
-            activate();
-            performFunction();
-        }
-        else if(getClock().getElapsedTime() - activatedStartTime > 1)
-            activatedStartTime = 0;
-
-    }
+   
+      if(activatedStartTime == 0) {
+         activatedStartTime = getClock().getElapsedTime();
+         activate();
+         performFunction();
+      }
+      else if(getClock().getElapsedTime() - activatedStartTime > 1)
+         activatedStartTime = 0;
+   
+   }
 
     //if zack has the screwdriver set all values isActive
-    public void performFunction(){
+   public void performFunction(){
         //should only run one time
-        if(isActive()){}
-        else {
-            activate();
-            ArrayList <Mechanism> mechs = ll.getAssociatedMechanisms(associatedMechanisms);
-
-            for(int i=0; i < mechs.size(); i++) {
-                if((mechs.get(i) instanceof Treadmill) )
-                {
-                    mechs.get(i).setActivated(isActive());
-                }
-                else if(mechs.get(i) instanceof Spring)
-                {
-                    mechs.get(i).setActivated(!isActive());
-
-                }
+      if(isActive()){}
+      else {
+         activate();
+         ArrayList <Mechanism> mechs = ll.getAssociatedMechanisms(associatedMechanisms);
+      
+         for(int i=0; i < mechs.size(); i++) {
+            if((mechs.get(i) instanceof Treadmill) )
+            {
+               mechs.get(i).setActivated(isActive());
             }
-        }
-
-
-    }
+            else if(mechs.get(i) instanceof Spring)
+            {
+               mechs.get(i).setActivated(!isActive());
+            
+            }
+         }
+      }
+   
+   
+   }
 }

@@ -9,6 +9,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.transform.Rotate;
 
+
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,6 +20,8 @@ public class Door extends Mechanism
    private String property;
    private int roomNum;
    private char doorLetter;
+   private boolean winScreenDisplayed = false;
+
 
     //feature/jacob contructor
    public Door(String property, boolean activated, int x, int y, int endX, int endY, Color myColor, int associatedMechanisms, LoadLevel ll)
@@ -116,7 +120,8 @@ public class Door extends Mechanism
             getLL().setCurrentRoomNumber(8);
             break;
          case "9B":
-            getLL().setCurrentRoomNumber(10);
+            winScreenDisplayed = true; // Set the flag to display the win screen
+            getLL().setCurrentRoomNumber(10);            
             break;
       
       
@@ -134,15 +139,24 @@ public class Door extends Mechanism
 
    public String toString()
    {
-      return "Door{" +
-              "property='" + getProperty() + '\'' + // Adjust according to your propertgetY() type
-              "activate=" + isActive() +
-              ", x=" + getX() +
-              ", y=" + getY() +
-              ", endX=" + getEndX() +
-              ", endY=" + getEndY() +
-              ", color=" + getColor() +
-              '}';
+      return ("3:" + getProperty() + ":" + isActive() + ":" + getX() + ":" + getY() + ":" + getEndX() + ":" + getEndY() + ":" + getMyColor() + ":" + associatedMechanisms);
+      //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
+   
+   }
+
+   
+   public void drawWinScreen(GraphicsContext gc) {
+      gc.setFill(Color.BLACK);
+      gc.fillRect(0, 0, 8000, 6000); // Fullscreen black background
+   
+      gc.setFill(Color.BLACK);
+      gc.setFont(javafx.scene.text.Font.font(48)); // Set font size
+      String winText = "YOU WIN!";
+      double textWidth = gc.getFont().getSize() * winText.length() / 2; // Estimate text width
+      double textX = (800 - textWidth) / 2; // Centering the text
+      double textY = 300; // Position text vertically
+   
+      gc.fillText(winText, textX, textY);
    }
 
 
@@ -151,11 +165,19 @@ public class Door extends Mechanism
    {
       // Save the current state of the GraphicsContext
       gc.save();
+      
+      if (winScreenDisplayed) {
+            drawWinScreen(gc);
+            gc.restore(); // Restore original state after drawing win screen
+            return; // Exit early to prevent further drawing
+        }
 
+      
+      
       // Calculate the center of the door
       double centerX = getX() + (getEndX() - getX()) / 2;
       double centerY = getY() + (getEndY() - getY()) / 2;
-
+   
       // Determine the rotation angle based on the property
       double angle = 0;
       if(getProperty().equals("2A") || getProperty().equals("3A") || getProperty().equals("4A") || getProperty().equals("4B") || getProperty().equals("7A") || getProperty().equals("7B") || getProperty().equals("1A") )
@@ -194,18 +216,18 @@ public class Door extends Mechanism
       // Apply the rotation
       Rotate rotate = new Rotate(angle, centerX, centerY);
       gc.setTransform(rotate.getMxx(), rotate.getMyx(), rotate.getMxy(), rotate.getMyy(), rotate.getTx(), rotate.getTy());
-
+   
       // Draw the grey rectangle
       gc.setFill(Color.GREY);
       gc.fillRect(getX(), getY(), (getEndX() - getX()), (getEndY() - getY()));
-
+   
       // Draw the red arrow
       gc.setFill(Color.RED);
-
+   
       // Calculate width and height of the rectangle
       double width = getEndX() - getX();
       double height = getEndY() - getY();
-
+   
       // Define the points of the arrow, scaled to fit inside the rectangle
       double[] xPoints = {
               getX() + width * 0.5,  // Tip of the arrow (middle top)
@@ -215,8 +237,8 @@ public class Door extends Mechanism
               getX() + width * 0.25, // Bottom left tail
               getX() + width * 0.25, // Bottom left corner
               getX() + width * 0.0   // Left corner
-      };
-
+         };
+   
       double[] yPoints = {
               getY() + height * 0.0,  // Tip of the arrow
               getY() + height * 0.5,  // Right corner
@@ -225,11 +247,11 @@ public class Door extends Mechanism
               getY() + height * 1.0,  // Bottom left tail
               getY() + height * 0.5,  // Bottom left corner
               getY() + height * 0.5   // Left corner
-      };
-
+         };
+   
       // Draw the polygon (arrow) that fits inside the defined rectangle
       gc.fillPolygon(xPoints, yPoints, xPoints.length);
-
+   
       // Restore the GraphicsContext to its original state
       gc.restore();
    }

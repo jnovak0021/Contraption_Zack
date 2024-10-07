@@ -27,6 +27,7 @@ public abstract class Item extends GameObject
       super(x, y, endX, endY, Color.BLACK); // Call parent constructor
       this.ll = ll;
       collected = false;
+      this.roomStored = roomStored;
    }
 
 

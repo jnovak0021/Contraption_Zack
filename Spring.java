@@ -20,17 +20,10 @@ public class Spring extends Mechanism
 
     public String toString()
     {
-        return "Spring{" +
-                "property='" + getProperty() + '\'' + // Adjust according to your propertgetY() type
-                "activate=" + isActive() +
-                ", x=" + getX() +
-                ", y=" + getY() +
-                ", endX=" + getEndX() +
-                ", endY=" + getEndY() +
-                ", color=" + getColor() +
-                '}';
-    }
+        return ("5:" + getProperty() + ":" + isActive() + ":" + getX() + ":" + getY() + ":" + getEndX() + ":" + getEndY() + ":" + getMyColor() + ":" + associatedMechanisms);
+        //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
 
+    }
 
 
 

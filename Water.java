@@ -25,7 +25,7 @@ public class Water extends Tile {
 
     @Override
     public String toString() {
-        return "Water";
+        return "4";
     }
 
     public void drawMe(GraphicsContext gc) {
@@ -51,6 +51,8 @@ public class Water extends Tile {
         // Draw the black rectangle at the specified coordinates
         gc.setFill(Color.BLACK);
         gc.fillRect(390, 70, 90, 89); // Coordinates and dimensions (width: 90, height: 89)
+
+    gc.fillRect(470, 66, 109, 95); // (x, y, width, height)
 
         // Optionally draw the border
         gc.setStroke(Color.BLACK);

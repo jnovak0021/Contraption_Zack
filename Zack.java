@@ -15,7 +15,7 @@ public class Zack extends GameObject {
    public Zack(int x, int y, Color myColor, LoadLevel ll) {
       super(x, y, x + WIDTH, y + LENGTH, myColor);
       this.ll = ll;
-   
+
    }
 
     // This method is constantly called from Main{}
@@ -27,13 +27,13 @@ public class Zack extends GameObject {
    
       incrementX(adjustedDX);
       incrementY(adjustedDY);
-      
+
       //check for items on ground
       for (int i = 0; i < items.size(); i++){
          if(overlap(items.get(i)))
             items.get(i).collect();
       }
-   
+
         // If there is a collision, revert changes
       if (collides(tiles, mechs)) {
          incrementX(-adjustedDX);
@@ -46,17 +46,17 @@ public class Zack extends GameObject {
       for (int i = 0; i < mechs.size(); i++) {
          Mechanism current = mechs.get(i);
          boolean hit = overlap(current);
-        
+
         // Check if the current object is a wall and if it collides
          if (current instanceof Wall && hit) {
             return true;
          }
-        
+
         // Stanchion collision
-         if (current instanceof Stanchion && hit) {
+          if (current instanceof Stanchion && hit) {
             return true;
          }
-        
+
         // Door collision handling
          if (current instanceof Door && hit) {
             if (!current.isActive()) {
@@ -71,12 +71,12 @@ public class Zack extends GameObject {
                setEndY(INITIAL_ZACK_Y + 20);
             }
          }
-        
+
         // Check if object is a jukebox and if it collides
          if (current instanceof Jukebox && hit) {
             return true;
          }
-        
+
         // Button
          if (current instanceof Button && hit) {
             if (((Mechanism) current).isActive()) { // Button is not pressed
@@ -85,13 +85,13 @@ public class Zack extends GameObject {
             }
             return false;
          }
-        
+
         // Wall switch
          if (current instanceof WallSwitch && hit) {
             ((Mechanism) current).performTimedFunction();
             return true;
          }
-        
+
         // Timer button
          if (current instanceof TimerButton && hit) {
             if (((Mechanism) current).isActive()) { // Button is not pressed
@@ -100,21 +100,23 @@ public class Zack extends GameObject {
             }
             return false;
          }
-        
+
         // Spike
          if (current instanceof Spike && hit && current.isActive()) {
             return true;
          }
-        
+
         // Floating tile
          if (current instanceof FloatingTile && hit) {
             return false;
          }
-        
+
         // Timer door
          if (current instanceof TimerDoor && hit) {
             System.out.println("TimerDoor");
             if (((Mechanism) current).isActive()) {
+
+
                return true;
             } else {
                ArrayList<Mechanism> Amechs = ll.getTimedMechanisms();
@@ -126,7 +128,7 @@ public class Zack extends GameObject {
                return false;
             }
          }
-        
+
         // Spring collision
          if (current instanceof Spring && hit) {
             System.out.println("Spring");
@@ -142,7 +144,7 @@ public class Zack extends GameObject {
                return false;
             }
          }
-        
+
         // Tesla coil
          if (current instanceof TeslaCoil && hit) {
             if (current.isActive()) {
@@ -151,12 +153,12 @@ public class Zack extends GameObject {
                return false;
             }
          }
-        
+
         // Pulley
          if (current instanceof Pulley && hit) {
             return true;
          }
-        
+
         // Treadmill
          if (current instanceof Treadmill && hit) {
             if (!(current.isActive())) {
@@ -176,13 +178,13 @@ public class Zack extends GameObject {
                }
             }
          }
-        
+
         // Screw
          if (current instanceof Screw && hit) {
             ((Mechanism) current).performFunction();
             return true;
          }
-        
+
         // For all objects that Zack can collide with, call performFunction method
          if (hit) {
             System.out.println("HIT CODE");
@@ -198,17 +200,17 @@ public class Zack extends GameObject {
             }
          }
       }
-   
+
       int leftBorder1 = 430;   // First left border
       int rightBorder1 = 500;  // First right border
       int leftBorder2 = 298;   // Second left border
       int rightBorder2 = 343;  // Second right border
     // Adjust as needed
-   
+
     // Inside your movement or collision handling method
       boolean isWithinBorders = (getX() >= leftBorder1 && getX() <= rightBorder1) ||
                               (getX() >= leftBorder2 && getX() <= rightBorder2);
-   
+
       if (!isWithinBorders) {
         // Zack is within one of the defined borders, resume TimerDoors
          ArrayList<Mechanism> Amechs = ll.getTimedMechanisms();
@@ -218,12 +220,12 @@ public class Zack extends GameObject {
             }
          }
       }
-   
+
       return false;
    }
-      
-         
- 
+
+
+
    public void reset() {
       setX(INITIAL_ZACK_X);
       setY(INITIAL_ZACK_Y);
@@ -236,7 +238,7 @@ public class Zack extends GameObject {
       if (this == o) {
          return false;
       }
-   
+
       int thisLeft = getX();
       int thisRight = getEndX();
       int thisTop = getY();
@@ -246,7 +248,7 @@ public class Zack extends GameObject {
       int otherRight = o.getEndX();
       int otherTop = o.getY();
       int otherBottom = o.getEndY();
-   
+
       return (thisLeft < otherRight &&
                 thisRight > otherLeft &&
                 thisTop < otherBottom &&
@@ -258,7 +260,7 @@ public class Zack extends GameObject {
       int dY = 0;
       int centerX = (m.getX() + m.getEndX()) / 2;
       int centerY = (m.getY() + m.getEndY()) / 2;
-   
+
       if ("w".equals(property) || "ww".equals(property)) {
          setY(centerY - 160);
       } else if ("s".equals(property) || "ss".equals(property)) {
@@ -268,7 +270,7 @@ public class Zack extends GameObject {
       } else {
          setX(centerX + 140);
       }
-   
+
         // Update the end coordinates
       setEndX(getX() + WIDTH);
       setEndY(getY() + LENGTH);

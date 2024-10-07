@@ -10,6 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.sql.Time;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,12 +29,13 @@ public class Main extends Application {
    private GraphicsContext gc;
    private int selectedPauseOption = 0; // Track the selected pause menu option
    private long startTime;  //store the start time of the system for math
-   private double elapsedTime;
+   private long pauseTime;  //
+   private long elapsedTime;
 
    //private ArrayList<RoomObject> savedRooms;
    private int savedZackY;
    private int savedZackX;
-   private LoadLevel savedLL = new LoadLevel();
+   private int savedRoomNumber = 0;
    private ArrayList<RoomObject> savedRooms = new ArrayList<>(); // Initialize here
 
 
@@ -44,7 +46,8 @@ public class Main extends Application {
 
    private int INITIAL_ZACK_X; // Starting X position
    private int INITIAL_ZACK_Y; // Starting Y position
-   
+
+
    
    private int previousRoomNumber = -1; // Track the previous room number
    
@@ -65,6 +68,7 @@ public class Main extends Application {
 
    @Override
    public void start(Stage primaryStage) {
+   
       canvas = new Canvas(728, 728);
       gc = canvas.getGraphicsContext2D();
    
@@ -88,6 +92,7 @@ public class Main extends Application {
                 public void handle(long now) {
                
                     // Get current tiles and mechanism
+               
                   tiles = ll.getRoomTiles(ll.getCurrentRoomNumber());
                   mechanisms = ll.getRoomMechanisms(ll.getCurrentRoomNumber());
                   gameItems = ll.getRoomItems(ll.getCurrentRoomNumber());
@@ -163,10 +168,13 @@ public class Main extends Application {
    }
    
    // Method to draw the items in the level
+
    public void drawItems() {
-      // Loop over mechanisms and call
-      for (int i = 0; i < gameItems.size(); i++) {
-         gameItems.get(i).drawMe(gc);
+      // Loop over mechanisms and call'
+      if(gameItems.size() != 0) {
+         for (int i = 0; i < gameItems.size(); i++) {
+            gameItems.get(i).drawMe(gc);
+         }
       }
    }
 
@@ -174,33 +182,54 @@ public class Main extends Application {
       // Clear the canvas
       gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
       
-   
-      if (inMenu) {
-         drawMenu();
-      } else if (paused) {
-         drawPauseMenu();
-      } else {
-         // Draw tiles and Zack
-         drawTiles();
-         drawMechanisms();
-         drawItems();
-         zack.drawMe(gc);
-      }
+      if(ll.getCurrentRoomNumber() == 10)
+      {
+         gc.setFill(Color.BLACK);
+         gc.fillRect(0, 0, 8000, 6000); // Fullscreen black background
       
-      int currentRoomNumber = ll.getCurrentRoomNumber();
+         gc.setFill(Color.WHITE);
+         gc.setFont(javafx.scene.text.Font.font(48)); // Set font size
+         String winText = "YOU WIN!";
+         double textWidth = gc.getFont().getSize() * winText.length() / 2; // Estimate text width
+         double textX = (800 - textWidth) / 2; // Centering the text
+         double textY = 300; // Position text vertically
+      
+         gc.fillText(winText, textX, textY);
+         
+         
+      }
+      else
+      {
+      
+         if (inMenu) {
+            drawMenu();
+         } else if (paused) {
+            drawPauseMenu();
+         } else {
+         
+         // Draw tiles and Zack
+            drawTiles();
+            drawMechanisms();
+            if(gameItems.size() != 0)
+               drawItems();
+            zack.drawMe(gc);
+         }
+      
+         int currentRoomNumber = ll.getCurrentRoomNumber();
         
         // Set the fill color and font for the room number
-      gc.setFill(Color.WHITE);
-      gc.setFont(javafx.scene.text.Font.font(20));
+         gc.setFill(Color.WHITE);
+         gc.setFont(javafx.scene.text.Font.font(20));
         
         // Draw the room number in the top right corner
-      String roomNumberText = "Room: " + currentRoomNumber;
-      double textWidth = gc.getFont().getSize() * roomNumberText.length() * 0.5; // Approximate width
-      gc.fillText(roomNumberText, 100, 100); // Adjusted for top left position
+         String roomNumberText = "Room: " + currentRoomNumber;
+         double textWidth = gc.getFont().getSize() * roomNumberText.length() * 0.5; // Approximate width
+         gc.fillText(roomNumberText, 100, 100); // Adjusted for top left position
       
-      gc.setFill(Color.WHITE);
-      gc.setFont(javafx.scene.text.Font.font(20));
-      gc.fillText("Mouse X: " + mouseX + ", Mouse Y: " + mouseY, 10, 30);
+         gc.setFill(Color.WHITE);
+         gc.setFont(javafx.scene.text.Font.font(20));
+         gc.fillText("Mouse X: " + mouseX + ", Mouse Y: " + mouseY, 10, 30);
+      }
    }
 
    private void drawMenu() {
@@ -301,26 +330,17 @@ public class Main extends Application {
                // Reset Zack's position directly
                zack.reset();
                ll.resetCurrentRoom();
-                              ll.resetCurrentRoom();
-
                tiles = ll.getRoomTiles(ll.getCurrentRoomNumber()); // Restart current room
                mechanisms = ll.getRoomMechanisms(ll.getCurrentRoomNumber()); // Load the mechanisms
-               ll.setRoomColor();
-            
-               if(ll.getCurrentRoomNumber() == 0)
-               {
-                  zack.setX(300);
-                  zack.setY(540);
-                  zack.setEndX(zack.getX() + 20);
-                  zack.setEndY(zack.getY() + 20);
-               }
+               ll.setRoomColor();            
                System.out.println("Restarting current area.");
-               break;   
-               
+               break;
             case 2: // Restart Level
                paused = false;
-               isLoading = true; // Set loading flag
-            
+               isLoading = true; // Set loading 
+               
+                           
+              
                //reset all objects in LoadLevel
                ll.resetLevel();
                tiles = ll.getRoomTiles(0); // Restart from room 0
@@ -329,6 +349,7 @@ public class Main extends Application {
             
             
                zack.setX(300);
+               
                zack.setY(540);
                zack.setEndX(zack.getX() + 20);
                zack.setEndY(zack.getY() + 20);
@@ -338,13 +359,10 @@ public class Main extends Application {
                break;
             case 3: // Save
                paused = false;
+               savedRoomNumber = ll.getCurrentRoomNumber();
+               ll.writeToFile();
+               pauseTime = elapsedTime;
             
-               // savedLL = ll;
-            //                savedLL.setAssociatedMechanisms(ll.getAssociatedMechanisms());
-            //                savedLL.setTimedMechanisms(ll.getTimedMechanisms());
-            //                savedLL.setRooms(ll.getRooms());
-            //                savedLL.setSavedRoom(ll.getCurrentRoomNumber());
-               savedRooms = ll.cloneRooms(); // Save the current room states
                //savedRooms = ll.saveAllRoomsState();
                savedZackY = zack.getY();
                savedZackX = zack.getX();
@@ -353,19 +371,30 @@ public class Main extends Application {
             case 4: // Load
                try {
                   paused = false;
+                  //startTime = pauseTime;
                   isLoading = true; // Set loading flag
-               //    ll = savedLL;
-               //                   ll.setAssociatedMechanisms(savedLL.getAssociatedMechanisms());
-               //                   ll.setTimedMechanisms(savedLL.getTimedMechanisms());
-               //                   ll.setRooms(savedLL.getRooms());
-                  ll.loadState(savedRooms);
+                  ll = new LoadLevel(true);
+                  ll.setSaved(true);
+                  ll.setCurrentRoomNumber(savedRoomNumber);
+                  tiles = ll.getRoomTiles(savedRoomNumber); // Restart from room 0
+                  mechanisms = ll.getRoomMechanisms(savedRoomNumber); // Load the mechanisms
+               
+                  //loop over timed door to unpause then
+                  for(int i = 0; i < ll.getTimedMechanisms().size(); i++)
+                  {
+                     if( ll.getTimedMechanisms().get(i) instanceof TimerDoor)
+                     {
+                        ((TimerDoor) ll.getTimedMechanisms().get(i)).resumeTimer();
+                     }
+                  }
+               
+                  System.out.println("Current room after load: " + ll.getCurrentRoomNumber());
+               
                   zack.setX(savedZackX);
                   zack.setY(savedZackY);
-                  //ll.resetCurrentRoom();
                   zack.setEndX(zack.getX() + 20);
                   zack.setEndY(zack.getY() + 20);
-                //  ll.setCurrentRoomNumber(savedLL.getSavedRoom());
-                //  System.out.println(savedLL.getSavedRoom());
+               
                
                   System.out.println("Loading Game.");
                } catch (Exception e) {
