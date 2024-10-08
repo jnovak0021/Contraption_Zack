@@ -30,7 +30,6 @@ public class Spring extends Mechanism
     @Override
     public void drawMe(GraphicsContext gc) {
         // Draw the overall rectangle with the color from getMyColor()
-
         gc.setFill(getMyColor());
         double width = getEndX() - getX();
         double height = getEndY() - getY();
@@ -44,14 +43,17 @@ public class Spring extends Mechanism
         // Determine direction based on the property
         String property = getProperty();
 
-        // Arrow color and dimensions
-        gc.setFill(Color.BLACK); // Set arrows to black for visibility
+        // Arrow dimensions
         double arrowWidth = halfWidth / 2;
         double arrowHeight = halfHeight / 2;
 
+        // Set arrow color based on active state
+        Color arrowColor = isActive() ? Color.TRANSPARENT : Color.BLACK;
+        gc.setFill(arrowColor);
+        gc.setStroke(arrowColor);
+
         // Draw arrows based on the property (w = north, a = west, s = south, d = east)
         if (property.equals("w") || property.equals("ww")) { // North facing
-        
             drawArrow(gc, getX() + halfWidth / 2, getY(), arrowWidth, arrowHeight, "up");
             drawArrow(gc, getX() + halfWidth + halfWidth / 2, getY(), arrowWidth, arrowHeight, "up");
             drawArrow(gc, getX() + halfWidth / 2, getY() + halfHeight, arrowWidth, arrowHeight, "up");
@@ -89,39 +91,11 @@ public class Spring extends Mechanism
                 gc.fillRect(getX() + width - lineThickness, getY(), lineThickness, height); // Right edge (east)
             }
 
-            // Draw three circles along the opposite edge of the direction
-            double circleRadius = width / 3; // Each circle is 1/3 the width of the rectangle
-            gc.setFill(Color.RED); // You can adjust the color as needed
-
-            if (property.equals("w") || property.equals("ww")) {
-                // Draw circles on the west edge (left)
-                for (int i = 0; i < 3; i++) {
-                    gc.fillOval(getX(), getY() + i * circleRadius, circleRadius, circleRadius);
-                }
-            } else if (property.equals("a") || property.equals("aa")) {
-                // Draw circles on the south edge (bottom)
-                for (int i = 0; i < 3; i++) {
-                    gc.fillOval(getX() + i * circleRadius, getY() + height - circleRadius, circleRadius, circleRadius);
-                }
-            } else if (property.equals("s") || property.equals("ss")) {
-                // Draw circles on the west edge (left)
-                for (int i = 0; i < 3; i++) {
-                    gc.fillOval(getX(), getY() + i * circleRadius, circleRadius, circleRadius);
-                }
-            } else if (property.equals("d") || property.equals("dd")) {
-                // Draw circles on the south edge (bottom)
-                for (int i = 0; i < 3; i++) {
-                    gc.fillOval(getX() + i * circleRadius, getY() + height - circleRadius, circleRadius, circleRadius);
-                }
-            }
         }
     }
 
     private void drawArrow(GraphicsContext gc, double x, double y, double width, double height, String direction) {
-        gc.setFill(Color.BLACK);
-        gc.setStroke(Color.BLACK);
-
-        // Draw the arrow in the direction specified
+        // No need to set the color here, as it is already set in drawMe based on isActive()
         switch (direction) {
             case "up":
                 gc.strokeLine(x, y + height, x + width / 2, y); // Draw the shaft
