@@ -75,8 +75,8 @@ public class Zack extends GameObject {
                zackPositionDoor(doorProperty); // Set Zack's new position based on the door's property
                setX(INITIAL_ZACK_X);
                setY(INITIAL_ZACK_Y);
-               setEndX(INITIAL_ZACK_X + 20);
-               setEndY(INITIAL_ZACK_Y + 20);
+               setEndX(INITIAL_ZACK_X + LENGTH);
+               setEndY(INITIAL_ZACK_Y + WIDTH);
             }
          }
 
@@ -116,14 +116,10 @@ public class Zack extends GameObject {
             return true;
          }
 
-        // Floating tile
-         if (current instanceof FloatingTile && hit) {
-            return false;
-         }
 
         // Timer door
          if (current instanceof TimerDoor && hit) {
-            System.out.println("TimerDoor");
+            //System.out.println("TimerDoor");
 
             if(((Mechanism)current).isActive()){
             
@@ -146,7 +142,7 @@ public class Zack extends GameObject {
 
         // Spring collision
          if (current instanceof Spring && hit) {
-            System.out.println("Spring");
+            //System.out.println("Spring");
             if (current.isActive()) {
                return true;
             } else {
@@ -206,7 +202,7 @@ public class Zack extends GameObject {
 
         // For all objects that Zack can collide with, call performFunction method
          if (hit) {
-            System.out.println("HIT CODE");
+            //System.out.println("HIT CODE");
             mechs.get(i).performFunction(); // Set that the mechanism is being collided with
          }
       }
@@ -219,6 +215,7 @@ public class Zack extends GameObject {
             }
          }
       }
+
 
       int leftBorder1 = 430;   // First left border
       int rightBorder1 = 500;  // First right border
@@ -253,6 +250,12 @@ public class Zack extends GameObject {
       setY(INITIAL_ZACK_Y);
       setEndX(INITIAL_ZACK_X + WIDTH);
       setEndY(INITIAL_ZACK_Y + LENGTH);
+   }
+
+   //accessor for hasScrewdriver
+   public void setHasScrewdriver(boolean b)
+   {
+      hasScrewdriver = b;
    }
 
     // Check if any two game objects are currently overlapping
@@ -307,7 +310,7 @@ public class Zack extends GameObject {
    
    public void zackPositionDoor(String property) {
     // Extract the room number (first character) and door (second character)
-      System.out.println("Property: " + property);
+      //System.out.println("Property: " + property);
       int roomNumber = Integer.parseInt(property.substring(0,1)); // Get room number from the string
       char door = property.charAt(1); // Get door identifier
    

@@ -66,6 +66,15 @@ public class Button extends Mechanism
          }
 
       }
+      else if(getAssociatedMechanisms() == 90)
+      {
+         for(int i=0; i < mechs.size(); i++){
+            //dont activate other buttons
+            if(!(mechs.get(i) instanceof Button) && !(mechs.get(i) instanceof WallSwitch) && !(mechs.get(i) instanceof Treadmill) && !(mechs.get(i) instanceof Screw) && !(mechs.get(i) instanceof Spring && !(mechs.get(i) instanceof Pulley )))
+               mechs.get(i).activate();//holy spirit activate
+         }
+
+      }
       else {
          for (int i = 0; i < mechs.size(); i++) {
 

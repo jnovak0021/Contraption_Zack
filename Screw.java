@@ -93,7 +93,15 @@ public class Screw extends Mechanism
             else if(mechs.get(i) instanceof Spring)
             {
                mechs.get(i).setActivated(!isActive());
-            
+            }
+            //bug fix -- in order to get zack to collide at first when treadmill is pointed down, performFunction twice (prime the treadmill)
+            else if(mechs.get(i) instanceof WallSwitch)
+            {
+
+               mechs.get(i).performFunction();
+
+               mechs.get(i).performFunction();
+
             }
          }
       }

@@ -121,8 +121,9 @@ public class WallSwitch extends Mechanism
                     //if this isActive set property to UP
                     if(this.isActive())
                         mechs.get(i).setProperty("UP");
+
                     //else set property to DOWN
-                    else
+                    else if (!this.isActive())
                         mechs.get(i).setProperty("DOWN");
                 }
 

@@ -361,7 +361,7 @@ public class Main extends Application {
                isLoading = true; // Set loading 
                
                            
-              
+               zack.setHasScrewdriver(false);
                //reset all objects in LoadLevel
                ll.resetLevel();
                tiles = ll.getRoomTiles(0); // Restart from room 0
