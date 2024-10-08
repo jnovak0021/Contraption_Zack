@@ -10,6 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.sql.Time;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,7 +29,8 @@ public class Main extends Application {
    private GraphicsContext gc;
    private int selectedPauseOption = 0; // Track the selected pause menu option
    private long startTime;  //store the start time of the system for math
-   private double elapsedTime;
+   private long pauseTime;  //
+   private long elapsedTime;
 
    //private ArrayList<RoomObject> savedRooms;
    private int savedZackY;
@@ -307,6 +309,7 @@ public class Main extends Application {
                // Reset Zack's position directly
                zack.reset();
                ll.resetCurrentRoom();
+
                tiles = ll.getRoomTiles(ll.getCurrentRoomNumber()); // Restart current room
                mechanisms = ll.getRoomMechanisms(ll.getCurrentRoomNumber()); // Load the mechanisms
                System.out.println("Restarting current area.");
@@ -335,6 +338,9 @@ public class Main extends Application {
                savedRoomNumber = ll.getCurrentRoomNumber();
                ll.writeToFile();
 
+               pauseTime = elapsedTime;
+
+
                //savedRooms = ll.saveAllRoomsState();
                savedZackY = zack.getY();
                savedZackX = zack.getX();
@@ -343,13 +349,24 @@ public class Main extends Application {
             case 4: // Load
                try {
                   paused = false;
+                  //startTime = pauseTime;
                   isLoading = true; // Set loading flag
                   ll = new LoadLevel(true);
                   ll.setSaved(true);
                   ll.setCurrentRoomNumber(savedRoomNumber);
                   tiles = ll.getRoomTiles(savedRoomNumber); // Restart from room 0
                   mechanisms = ll.getRoomMechanisms(savedRoomNumber); // Load the mechanisms
-w
+
+
+                  //loop over timed door to unpause then
+                  for(int i = 0; i < ll.getTimedMechanisms().size(); i++)
+                  {
+                     if( ll.getTimedMechanisms().get(i) instanceof TimerDoor)
+                     {
+                        ((TimerDoor) ll.getTimedMechanisms().get(i)).resumeTimer();
+                     }
+                  }
+
                   System.out.println("Current room after load: " + ll.getCurrentRoomNumber());
 
                   zack.setX(savedZackX);

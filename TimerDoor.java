@@ -29,9 +29,8 @@ public class TimerDoor extends Mechanism {
    @Override
    public String toString()
    {
-      return ("7:" + getProperty() + ":" + isActive() + ":" + getX() + ":" + getY() + ":" + getEndX() + ":" + getEndY() + ":" + getMyColor() + ":" + associatedMechanisms);
-      //<object>:<property>:<activated>:<startx>:<starty>:<endx>:<endy>:<color>:<associativeNumber>
 
+      return ("6:" + getProperty() + ":" + isActive() + ":" + getX() + ":" + getY() + ":" + getEndX() + ":" + getEndY() + ":" + getMyColor() + ":" + associatedMechanisms);
    }
 
    @Override
@@ -55,8 +54,12 @@ public class TimerDoor extends Mechanism {
 
    // Method to resume the timer
    public void resumeTimer() {
+<<<<<<< HEAD
                paused = false;
          // Optionally handle resuming logic if needed
+=======
+      paused = false;
+>>>>>>> main
 
    }
 
@@ -70,7 +73,11 @@ public class TimerDoor extends Mechanism {
          Clock c = getClock();
          double elapsedTime = c.getElapsedTime();
          int currentInterval = (int) (elapsedTime / interval) % 4; // Use the current interval value
+<<<<<<< HEAD
       
+=======
+         System.out.println("FS:KESKLJFSEL:fkSEF");
+>>>>>>> main
          if (getProperty().equals("1") && currentInterval == 0) {
             setActivated(false);
          } else if (getProperty().equals("2") && currentInterval == 1) {
