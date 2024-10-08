@@ -615,8 +615,6 @@ public class LoadLevel
 
    //method to save all of the rooms in the game to memory
    public ArrayList<RoomObject> saveAllRoomsState() {
-      System.out.println("inside.");
-   
       return rooms;
    }
 
@@ -664,7 +662,6 @@ public class LoadLevel
     
     // Optionally, reset any other specific states related to the current room here
     // For example, reset any specific game objects or state variables associated with this room
-    
     // Re-read the current room data
       String roomFileName = "room" + currentRoomNumber + ".txt";
       RoomObject newRoom = privateReadFile(roomFileName);
