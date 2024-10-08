@@ -267,17 +267,19 @@ public class Main extends Application {
    }
 
    private void updateMenu() {
-      if (pressedKeys.contains(KeyCode.W)) {
+      if (pressedKeys.contains(KeyCode.UP) || pressedKeys.contains(KeyCode.W)) {
          if (selectedOption > 0) {
             selectedOption--; // Move up the menu
          }
-         pressedKeys.remove(KeyCode.W); // Prevent rapid movement
+         pressedKeys.remove(KeyCode.UP); // Prevent rapid movement
+         pressedKeys.remove(KeyCode.W);
       }
-      if (pressedKeys.contains(KeyCode.S)) {
+      if (pressedKeys.contains(KeyCode.DOWN) || pressedKeys.contains(KeyCode.S)) {
          if (selectedOption < 2) {
             selectedOption++; // Move down the menu
          }
-         pressedKeys.remove(KeyCode.S); // Prevent rapid movement
+         pressedKeys.remove(KeyCode.DOWN); // Prevent rapid movement
+         pressedKeys.remove(KeyCode.S);
       }
    
       if (pressedKeys.contains(KeyCode.ENTER)) {
@@ -307,17 +309,19 @@ public class Main extends Application {
    }
 
    private void updatePauseMenu() {
-      if (pressedKeys.contains(KeyCode.W)) {
+      if (pressedKeys.contains(KeyCode.UP) || pressedKeys.contains(KeyCode.W)) {
          if (selectedPauseOption > 0) {
             selectedPauseOption--; // Move up the menu
          }
-         pressedKeys.remove(KeyCode.W); // Prevent rapid movement
+         pressedKeys.remove(KeyCode.UP); // Prevent rapid movement
+         pressedKeys.remove(KeyCode.W);
       }
-      if (pressedKeys.contains(KeyCode.S)) {
+      if (pressedKeys.contains(KeyCode.DOWN) || pressedKeys.contains(KeyCode.S)) {
          if (selectedPauseOption < 5) { // Adjusted for 6 options
             selectedPauseOption++; // Move down the menu
          }
-         pressedKeys.remove(KeyCode.S); // Prevent rapid movement
+         pressedKeys.remove(KeyCode.DOWN); // Prevent rapid movement
+         pressedKeys.remove(KeyCode.S);
       }
    
       if (pressedKeys.contains(KeyCode.ENTER)) {
