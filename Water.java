@@ -52,6 +52,8 @@ public class Water extends Tile {
         gc.setFill(Color.BLACK);
         gc.fillRect(390, 70, 90, 89); // Coordinates and dimensions (width: 90, height: 89)
 
+    gc.fillRect(470, 66, 109, 95); // (x, y, width, height)
+
         // Optionally draw the border
         gc.setStroke(Color.BLACK);
         gc.setLineWidth(2);

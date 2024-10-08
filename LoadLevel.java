@@ -114,7 +114,7 @@ public class LoadLevel
 
       //note -- this needs to be changed later when all levles exist
       //loop through each of the 10 rooms
-      for( int l = 0; l < 10; l++ )
+      for( int l = 0; l < 11; l++ )
       {
          //set index of arrayIn to return value of privateReadFile
          //System.out.println("reading in file " + i);
@@ -684,8 +684,6 @@ public class LoadLevel
    public ArrayList<Item> getGameItems() {
       return gameItems;
    }
-
-
    /*
 
       private ArrayList<Mechanism> [] associatedMechanisms;

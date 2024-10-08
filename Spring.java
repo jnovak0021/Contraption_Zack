@@ -51,6 +51,7 @@ public class Spring extends Mechanism
 
         // Draw arrows based on the property (w = north, a = west, s = south, d = east)
         if (property.equals("w") || property.equals("ww")) { // North facing
+        
             drawArrow(gc, getX() + halfWidth / 2, getY(), arrowWidth, arrowHeight, "up");
             drawArrow(gc, getX() + halfWidth + halfWidth / 2, getY(), arrowWidth, arrowHeight, "up");
             drawArrow(gc, getX() + halfWidth / 2, getY() + halfHeight, arrowWidth, arrowHeight, "up");

@@ -57,6 +57,7 @@ public class TimerDoor extends Mechanism {
    public void resumeTimer() {
       paused = false;
 
+      
    }
 
    @Override
@@ -66,6 +67,8 @@ public class TimerDoor extends Mechanism {
       }
       else
       {
+         
+         
          Clock c = getClock();
          double elapsedTime = c.getElapsedTime();
          int currentInterval = (int) (elapsedTime / interval) % 4; // Use the current interval value
