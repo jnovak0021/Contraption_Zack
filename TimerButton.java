@@ -28,10 +28,20 @@ public class TimerButton extends Mechanism
 
     public void drawMe(GraphicsContext gc){
 
+        double opacity = 1;
+
+        if(!isActive()){
+            opacity = .5;
+        }
+        else {
+            opacity = 1;
+        }
         //draw a simple square
         gc.setFill(Color.GREY);
         gc.fillRect(getX(),getY(), getWidth(), getLength());
-        gc.setFill(getMyColor());
+
+        Color colorWithOpacity = new Color(getMyColor().getRed(), getMyColor().getGreen(), getMyColor().getBlue(), opacity); // Adjust the alpha value (0.5 for 50% opacity)
+        gc.setFill(colorWithOpacity);
         gc.fillOval(getX(),getY(), getWidth(), getLength());
     }
 
