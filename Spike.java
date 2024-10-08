@@ -50,6 +50,7 @@ public class Spike extends Mechanism
       }
    }
 
+
    // Method to draw a single spike as a triangle
    private void drawSpike(GraphicsContext gc, double xOffset, double height){
       double[] xPoints = {xOffset, xOffset + 10, xOffset + 5};

@@ -386,7 +386,7 @@ public class LoadLevel
             //Item: Other
             else if(parts[0].equals("OtherItem")){
                //<startx>:<starty>:<associativeNumber>
-               //tempItemArray.add(new OtherItem(parts[1], Integer.parseInt(parts[2]),Integer.parseInt(parts[3]), Integer.parseInt(parts[4]), Integer.parseInt(parts[5]), Integer.parseInt(parts[6]), this));
+               tempItemArray.add(new OtherItem(parts[1], Integer.parseInt(parts[2]),Integer.parseInt(parts[3]), Integer.parseInt(parts[4]), Integer.parseInt(parts[5]), Integer.parseInt(parts[6]), this));
                temp = null;
             }
 

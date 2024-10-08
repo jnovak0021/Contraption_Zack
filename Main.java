@@ -362,8 +362,9 @@ public class Main extends Application {
                paused = false;
                savedRoomNumber = ll.getCurrentRoomNumber();
                ll.writeToFile();
+
                pauseTime = elapsedTime;
-            
+
                //savedRooms = ll.saveAllRoomsState();
                savedZackY = zack.getY();
                savedZackX = zack.getX();
@@ -379,7 +380,7 @@ public class Main extends Application {
                   ll.setCurrentRoomNumber(savedRoomNumber);
                   tiles = ll.getRoomTiles(savedRoomNumber); // Restart from room 0
                   mechanisms = ll.getRoomMechanisms(savedRoomNumber); // Load the mechanisms
-               
+
                   //loop over timed door to unpause then
                   for(int i = 0; i < ll.getTimedMechanisms().size(); i++)
                   {
@@ -468,9 +469,5 @@ public class Main extends Application {
    
    }
 
-
-   
-   
-   
    
 }

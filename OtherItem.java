@@ -25,10 +25,11 @@ public class OtherItem extends Item
       this.type = type;
       this.ll = ll;
    }
+
     @Override
     public String toString()
     {
-        return ("OtherItem:" + ":" + type + ":" + getX() + ":" + getY() + ":" + getEndX() + ":" + getEndY() + ":" + getRoomStored());
+        return ("OtherItem" + ":" + type + ":" + getX() + ":" + getY() + ":" + getEndX() + ":" + getEndY() + ":" + getRoomStored());
     }
    public String getType(){
       return type;

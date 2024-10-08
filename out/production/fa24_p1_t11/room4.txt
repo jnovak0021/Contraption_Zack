@@ -29,8 +29,9 @@ B:0:true:420:160:500:240:yellow:41
 
 B:0:true:160:0:240:80:gray:42
 
-OtherItem:Spring:680:180:720:220:4
 OtherItem:PipeWrench:600:320:720:360:4
+OtherItem:Spring:680:180:720:220:4
+
 OtherItem:Wrench:600:360:700:400:4
 OtherItem:TapeMeasure:600:420:640:460:4
 OtherItem:Pipe:640:460:720:480:4

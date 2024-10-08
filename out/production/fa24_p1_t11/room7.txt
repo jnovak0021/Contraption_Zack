@@ -19,8 +19,6 @@ B:0:true:480:400:560:480:cornflowerblue:70
 S:V:true:380:480:400:560:orange:50
 S:H:true:200:380:280:400:cornflowerblue:70
 S:H:true:280:380:360:400:cornflowerblue:70
-
-
 5:ww:false:240:440:320:520:grey:0
 
 9:0:true:380:200:400:360:grey:71

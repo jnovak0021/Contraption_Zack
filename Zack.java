@@ -11,6 +11,7 @@ public class Zack extends GameObject {
    private int INITIAL_ZACK_X; // Starting X position
    private int INITIAL_ZACK_Y; // Starting Y position
    private LoadLevel ll;
+   private boolean hasScrewdriver = false;
 
    public Zack(int x, int y, Color myColor, LoadLevel ll) {
       super(x, y, x + WIDTH, y + LENGTH, myColor);
@@ -30,9 +31,13 @@ public class Zack extends GameObject {
 
       //check for items on ground
       for (int i = 0; i < items.size(); i++){
-         if(overlap(items.get(i)))
+         if(overlap(items.get(i))) {
             items.get(i).collect();
+            if(items.get(i) instanceof Screwdriver)
+               hasScrewdriver = true;
+         }
       }
+
 
         // If there is a collision, revert changes
       if (collides(tiles, mechs)) {
@@ -42,8 +47,10 @@ public class Zack extends GameObject {
    }
 
     // Internal to Zack
+
    private boolean collides(Tile[][] tiles, ArrayList<Mechanism> mechs) {
       for (int i = 0; i < mechs.size(); i++) {
+
          Mechanism current = mechs.get(i);
          boolean hit = overlap(current);
 
@@ -51,15 +58,16 @@ public class Zack extends GameObject {
          if (current instanceof Wall && hit) {
             return true;
          }
-
-        // Stanchion collision
-          if (current instanceof Stanchion && hit) {
+         //stanchion collision
+         else if(current instanceof Stanchion && hit){
             return true;
          }
+         
+         // Door collision handling
+         else if (current instanceof Door && hit) {
+            if(!current.isActive())
+            {
 
-        // Door collision handling
-         if (current instanceof Door && hit) {
-            if (!current.isActive()) {
                return false;
             } else {
                ((Mechanism) current).performFunction();
@@ -85,11 +93,13 @@ public class Zack extends GameObject {
             }
             return false;
          }
+         //wallswitch -- unlike the button, wall switch can be toggled on and off by interacting with it
+         else if(current instanceof WallSwitch && hit){
+         
 
-        // Wall switch
-         if (current instanceof WallSwitch && hit) {
             ((Mechanism) current).performTimedFunction();
             return true;
+
          }
 
         // Timer button
@@ -114,17 +124,22 @@ public class Zack extends GameObject {
         // Timer door
          if (current instanceof TimerDoor && hit) {
             System.out.println("TimerDoor");
-            if (((Mechanism) current).isActive()) {
 
-
+            if(((Mechanism)current).isActive()){
+            
+               
                return true;
-            } else {
+            }
+            else{
+
                ArrayList<Mechanism> Amechs = ll.getTimedMechanisms();
                for (Mechanism mechanism : Amechs) {
                   if (mechanism instanceof TimerDoor) {
                      ((TimerDoor) mechanism).pauseTimer(); // Resume the TimerDoor
+
                   }
                }
+
                return false;
             }
          }
@@ -181,8 +196,12 @@ public class Zack extends GameObject {
 
         // Screw
          if (current instanceof Screw && hit) {
-            ((Mechanism) current).performFunction();
+            if(hasScrewdriver)
+            {
+               ((Mechanism) current).performFunction();
+            }
             return true;
+
          }
 
         // For all objects that Zack can collide with, call performFunction method
@@ -205,6 +224,7 @@ public class Zack extends GameObject {
       int rightBorder1 = 500;  // First right border
       int leftBorder2 = 298;   // Second left border
       int rightBorder2 = 343;  // Second right border
+
     // Adjust as needed
 
     // Inside your movement or collision handling method
@@ -213,10 +233,12 @@ public class Zack extends GameObject {
 
       if (!isWithinBorders) {
         // Zack is within one of the defined borders, resume TimerDoors
+
          ArrayList<Mechanism> Amechs = ll.getTimedMechanisms();
          for (Mechanism mechanism : Amechs) {
             if (mechanism instanceof TimerDoor) {
                ((TimerDoor) mechanism).resumeTimer(); // Resume the TimerDoor
+
             }
          }
       }
