@@ -104,13 +104,14 @@ public class Main extends Application {
                   c.setElapsedTime(elapsedTime);
                
                   handleTime();
-               
+
+
                   scene.setOnMouseMoved(
                             event -> {
                                mouseX = (int) event.getX();
                                mouseY = (int) event.getY();
                             });
-               
+
                   if (inMenu) {
                      updateMenu();
                   } else if (paused) {
@@ -218,7 +219,7 @@ public class Main extends Application {
          }
       
          int currentRoomNumber = ll.getCurrentRoomNumber();
-        
+
         // Set the fill color and font for the room number
          gc.setFill(Color.WHITE);
          gc.setFont(javafx.scene.text.Font.font(20));
@@ -231,6 +232,7 @@ public class Main extends Application {
          gc.setFill(Color.WHITE);
          gc.setFont(javafx.scene.text.Font.font(20));
          gc.fillText("Mouse X: " + mouseX + ", Mouse Y: " + mouseY, 10, 30);
+
       }
    }
 
@@ -329,27 +331,40 @@ public class Main extends Application {
                paused = false; // Exit the pause menu
                break;
             case 1: // Restart Area
-               paused = false;
-               int tempCurRoomNum = ll.getCurrentRoomNumber();
-               // Reset Zack's position directly
-               zack.reset();
-               ll.resetCurrentRoom();
+               //i do not know why, it is a mystery, but we have to run the code below twice for it to work
+               for(int i = 0; i < 2; i++){
+                  paused = false;
+                  // Reset Zack's position directly
+                  zack.reset();
+                  ll.resetCurrentRoom();
 
 
-               tiles = ll.getRoomTiles(ll.getCurrentRoomNumber()); // Restart current room
+                  tiles = ll.getRoomTiles(ll.getCurrentRoomNumber()); // Restart current room
+                  mechanisms = ll.getRoomMechanisms(ll.getCurrentRoomNumber()); // Load the mechanisms
+                  ll.setRoomColor();
 
-               mechanisms = ll.getRoomMechanisms(ll.getCurrentRoomNumber()); // Load the mechanisms
-               ll.setCurrentRoomNumber(tempCurRoomNum);
 
-               ll.setRoomColor();            
+               }
+
+
+
+
+               if(ll.getCurrentRoomNumber() == 0)
+               {
+                  zack.setX(300);
+                  zack.setY(540);
+                  zack.setEndX(zack.getX() + 20);
+                  zack.setEndY(zack.getY() + 20);
+               }
                System.out.println("Restarting current area.");
                break;
+
             case 2: // Restart Level
                paused = false;
                isLoading = true; // Set loading 
                
                            
-              
+               zack.setHasScrewdriver(false);
                //reset all objects in LoadLevel
                ll.resetLevel();
                tiles = ll.getRoomTiles(0); // Restart from room 0
