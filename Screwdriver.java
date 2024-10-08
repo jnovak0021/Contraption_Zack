@@ -28,14 +28,18 @@ public class Screwdriver extends Item
    }
 
  
-   public void drawMe(GraphicsContext gc){
-       if(!isCollected()){
-           //draw a simple square
-           gc.setFill(Color.BLUE);
-           gc.fillRect(getX(),getY(), width, length);
-       }
+public void drawMe(GraphicsContext gc) {
+    if (!isCollected()) {
+        // Draw a smaller blue rectangle
+        gc.setFill(Color.BLUE);
+        gc.fillRect(getX(), getY(), width * 0.5, length * 0.5); // Making it 50% smaller
 
-   }
+        // Draw a skinnier grey rectangle connected to the blue one
+        gc.setFill(Color.GRAY);
+        gc.fillRect(getX() + (width * 0.5), getY() + 2, 45, length * 0.3); // 10 pixels wide, same height as the smaller blue rectangle
+    }
+}
+
    @Override
    public String toString()
    {

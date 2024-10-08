@@ -40,6 +40,8 @@ public class Main extends Application {
 
 
 
+
+
    private boolean inMenu = true; // Track if we're in the main menu
    private boolean paused = false; // Track if the game is paused
    private int selectedOption = 0; // Track the selected menu option
@@ -246,6 +248,7 @@ public class Main extends Application {
    
       // Draw menu options
       String[] menuOptions = {"Start Game", "Exit Game"};
+      
       for (int i = 0; i < menuOptions.length; i++) {
          gc.setFill(i == selectedOption ? Color.YELLOW : Color.WHITE); // Highlight selected option
          double optionWidth = gc.getFont().getSize() * menuOptions[i].length() * 0.5; // Approximate width calculation
