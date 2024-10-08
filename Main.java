@@ -327,12 +327,17 @@ public class Main extends Application {
                break;
             case 1: // Restart Area
                paused = false;
+               int tempCurRoomNum = ll.getCurrentRoomNumber();
                // Reset Zack's position directly
                zack.reset();
                ll.resetCurrentRoom();
 
+
                tiles = ll.getRoomTiles(ll.getCurrentRoomNumber()); // Restart current room
+
                mechanisms = ll.getRoomMechanisms(ll.getCurrentRoomNumber()); // Load the mechanisms
+               ll.setCurrentRoomNumber(tempCurRoomNum);
+
                ll.setRoomColor();            
                System.out.println("Restarting current area.");
                break;

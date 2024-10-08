@@ -377,7 +377,6 @@ public class LoadLevel
 
             //Item: Screwdriver
             else if(parts[0].equals("Screwdriver")){
-               System.out.println("ADDING SCREWDIVER");
                //<startx>:<starty>:<associativeNumber>
                tempItemArray.add(new Screwdriver(Integer.parseInt(parts[1]),Integer.parseInt(parts[2]), Integer.parseInt(parts[3]), this));
                temp = null;
@@ -447,10 +446,9 @@ public class LoadLevel
    }
 
    //set current room number
-   public void setCurrentRoomNumber(int currentRoomNumber)
+   public void setCurrentRoomNumber(int currentRoomNumber1)
    {
-      this.currentRoomNumber = currentRoomNumber;
-   
+      this.currentRoomNumber = currentRoomNumber1;
    }
 
    public void setSaved(boolean b)
@@ -673,6 +671,7 @@ public class LoadLevel
     
     // Replace the current room with the new one
       rooms.set(currentRoomNumber, newRoom);
+
    
     // Optionally, reset the current room number if needed (not generally necessary)
     // currentRoomNumber = currentRoomNumber; // This line is just for clarity, not needed
@@ -747,7 +746,6 @@ public class LoadLevel
             Item tempItem = ll.getRoomItems(i).get(j);
             //Item: Screwdriver
             if(tempItem instanceof Screwdriver){
-               System.out.println("ADDING SCREWDIVER IN SAVE");
                //int x, int y, int roomStored, LoadLevel ll)
                tempGameItem.add(new Screwdriver(tempItem.getX(),tempItem.getY(), i , this));
             }
@@ -856,7 +854,7 @@ public class LoadLevel
                temp = new Screw(property, isActive,x,y,endX,endY, c, associatedMechanisms, this);
                tempMechanismArray.add(temp);
             }
-            System.out.print(temp  + "\t" + temp.getAssociatedMechanisms() + "\n");
+            //System.out.print(temp  + "\t" + temp.getAssociatedMechanisms() + "\n");
 
             getAssociatedMechanisms()[temp.getAssociatedMechanisms()] = (tempMechanismArray);
 
@@ -868,7 +866,7 @@ public class LoadLevel
          tempRoomObject.setRoomItemArray(tempGameItem);
 
          rooms.add(tempRoomObject);
-         System.out.println("\n\n\n");
+         //System.out.println("\n\n\n");
 
       }
    }
