@@ -199,6 +199,10 @@ public class Zack extends GameObject {
             return true;
 
          }
+         // Floating tile
+         if (current instanceof FloatingTile && hit) {
+            return false;
+         }
 
         // For all objects that Zack can collide with, call performFunction method
          if (hit) {
