@@ -309,6 +309,7 @@ public class Main extends Application {
                // Reset Zack's position directly
                zack.reset();
                ll.resetCurrentRoom();
+
                tiles = ll.getRoomTiles(ll.getCurrentRoomNumber()); // Restart current room
                mechanisms = ll.getRoomMechanisms(ll.getCurrentRoomNumber()); // Load the mechanisms
                System.out.println("Restarting current area.");
