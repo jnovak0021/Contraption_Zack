@@ -3,12 +3,11 @@ Contraption Zack
 By: Dorian Quimby, Jacob Novak, Ethan Milner
 **********************************************************************************************************************************
 
-
-
 **********************************************************************************************************************************
 About Project
 **********************************************************************************************************************************
-
+This repository contains a 2d version of the first 10 rooms of contraption zack. This version of the game was built excusively using Java, and JavaFX. The game is stored, and loaded into memory using 10 text files. The goal of the game is for zack to navigate through each of the ten rooms one by one, solving the unique puzzle that each room holds in an effort to get to the final room and repair the broken pulley system.
+There are not external libraries required to run this program outside of java, and fx.
 
 
 **********************************************************************************************************************************
@@ -120,38 +119,6 @@ TreadMill: T
 
 
 
-Stanchion: 
-
-   property: room linked to
-
-
-
-
-Mechanisms: Spikes Button(sqaure) Spring Trap Button (circle) Broken Pipe Lift Tesla Gate Switch (wall) Screw (wall) Treadmill Pulleys (wall)
-
-Items: Screwdriver Pipe Wrench Spring Wrench Tape Measure Pipe
-
-
-
-**********************************************************************************************************************************
-LoadLevel API
-**********************************************************************************************************************************
-LoadLevel reads in the file, stores and creates the objects
-
-//To use in another class use
-//this calls the readFile method which stores all the data about the game
-LoadLevel ll = new LoadLevel();
-
-
-//to get the tile objects of a specific level
-ll.getRoomTiles(int roomNumber);
-
-//to get the mechanisms of a specific level
-//returns ArrayList<Mechanism>
-ll.getRoomMechanisms(int roomNumber);
-
-//to get the room number stored by LoadLevel
-ll.getCurrentRoomNumber()
 
 //to update the current room number stored by LoadLevel
 ll.setCurrentRoomNumber(int currentRoomNumber)
